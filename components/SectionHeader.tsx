@@ -1,0 +1,33 @@
+import Link from 'next/link'
+
+interface SectionHeaderProps {
+  title: string
+  description?: string
+  actionLabel?: string
+  actionHref?: string
+}
+
+export function SectionHeader({ title, description, actionLabel, actionHref }: SectionHeaderProps) {
+  return (
+    <div className="flex justify-between items-end mb-6">
+      <div>
+        <h2 className="text-3xl font-bold text-earth-brown mb-2">
+          {title}
+        </h2>
+        {description && (
+          <p className="text-earth-brown/70">
+            {description}
+          </p>
+        )}
+      </div>
+      {actionLabel && actionHref && (
+        <Link
+          href={actionHref}
+          className="text-earth-teal hover:text-earth-teal/80 font-medium transition-colors"
+        >
+          {actionLabel} →
+        </Link>
+      )}
+    </div>
+  )
+}

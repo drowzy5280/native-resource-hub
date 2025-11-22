@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  tribeId      String?
+  state        String?
+  birthYear    Int?
+  tags         String[] @default([])
+  saved        SavedResource[]
+  createdAt    DateTime @default(now())
+}
+
+model Tribe {
+  id                        String     @id @default(uuid())
+  name                      String
+  federalRecognitionStatus  String?
+  website                   String?
+  languageLinks             String[]
+  enrollmentOffice          String?
+  region                    String?
+  programs                  Resource[]
+  lastUpdated               DateTime   @default(now())
+}
+
+model Resource {
+  id          String         @id @default(uuid())
+  type        ResourceType
+  title       String
+  description String
+  url         String?
+  eligibility String[]
+  tags        String[]
+  state       String?
+  tribeId     String?
+  tribe       Tribe?         @relation(fields: [tribeId], references: [id])
+  saved       SavedResource[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  source      String?
+}
+
+model Scholarship {
+  id          String   @id @default(uuid())
+  name        String
+  amount      String?
+  deadline    String?
+  description String
+  tags        String[]
+  eligibility String[]
+  url         String?
+  source      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SavedResource {
+  id          String   @id @default(uuid())
+  userId      String
+  resourceId  String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, resourceId])
+}
+
+model ChangeLog {
+  id             String   @id @default(uuid())
+  source         String?
+  type           String
+  originalValue  String?
+  updatedValue   String?
+  aiConfidence   Float?
+  approved       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+}
+
+enum ResourceType {
+  federal
+  state
+  tribal
+  scholarship
+  emergency
+}

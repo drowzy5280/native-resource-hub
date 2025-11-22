@@ -1,0 +1,108 @@
+import { notFound } from 'next/navigation'
+import { Tag } from '@/components/Tag'
+import { prisma } from '@/lib/prisma'
+import { formatDeadline, formatDate } from '@/lib/formatting'
+
+export default async function ScholarshipDetailPage({
+  params,
+}: {
+  params: { id: string }
+}) {
+  const scholarship = await prisma.scholarship.findUnique({
+    where: { id: params.id },
+  })
+
+  if (!scholarship) {
+    notFound()
+  }
+
+  const deadlineInfo = scholarship.deadline ? formatDeadline(scholarship.deadline) : null
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="bg-white rounded-earth-lg p-8 border border-earth-sand/30">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            {scholarship.amount && (
+              <span className="px-4 py-2 text-lg font-semibold rounded-full bg-earth-teal/10 text-earth-teal">
+                {scholarship.amount}
+              </span>
+            )}
+            {deadlineInfo && !deadlineInfo.isPast && deadlineInfo.daysUntil <= 30 && (
+              <Tag label="Closing Soon" variant="rust" />
+            )}
+          </div>
+          <h1 className="text-4xl font-bold text-earth-brown mb-4">
+            {scholarship.name}
+          </h1>
+        </div>
+
+        {/* Deadline */}
+        {deadlineInfo && !deadlineInfo.isPast && (
+          <div className="mb-8 p-4 bg-earth-cream rounded-earth-lg">
+            <h2 className="text-lg font-semibold text-earth-brown mb-1">Application Deadline</h2>
+            <p className="text-2xl font-bold text-earth-rust mb-1">
+              {deadlineInfo.formatted}
+            </p>
+            <p className="text-earth-brown/70">
+              {deadlineInfo.daysUntil} days remaining
+            </p>
+          </div>
+        )}
+
+        {/* Description */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-earth-brown mb-3">About This Scholarship</h2>
+          <p className="text-earth-brown/80 leading-relaxed">
+            {scholarship.description}
+          </p>
+        </div>
+
+        {/* Eligibility */}
+        {scholarship.eligibility.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-earth-brown mb-3">Eligibility Requirements</h2>
+            <ul className="list-disc list-inside space-y-2">
+              {scholarship.eligibility.map((req, index) => (
+                <li key={index} className="text-earth-brown/80">
+                  {req}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Tags */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-earth-brown mb-3">Categories</h2>
+          <div className="flex flex-wrap gap-2">
+            {scholarship.tags.map((tag) => (
+              <Tag key={tag} label={tag} />
+            ))}
+          </div>
+        </div>
+
+        {/* Apply Button */}
+        {scholarship.url && (
+          <div className="mb-8">
+            <a
+              href={scholarship.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-8 py-4 bg-earth-teal text-white rounded-earth-lg font-semibold text-lg hover:bg-earth-teal/90 transition-colors"
+            >
+              Apply Now ↗
+            </a>
+          </div>
+        )}
+
+        {/* Meta */}
+        <div className="border-t border-earth-sand pt-6 text-sm text-earth-brown/60">
+          <p>Last updated: {formatDate(scholarship.updatedAt)}</p>
+          {scholarship.source && <p>Source: {scholarship.source}</p>}
+        </div>
+      </div>
+    </div>
+  )
+}
