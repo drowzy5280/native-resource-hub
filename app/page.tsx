@@ -4,6 +4,8 @@ import { ResourceCard } from '@/components/ResourceCard'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const [recentResources, upcomingScholarships] = await Promise.all([
     prisma.resource.findMany({

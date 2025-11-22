@@ -2,6 +2,8 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ScholarshipsPage() {
   const scholarships = await prisma.scholarship.findMany({
     orderBy: { deadline: 'asc' },

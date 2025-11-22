@@ -2,6 +2,8 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { TribeCard } from '@/components/TribeCard'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export default async function TribesPage() {
   const tribes = await prisma.tribe.findMany({
     orderBy: { name: 'asc' },
