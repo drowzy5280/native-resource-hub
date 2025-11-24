@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
 import { MobileNav } from '@/components/MobileNav'
+import { UserMenu } from '@/components/UserMenu'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -62,6 +63,7 @@ export default function RootLayout({
                   >
                     Scholarships
                   </Link>
+                  <UserMenu />
                 </div>
 
                 {/* Mobile Navigation */}

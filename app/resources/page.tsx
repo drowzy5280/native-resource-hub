@@ -1,6 +1,8 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
+import { FilterBar } from '@/components/FilterBar'
 import { prisma } from '@/lib/prisma'
+import type { Prisma } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,7 +11,9 @@ export default async function ResourcesPage({
 }: {
   searchParams: { tags?: string; type?: string; state?: string }
 }) {
-  const where: any = {}
+  const where: Prisma.ResourceWhereInput = {
+    deletedAt: null,
+  }
 
   if (searchParams.tags) {
     where.tags = {
@@ -44,6 +48,9 @@ export default async function ResourcesPage({
         title="All Resources"
         description={`${resources.length} resources available`}
       />
+
+      {/* Filter Bar */}
+      <FilterBar showTypeFilter={true} showStateFilter={true} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {resources.map((resource) => (

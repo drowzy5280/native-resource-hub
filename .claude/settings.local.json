@@ -1,7 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd comprehensive security, performance, and UX improvements\n\nSecurity Enhancements:\n- Add admin authentication to all /api/admin/* endpoints\n- Implement user authorization for save/remove resource actions\n- Add rate limiting (60 req/min API, 30 req/min admin)\n- Add security headers (XSS, frame options, referrer policy)\n- Fix wildcard image hostname vulnerability\n- Add environment variable validation on startup\n- Create centralized auth utilities (requireAuth, requireAdmin)\n\nPerformance Optimizations:\n- Add database indexes on frequently queried fields\n- Optimize home page queries (5 sequential → 1 parallel)\n- Implement pagination for all list endpoints (default 20, max 100)\n- Add soft delete capability with deletedAt fields\n- Replace magic numbers with named constants\n\nUX/UI Improvements:\n- Add loading states (spinners, skeletons, loading pages)\n- Create error boundaries and error message components\n- Add empty state components for better user feedback\n- Implement responsive mobile navigation with hamburger menu\n- Create filter bar with type and state filtering\n- Add saved resources page for authenticated users\n- Fix category links to use Next.js Link for SPA navigation\n\nAccessibility & SEO:\n- Add ARIA labels to all interactive elements\n- Improve keyboard navigation support\n- Add Open Graph and Twitter Card meta tags\n- Add screen reader support with sr-only text\n\nCode Quality:\n- Create centralized error handling utility\n- Add comprehensive input validation with Zod\n- Improve error messages across all API routes\n- Create rate limiting utility for middleware\n- Add proper TypeScript types throughout\n\nDatabase Updates:\n- Add UserRole enum (user/admin)\n- Change Scholarship.deadline from String to DateTime\n- Add unique constraints on Resource.url and Scholarship.url\n- Add deletedAt fields for soft deletes\n- Add performance indexes (state, tribeId, type, deadline, etc.)\n\nNew Features:\n- Health check endpoint (/api/health)\n- Saved resources page (/saved)\n- Weekly and monthly cron jobs for maintenance\n- Filter bar component\n- Mobile navigation component\n- Comprehensive error and empty state components\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npx prisma db push)",
+      "Bash(npx prisma:*)",
+      "Bash(git commit:*)",
+      "Bash(vercel --version:*)",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(npm run build:*)",
+      "Bash(git restore:*)",
+      "Bash(vercel logs:*)",
+      "Bash(DATABASE_URL=\"postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres\" npx prisma db push:*)",
+      "Bash(git fetch:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)"
     ],
     "deny": [],
     "ask": []

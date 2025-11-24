@@ -1,18 +1,27 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TribeCard } from '@/components/TribeCard'
+import { getCachedTribes } from '@/lib/cache'
 import { prisma } from '@/lib/prisma'
 
-export const dynamic = 'force-dynamic'
+// Revalidate this page every hour (3600 seconds)
+export const revalidate = 3600
 
 export default async function TribesPage() {
-  const tribes = await prisma.tribe.findMany({
-    orderBy: { name: 'asc' },
-    include: {
-      _count: {
-        select: { programs: true },
-      },
-    },
-  })
+  // Get tribes from cache (revalidates every hour)
+  const tribesData = await getCachedTribes()
+
+  // Get program counts separately (not cached)
+  const tribes = await Promise.all(
+    tribesData.map(async (tribe) => {
+      const programCount = await prisma.resource.count({
+        where: { tribeId: tribe.id, deletedAt: null },
+      })
+      return {
+        ...tribe,
+        _count: { programs: programCount },
+      }
+    })
+  )
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -3,35 +3,26 @@ import { SearchBar } from '@/components/SearchBar'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
-import { prisma } from '@/lib/prisma'
+import {
+  getCachedFeaturedResources,
+  getCachedUpcomingScholarships,
+  getCachedResourceCounts,
+  getCachedScholarshipCounts,
+  getCachedTribeCount,
+} from '@/lib/cache'
 
-export const dynamic = 'force-dynamic'
+// Revalidate home page every 10 minutes (600 seconds)
+export const revalidate = 600
 
 export default async function Home() {
-  // Optimize: Run all database queries in parallel including counts
-  const [recentResources, upcomingScholarships, resourceCount, scholarshipCount, tribeCount] =
+  // Optimize: Use cached data and run all queries in parallel
+  const [recentResources, upcomingScholarships, resourceCounts, scholarshipCounts, tribeCount] =
     await Promise.all([
-      prisma.resource.findMany({
-        where: { deletedAt: null },
-        take: 6,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          tribe: {
-            select: { id: true, name: true },
-          },
-        },
-      }),
-      prisma.scholarship.findMany({
-        where: {
-          deadline: { not: null },
-          deletedAt: null,
-        },
-        take: 4,
-        orderBy: { deadline: 'asc' },
-      }),
-      prisma.resource.count({ where: { deletedAt: null } }),
-      prisma.scholarship.count({ where: { deletedAt: null } }),
-      prisma.tribe.count({ where: { deletedAt: null } }),
+      getCachedFeaturedResources(6),
+      getCachedUpcomingScholarships(4),
+      getCachedResourceCounts(),
+      getCachedScholarshipCounts(),
+      getCachedTribeCount(),
     ])
 
   return (
@@ -54,13 +45,13 @@ export default async function Home() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
           <div className="text-4xl font-bold text-earth-teal mb-2">
-            {resourceCount}
+            {resourceCounts.total}
           </div>
           <div className="text-earth-brown/70">Resources Available</div>
         </div>
         <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
           <div className="text-4xl font-bold text-earth-rust mb-2">
-            {scholarshipCount}
+            {scholarshipCounts.total}
           </div>
           <div className="text-earth-brown/70">Scholarships</div>
         </div>

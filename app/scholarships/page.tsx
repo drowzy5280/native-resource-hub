@@ -5,23 +5,36 @@ import { prisma } from '@/lib/prisma'
 export const dynamic = 'force-dynamic'
 
 export default async function ScholarshipsPage() {
-  const scholarships = await prisma.scholarship.findMany({
-    orderBy: { deadline: 'asc' },
-  })
+  const today = new Date()
+  today.setHours(0, 0, 0, 0) // Set to start of day for accurate comparison
 
-  const upcoming = scholarships.filter((s) => {
-    if (!s.deadline) return false
-    const today = new Date()
-    return s.deadline >= today
-  })
+  // Query upcoming scholarships and rolling deadlines in parallel
+  const [upcoming, noDeadline] = await Promise.all([
+    prisma.scholarship.findMany({
+      where: {
+        deletedAt: null,
+        deadline: {
+          gte: today,
+        },
+      },
+      orderBy: { deadline: 'asc' },
+    }),
+    prisma.scholarship.findMany({
+      where: {
+        deletedAt: null,
+        deadline: null,
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+  ])
 
-  const noDeadline = scholarships.filter((s) => !s.deadline)
+  const totalScholarships = upcoming.length + noDeadline.length
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <SectionHeader
         title="Scholarships"
-        description={`${scholarships.length} scholarships available for Native American students`}
+        description={`${totalScholarships} scholarships available for Native American students`}
       />
 
       {upcoming.length > 0 && (
@@ -64,7 +77,7 @@ export default async function ScholarshipsPage() {
         </section>
       )}
 
-      {scholarships.length === 0 && (
+      {totalScholarships === 0 && (
         <div className="text-center py-12">
           <p className="text-earth-brown/60 text-lg">
             No scholarships found. Check back soon as we add more data.
