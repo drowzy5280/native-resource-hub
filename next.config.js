@@ -7,10 +7,16 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
+      // Add specific trusted domains here instead of wildcard
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      // Add more trusted image hosts as needed
     ],
   },
 }

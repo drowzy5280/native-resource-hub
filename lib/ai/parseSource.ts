@@ -1,8 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
+import { env } from '../env'
+import { MAX_HTML_LENGTH, AI_BATCH_DELAY_MS, AI_MODEL, AI_MAX_TOKENS } from '../constants'
 
 const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
+  apiKey: env.ANTHROPIC_API_KEY,
 })
 
 export interface ParsedResource {
@@ -35,12 +37,12 @@ export async function parseSource(
   const prompt = buildPrompt(type)
 
   const message = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 2048,
+    model: AI_MODEL,
+    max_tokens: AI_MAX_TOKENS,
     messages: [
       {
         role: 'user',
-        content: `${prompt}\n\nSource URL: ${sourceUrl}\n\nHTML Content:\n${html.slice(0, 50000)}`,
+        content: `${prompt}\n\nSource URL: ${sourceUrl}\n\nHTML Content:\n${html.slice(0, MAX_HTML_LENGTH)}`,
       },
     ],
   })
@@ -119,8 +121,8 @@ export async function batchParseResources(
       const parsed = await parseSource(source.html, source.url, source.type)
       results.push(parsed)
 
-      // Rate limiting: wait 1 second between requests
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Rate limiting: wait between requests to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, AI_BATCH_DELAY_MS))
     } catch (error) {
       console.error(`Failed to parse source ${source.url}:`, error)
       // Continue with next source
@@ -136,7 +138,7 @@ export async function validateResourceUpdate(
   context: string
 ): Promise<{ isValid: boolean; confidence: number; reason: string }> {
   const message = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: AI_MODEL,
     max_tokens: 500,
     messages: [
       {

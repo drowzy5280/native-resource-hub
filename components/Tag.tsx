@@ -11,7 +11,11 @@ export function Tag({ label, variant = 'default' }: TagProps) {
   }
 
   return (
-    <span className={`px-3 py-1 text-xs font-medium rounded-full ${colors[variant]}`}>
+    <span
+      className={`px-3 py-1 text-xs font-medium rounded-full ${colors[variant]}`}
+      role="text"
+      aria-label={`Tag: ${label}`}
+    >
       {label}
     </span>
   )

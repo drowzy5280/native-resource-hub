@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { SearchBar } from '@/components/SearchBar'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
@@ -7,24 +8,31 @@ import { prisma } from '@/lib/prisma'
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const [recentResources, upcomingScholarships] = await Promise.all([
-    prisma.resource.findMany({
-      take: 6,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        tribe: {
-          select: { id: true, name: true },
+  // Optimize: Run all database queries in parallel including counts
+  const [recentResources, upcomingScholarships, resourceCount, scholarshipCount, tribeCount] =
+    await Promise.all([
+      prisma.resource.findMany({
+        where: { deletedAt: null },
+        take: 6,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          tribe: {
+            select: { id: true, name: true },
+          },
         },
-      },
-    }),
-    prisma.scholarship.findMany({
-      where: {
-        deadline: { not: null },
-      },
-      take: 4,
-      orderBy: { deadline: 'asc' },
-    }),
-  ])
+      }),
+      prisma.scholarship.findMany({
+        where: {
+          deadline: { not: null },
+          deletedAt: null,
+        },
+        take: 4,
+        orderBy: { deadline: 'asc' },
+      }),
+      prisma.resource.count({ where: { deletedAt: null } }),
+      prisma.scholarship.count({ where: { deletedAt: null } }),
+      prisma.tribe.count({ where: { deletedAt: null } }),
+    ])
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -46,19 +54,19 @@ export default async function Home() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
           <div className="text-4xl font-bold text-earth-teal mb-2">
-            {await prisma.resource.count()}
+            {resourceCount}
           </div>
           <div className="text-earth-brown/70">Resources Available</div>
         </div>
         <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
           <div className="text-4xl font-bold text-earth-rust mb-2">
-            {await prisma.scholarship.count()}
+            {scholarshipCount}
           </div>
           <div className="text-earth-brown/70">Scholarships</div>
         </div>
         <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
           <div className="text-4xl font-bold text-earth-tan mb-2">
-            {await prisma.tribe.count()}
+            {tribeCount}
           </div>
           <div className="text-earth-brown/70">Tribes Listed</div>
         </div>
@@ -130,14 +138,14 @@ export default async function Home() {
             { name: 'Business', icon: '💼', href: '/resources?tags=business' },
             { name: 'Language', icon: '🗣️', href: '/resources?tags=language' },
           ].map((category) => (
-            <a
+            <Link
               key={category.name}
               href={category.href}
               className="bg-white rounded-earth p-6 text-center hover:shadow-lg transition-shadow border border-earth-sand/30"
             >
               <div className="text-4xl mb-2">{category.icon}</div>
               <div className="font-medium text-earth-brown">{category.name}</div>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

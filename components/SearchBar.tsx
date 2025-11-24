@@ -16,13 +16,16 @@ export function SearchBar() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl">
-      <div className="relative">
+      <div className="relative" role="search">
         <input
-          type="text"
+          type="search"
+          id="search-input"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for resources, tribes, scholarships..."
           className="w-full px-6 py-4 pr-12 text-lg rounded-earth-lg border-2 border-earth-sand focus:border-earth-teal focus:outline-none transition-colors"
+          aria-label="Search for resources, tribes, and scholarships"
+          autoComplete="off"
         />
         <button
           type="submit"

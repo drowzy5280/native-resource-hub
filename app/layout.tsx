@@ -2,12 +2,25 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
+import { MobileNav } from '@/components/MobileNav'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Native Resource Hub',
   description: 'Connecting Native communities with resources, scholarships, and tribal programs',
+  keywords: ['Native American', 'resources', 'scholarships', 'tribal programs', 'indigenous'],
+  openGraph: {
+    title: 'Native Resource Hub',
+    description: 'Connecting Native communities with resources, scholarships, and tribal programs',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Native Resource Hub',
+    description: 'Connecting Native communities with resources, scholarships, and tribal programs',
+  },
 }
 
 export default function RootLayout({
@@ -29,24 +42,30 @@ export default function RootLayout({
               </Link>
 
               <div className="flex items-center space-x-8">
-                <Link
-                  href="/resources"
-                  className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
-                >
-                  Resources
-                </Link>
-                <Link
-                  href="/tribes"
-                  className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
-                >
-                  Tribes
-                </Link>
-                <Link
-                  href="/scholarships"
-                  className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
-                >
-                  Scholarships
-                </Link>
+                {/* Desktop Navigation */}
+                <div className="hidden md:flex items-center space-x-8">
+                  <Link
+                    href="/resources"
+                    className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
+                  >
+                    Resources
+                  </Link>
+                  <Link
+                    href="/tribes"
+                    className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
+                  >
+                    Tribes
+                  </Link>
+                  <Link
+                    href="/scholarships"
+                    className="text-earth-brown hover:text-earth-teal transition-colors font-medium"
+                  >
+                    Scholarships
+                  </Link>
+                </div>
+
+                {/* Mobile Navigation */}
+                <MobileNav />
               </div>
             </div>
           </div>

@@ -13,12 +13,16 @@ datasource db {
 model User {
   id           String   @id @default(uuid())
   email        String   @unique
+  role         UserRole @default(user)
   tribeId      String?
   state        String?
   birthYear    Int?
   tags         String[] @default([])
   saved        SavedResource[]
   createdAt    DateTime @default(now())
+  deletedAt    DateTime?
+
+  @@index([email])
 }
 
 model Tribe {
@@ -31,6 +35,10 @@ model Tribe {
   region                    String?
   programs                  Resource[]
   lastUpdated               DateTime   @default(now())
+  deletedAt                 DateTime?
+
+  @@index([name])
+  @@index([region])
 }
 
 model Resource {
@@ -38,7 +46,7 @@ model Resource {
   type        ResourceType
   title       String
   description String
-  url         String?
+  url         String?        @unique
   eligibility String[]
   tags        String[]
   state       String?
@@ -47,21 +55,31 @@ model Resource {
   saved       SavedResource[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  deletedAt   DateTime?
   source      String?
+
+  @@index([state])
+  @@index([tribeId])
+  @@index([type])
+  @@index([createdAt])
 }
 
 model Scholarship {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   amount      String?
-  deadline    String?
+  deadline    DateTime?
   description String
   tags        String[]
   eligibility String[]
-  url         String?
+  url         String?   @unique
   source      String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@index([deadline])
+  @@index([createdAt])
 }
 
 model SavedResource {
@@ -92,4 +110,9 @@ enum ResourceType {
   tribal
   scholarship
   emergency
+}
+
+enum UserRole {
+  user
+  admin
 }

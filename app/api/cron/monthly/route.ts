@@ -1,75 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { verifyCronSecret } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   // Verify cron secret
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!verifyCronSecret(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     console.log('Starting monthly cron job...')
 
-    // 1. Remove outdated resources (older than 2 years)
+    // 1. Soft delete outdated resources (older than 2 years)
     const twoYearsAgo = new Date()
     twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2)
 
-    const outdatedResources = await prisma.resource.findMany({
+    // Soft delete outdated resources
+    const deleted = await prisma.resource.updateMany({
       where: {
         updatedAt: {
           lt: twoYearsAgo,
         },
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     })
 
-    console.log(`Found ${outdatedResources.length} outdated resources`)
+    console.log(`Soft deleted ${deleted.count} outdated resources`)
 
-    // Create changelog entries before deletion
-    for (const resource of outdatedResources) {
-      await prisma.changeLog.create({
-        data: {
-          source: resource.title,
-          type: 'removal',
-          originalValue: JSON.stringify(resource),
-          updatedValue: null,
-          aiConfidence: 1.0,
-          approved: true,
-        },
-      })
-    }
-
-    // Delete outdated resources
-    const deleted = await prisma.resource.deleteMany({
-      where: {
-        updatedAt: {
-          lt: twoYearsAgo,
-        },
-      },
-    })
-
-    // 2. Remove expired scholarships (past deadline by 6+ months)
-    const sixMonthsAgo = new Date()
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
-    const sixMonthsAgoStr = sixMonthsAgo.toISOString().split('T')[0]
-
-    const expiredScholarships = await prisma.scholarship.deleteMany({
-      where: {
-        deadline: {
-          lt: sixMonthsAgoStr,
-        },
-      },
-    })
-
-    // 3. Clean up old changelog entries (older than 1 year)
+    // 2. Soft delete expired scholarships (past deadline by 1+ year)
     const oneYearAgo = new Date()
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
+
+    const expiredScholarships = await prisma.scholarship.updateMany({
+      where: {
+        deadline: {
+          lt: oneYearAgo,
+        },
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+    })
+
+    // 3. Clean up old changelog entries (older than 6 months and approved)
+    const sixMonthsAgo = new Date()
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
 
     const deletedLogs = await prisma.changeLog.deleteMany({
       where: {
         createdAt: {
-          lt: oneYearAgo,
+          lt: sixMonthsAgo,
         },
+        approved: true,
       },
     })
 
