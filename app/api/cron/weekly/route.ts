@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       },
     })
 
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date()
     const expiredScholarships = scholarships.filter(
       (s) => s.deadline && s.deadline < today
     )

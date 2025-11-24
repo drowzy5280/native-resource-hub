@@ -9,7 +9,7 @@ interface ScholarshipCardProps {
   name: string
   description: string
   amount?: string | null
-  deadline?: string | null
+  deadline?: Date | string | null
   tags: string[]
   url?: string | null
 }

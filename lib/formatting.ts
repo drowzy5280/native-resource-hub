@@ -7,12 +7,12 @@ export function formatDate(date: Date | string): string {
   }).format(d)
 }
 
-export function formatDeadline(deadline: string): {
+export function formatDeadline(deadline: Date | string): {
   formatted: string
   daysUntil: number
   isPast: boolean
 } {
-  const deadlineDate = new Date(deadline)
+  const deadlineDate = typeof deadline === 'string' ? new Date(deadline) : deadline
   const today = new Date()
   const diffTime = deadlineDate.getTime() - today.getTime()
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))

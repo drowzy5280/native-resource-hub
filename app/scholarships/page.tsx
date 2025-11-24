@@ -11,7 +11,7 @@ export default async function ScholarshipsPage() {
 
   const upcoming = scholarships.filter((s) => {
     if (!s.deadline) return false
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date()
     return s.deadline >= today
   })
 

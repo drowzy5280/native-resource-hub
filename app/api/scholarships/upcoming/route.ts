@@ -16,7 +16,7 @@ export async function GET() {
     })
 
     // Filter to only include upcoming deadlines
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date()
     const upcoming = scholarships.filter(s => {
       if (!s.deadline) return false
       return s.deadline >= today
