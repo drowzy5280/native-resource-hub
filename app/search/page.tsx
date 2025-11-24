@@ -50,7 +50,7 @@ async function SearchResults({ query }: { query: string }) {
         OR: [
           { name: { contains: searchTerm, mode: 'insensitive' } },
           { description: { contains: searchTerm, mode: 'insensitive' } },
-          { eligibility: { contains: searchTerm, mode: 'insensitive' } },
+          { tags: { has: searchTerm } },
         ],
       },
       take: 20,
@@ -168,8 +168,8 @@ async function SearchResults({ query }: { query: string }) {
                 description={scholarship.description}
                 amount={scholarship.amount}
                 deadline={scholarship.deadline}
-                eligibility={scholarship.eligibility}
                 url={scholarship.url}
+                tags={scholarship.tags}
               />
             ))}
           </div>

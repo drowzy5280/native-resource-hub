@@ -1,11 +1,11 @@
-import type { Organization, WebSite, BreadcrumbList, ScholarshipOrGrant } from 'schema-dts'
+import React from 'react'
 
 /**
  * Structured data helpers for SEO
  * Generates JSON-LD structured data for different page types
  */
 
-export function generateOrganizationSchema(): Organization {
+export function generateOrganizationSchema(): any {
   return {
     '@type': 'Organization',
     '@context': 'https://schema.org',
@@ -21,7 +21,7 @@ export function generateOrganizationSchema(): Organization {
   }
 }
 
-export function generateWebSiteSchema(): WebSite {
+export function generateWebSiteSchema(): any {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
 
   return {
@@ -37,7 +37,7 @@ export function generateWebSiteSchema(): WebSite {
   }
 }
 
-export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>): BreadcrumbList {
+export function generateBreadcrumbSchema(items: Array<{ name: string; url: string }>): any {
   return {
     '@type': 'BreadcrumbList',
     '@context': 'https://schema.org',
@@ -57,7 +57,7 @@ export function generateScholarshipSchema(scholarship: {
   deadline?: Date | null
   url: string
   eligibility?: string | null
-}): ScholarshipOrGrant {
+}): any {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
 
   return {

@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     prisma.tribe.findMany({
       where: { deletedAt: null },
-      select: { id: true, updatedAt: true },
+      select: { id: true, lastUpdated: true },
     }),
   ])
 
@@ -79,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic tribe pages
   const tribePages: MetadataRoute.Sitemap = tribes.map((tribe) => ({
     url: `${baseUrl}/tribes/${tribe.id}`,
-    lastModified: tribe.updatedAt,
+    lastModified: tribe.lastUpdated,
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }))

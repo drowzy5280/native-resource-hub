@@ -22,7 +22,7 @@ export default async function ResourcesPage({
   }
 
   if (searchParams.type) {
-    where.type = searchParams.type
+    where.type = searchParams.type as any
   }
 
   if (searchParams.state) {

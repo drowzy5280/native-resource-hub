@@ -39,10 +39,11 @@ export class NotificationService {
 
         for (const scholarship of scholarships) {
           // Find users who saved this scholarship
+          // Note: Current schema only supports saving resources, not scholarships
+          // This will need to be updated when scholarship saving is implemented
           const savedBy = await prisma.savedResource.findMany({
             where: {
               resourceId: scholarship.id,
-              resourceType: 'scholarship',
             },
             include: {
               user: true,
@@ -136,16 +137,13 @@ export class NotificationService {
         select: {
           id: true,
           email: true,
-          savedResources: {
-            where: {
-              resourceType: 'scholarship',
-            },
+          saved: {
             include: {
               resource: {
                 select: {
                   id: true,
-                  name: true,
-                  deadline: true,
+                  title: true,
+                  type: true,
                 },
               },
             },
@@ -156,22 +154,8 @@ export class NotificationService {
       for (const user of users) {
         if (!user.email) continue
 
-        // Get upcoming deadlines for this user's saved scholarships
-        const upcomingDeadlines = user.savedResources
-          .filter((sr) => sr.resource.deadline && sr.resource.deadline > new Date())
-          .map((sr) => {
-            const daysUntil = Math.ceil(
-              (sr.resource.deadline!.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
-            )
-            return {
-              id: sr.resource.id,
-              name: sr.resource.name,
-              deadline: sr.resource.deadline!,
-              daysUntil,
-            }
-          })
-          .filter((d) => d.daysUntil <= 14)
-          .sort((a, b) => a.daysUntil - b.daysUntil)
+        // TODO: Implement upcoming deadlines when scholarship saving is added to schema
+        const upcomingDeadlines: any[] = []
 
         const emailContent = generateWeeklyDigestEmail({
           userName: user.email.split('@')[0],
