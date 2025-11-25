@@ -15,23 +15,9 @@ export const DynamicFilterBar = dynamic(
   }
 )
 
-export const DynamicUserMenu = dynamic(
-  () => import('@/components/UserMenu').then((mod) => ({ default: mod.UserMenu })),
-  {
-    ssr: false, // UserMenu needs client-side auth state
-  }
-)
-
 export const DynamicMobileNav = dynamic(
   () => import('@/components/MobileNav').then((mod) => ({ default: mod.MobileNav })),
   {
     ssr: false,
-  }
-)
-
-export const DynamicSaveButton = dynamic(
-  () => import('@/components/SaveButton').then((mod) => ({ default: mod.SaveButton })),
-  {
-    ssr: false, // SaveButton requires auth state
   }
 )

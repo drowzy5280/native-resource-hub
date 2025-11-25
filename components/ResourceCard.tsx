@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { Tag } from './Tag'
-import { SaveButton } from './SaveButton'
 
 interface ResourceCardProps {
   id: string
@@ -16,7 +15,6 @@ interface ResourceCardProps {
   }
   state?: string | null
   url?: string | null
-  userId?: string
 }
 
 export function ResourceCard({
@@ -28,27 +26,23 @@ export function ResourceCard({
   tribe,
   state,
   url,
-  userId,
 }: ResourceCardProps) {
   return (
     <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/20 hover:border-clay/30 transition-all group">
-      <div className="flex justify-between items-start mb-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-pine/10 text-pine border border-pine/20">
-              {type}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-pine/10 text-pine border border-pine/20">
+            {type}
+          </span>
+          {state && (
+            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-clay/10 text-clay border border-clay/20">
+              {state}
             </span>
-            {state && (
-              <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-clay/10 text-clay border border-clay/20">
-                {state}
-              </span>
-            )}
-          </div>
-          <h3 className="text-xl font-heading font-semibold text-midnight mb-2 group-hover:text-clay transition-colors line-clamp-2">
-            {title}
-          </h3>
+          )}
         </div>
-        {userId && <SaveButton userId={userId} resourceId={id} />}
+        <h3 className="text-xl font-heading font-semibold text-midnight mb-2 group-hover:text-clay transition-colors line-clamp-2">
+          {title}
+        </h3>
       </div>
 
       <p className="text-midnight/70 mb-5 line-clamp-3 leading-relaxed">

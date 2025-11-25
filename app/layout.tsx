@@ -3,7 +3,6 @@ import { Work_Sans, Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
 import { MobileNav } from '@/components/MobileNav'
-import { UserMenu } from '@/components/UserMenu'
 import { Analytics } from '@vercel/analytics/react'
 import { GoogleAdsense } from '@/components/GoogleAdsense'
 import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData'
@@ -146,7 +145,6 @@ export default function RootLayout({
                   >
                     Scholarships
                   </Link>
-                  <UserMenu />
                 </div>
 
                 {/* Mobile Navigation */}
