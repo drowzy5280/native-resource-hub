@@ -25,7 +25,7 @@ async function importCSVData() {
     let resourcesAdded = 0
     let resourcesFailed = 0
 
-    for (const record of resourceRecords) {
+    for (const record of resourceRecords as any[]) {
       try {
         if (!record.type || !record.title || !record.description) {
           resourcesFailed++
@@ -75,7 +75,7 @@ async function importCSVData() {
     let scholarshipsAdded = 0
     let scholarshipsFailed = 0
 
-    for (const record of scholarshipRecords) {
+    for (const record of scholarshipRecords as any[]) {
       try {
         if (!record.name || !record.description) {
           scholarshipsFailed++
@@ -134,7 +134,7 @@ async function importCSVData() {
     let tribesAdded = 0
     let tribesFailed = 0
 
-    for (const record of tribeRecords) {
+    for (const record of tribeRecords as any[]) {
       try {
         if (!record.name) {
           tribesFailed++
