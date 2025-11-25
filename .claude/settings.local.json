@@ -27,7 +27,15 @@
       "Bash(vercel env:*)",
       "Bash(curl:*)",
       "Bash(npm uninstall:*)",
-      "Bash(npm run db:bulk-seed:*)"
+      "Bash(npm run db:bulk-seed:*)",
+      "Bash(tsx scripts/check-counts.ts:*)",
+      "WebSearch",
+      "WebFetch(domain:www.federalregister.gov)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.bia.gov)",
+      "WebFetch(domain:opendata-1-bia-geospatial.hub.arcgis.com)",
+      "WebFetch(domain:onemap-bia-geospatial.hub.arcgis.com)",
+      "Bash(set DATABASE_URL=postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres)"
     ],
     "deny": [],
     "ask": []
