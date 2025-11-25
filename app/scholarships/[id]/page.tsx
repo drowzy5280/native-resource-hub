@@ -36,7 +36,7 @@ export default async function ScholarshipDetailPage({
               </span>
             )}
             {deadlineInfo && !deadlineInfo.isPast && deadlineInfo.daysUntil <= 30 && (
-              <Tag label="Closing Soon" variant="rust" />
+              <Tag label="Closing Soon" variant="clay" />
             )}
           </div>
           <h1 className="text-4xl font-bold text-earth-brown mb-4">

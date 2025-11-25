@@ -32,8 +32,8 @@ export default async function ResourceDetailPage({
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
-            <Tag label={resource.type} variant="teal" />
-            {resource.state && <Tag label={resource.state} variant="rust" />}
+            <Tag label={resource.type} variant="pine" />
+            {resource.state && <Tag label={resource.state} variant="clay" />}
           </div>
           <h1 className="text-4xl font-bold text-earth-brown mb-4">
             {resource.title}

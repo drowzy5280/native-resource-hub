@@ -37,7 +37,7 @@ export default async function TribeDetailPage({
         </h1>
 
         <div className="flex flex-wrap gap-3 mb-6">
-          {tribe.region && <Tag label={tribe.region} variant="teal" />}
+          {tribe.region && <Tag label={tribe.region} variant="pine" />}
           {tribe.federalRecognitionStatus && (
             <Tag label={tribe.federalRecognitionStatus} />
           )}
