@@ -86,7 +86,6 @@ export default async function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
@@ -109,13 +108,13 @@ export default async function Home() {
           </div>
         </div>
 
-      {/* Ad Unit */}
-      <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-      </div>
+        {/* Ad Unit */}
+        <div className="mb-16 flex justify-center">
+          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        </div>
 
-      {/* Recent Resources */}
-      <section className="mb-16">
+        {/* Recent Resources */}
+        <section className="mb-16">
         <SectionHeader
           title="Recent Resources"
           description="Recently added programs and services"
@@ -137,15 +136,15 @@ export default async function Home() {
             />
           ))}
         </div>
-      </section>
+        </section>
 
-      {/* Ad Unit */}
-      <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-      </div>
+        {/* Ad Unit */}
+        <div className="mb-16 flex justify-center">
+          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        </div>
 
-      {/* Upcoming Scholarships */}
-      <section className="mb-16">
+        {/* Upcoming Scholarships */}
+        <section className="mb-16">
         <SectionHeader
           title="Scholarships Closing Soon"
           description="Don't miss these upcoming deadlines"
@@ -166,15 +165,15 @@ export default async function Home() {
             />
           ))}
         </div>
-      </section>
+        </section>
 
-      {/* Ad Unit */}
-      <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-      </div>
+        {/* Ad Unit */}
+        <div className="mb-16 flex justify-center">
+          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        </div>
 
-      {/* Resource Categories */}
-      <section>
+        {/* Resource Categories */}
+        <section>
         <SectionHeader
           title="Browse by Category"
           description="Find resources specific to your needs"
@@ -200,7 +199,8 @@ export default async function Home() {
             </Link>
           ))}
         </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
