@@ -77,10 +77,10 @@ export function ScholarshipCard({
         )}
       </div>
 
-      <div className="flex gap-4 pt-4 border-t border-desert/20">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-desert/20">
         <Link
           href={`/scholarships/${id}`}
-          className="text-sm font-medium text-pine hover:text-pine-light transition-colors flex items-center gap-1"
+          className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/5 hover:bg-pine/10 border border-pine/20 hover:border-pine/40 rounded-earth transition-all flex items-center justify-center gap-2"
         >
           View Details
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +92,7 @@ export function ScholarshipCard({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-gold-dark hover:text-gold transition-colors flex items-center gap-1 font-semibold"
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold rounded-earth transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
           >
             Apply Now
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

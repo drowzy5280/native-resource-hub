@@ -72,10 +72,10 @@ export function ResourceCard({
         )}
       </div>
 
-      <div className="flex gap-4 pt-4 border-t border-desert/20">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-desert/20">
         <Link
           href={`/resources/${id}`}
-          className="text-sm font-medium text-pine hover:text-pine-light transition-colors flex items-center gap-1"
+          className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/5 hover:bg-pine/10 border border-pine/20 hover:border-pine/40 rounded-earth transition-all flex items-center justify-center gap-2"
         >
           View Details
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -87,7 +87,7 @@ export function ResourceCard({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-clay hover:text-clay-light transition-colors flex items-center gap-1"
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-clay hover:bg-clay/90 rounded-earth transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
           >
             Visit Website
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
