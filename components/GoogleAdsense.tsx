@@ -27,7 +27,7 @@ export function GoogleAdsense({ publisherId }: GoogleAdsenseProps) {
         async
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
         crossOrigin="anonymous"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
     </>
   )
