@@ -3,6 +3,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
+import { AdUnit } from '@/components/GoogleAdsense'
 import {
   getCachedFeaturedResources,
   getCachedUpcomingScholarships,
@@ -63,6 +64,11 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* Ad Unit */}
+      <div className="mb-16 flex justify-center">
+        <AdUnit adSlot="1234567890" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       {/* Recent Resources */}
       <section className="mb-16">
         <SectionHeader
@@ -88,6 +94,11 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Ad Unit */}
+      <div className="mb-16 flex justify-center">
+        <AdUnit adSlot="2345678901" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       {/* Upcoming Scholarships */}
       <section className="mb-16">
         <SectionHeader
@@ -111,6 +122,11 @@ export default async function Home() {
           ))}
         </div>
       </section>
+
+      {/* Ad Unit */}
+      <div className="mb-16 flex justify-center">
+        <AdUnit adSlot="3456789012" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
 
       {/* Resource Categories */}
       <section>

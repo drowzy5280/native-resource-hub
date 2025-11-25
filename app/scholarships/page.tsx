@@ -1,6 +1,7 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { Pagination } from '@/components/Pagination'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
@@ -70,6 +71,11 @@ export default async function ScholarshipsPage({
         description={`${totalCount} total scholarships available for Native American students (page ${currentPage} of ${totalPages})`}
       />
 
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="6789012345" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       {upcoming.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-earth-brown mb-6">Upcoming Deadlines</h2>
@@ -109,6 +115,11 @@ export default async function ScholarshipsPage({
           </div>
         </section>
       )}
+
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="7890123456" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
 
       {totalCount === 0 && (
         <div className="text-center py-12">

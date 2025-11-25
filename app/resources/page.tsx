@@ -2,6 +2,7 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { FilterBar } from '@/components/FilterBar'
 import { Pagination } from '@/components/Pagination'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
 
@@ -65,6 +66,11 @@ export default async function ResourcesPage({
       {/* Filter Bar */}
       <FilterBar showTypeFilter={true} showStateFilter={true} />
 
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="4567890123" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {resources.map((resource) => (
           <ResourceCard
@@ -88,6 +94,11 @@ export default async function ResourcesPage({
           </p>
         </div>
       )}
+
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="5678901234" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
 
       {/* Pagination */}
       <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/resources" />

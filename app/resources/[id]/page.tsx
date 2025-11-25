@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Tag } from '@/components/Tag'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/formatting'
 
@@ -22,6 +23,11 @@ export default async function ResourceDetailPage({
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Ad Unit */}
+      <div className="mb-8 flex justify-center">
+        <AdUnit adSlot="0123456789" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+      </div>
+
       <div className="bg-white rounded-earth-lg p-8 border border-earth-sand/30">
         {/* Header */}
         <div className="mb-6">
@@ -98,6 +104,11 @@ export default async function ResourceDetailPage({
           <p>Last updated: {formatDate(resource.updatedAt)}</p>
           {resource.source && <p>Source: {resource.source}</p>}
         </div>
+      </div>
+
+      {/* Ad Unit */}
+      <div className="mt-8 flex justify-center">
+        <AdUnit adSlot="1234567891" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
     </div>
   )

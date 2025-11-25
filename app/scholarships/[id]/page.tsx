@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Tag } from '@/components/Tag'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDeadline, formatDate } from '@/lib/formatting'
 
@@ -20,6 +21,11 @@ export default async function ScholarshipDetailPage({
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Ad Unit */}
+      <div className="mb-8 flex justify-center">
+        <AdUnit adSlot="2345678902" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+      </div>
+
       <div className="bg-white rounded-earth-lg p-8 border border-earth-sand/30">
         {/* Header */}
         <div className="mb-6">
@@ -102,6 +108,11 @@ export default async function ScholarshipDetailPage({
           <p>Last updated: {formatDate(scholarship.updatedAt)}</p>
           {scholarship.source && <p>Source: {scholarship.source}</p>}
         </div>
+      </div>
+
+      {/* Ad Unit */}
+      <div className="mt-8 flex justify-center">
+        <AdUnit adSlot="3456789013" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
     </div>
   )

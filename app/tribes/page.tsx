@@ -1,5 +1,6 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TribeCard } from '@/components/TribeCard'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { getCachedTribes } from '@/lib/cache'
 import { prisma } from '@/lib/prisma'
 
@@ -36,6 +37,11 @@ export default async function TribesPage() {
         description={`Browse ${tribes.length} tribes and their available programs`}
       />
 
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="8901234567" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tribes.map((tribe) => (
           <TribeCard
@@ -48,6 +54,11 @@ export default async function TribesPage() {
             programCount={tribe._count.programs}
           />
         ))}
+      </div>
+
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="9012345678" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {tribes.length === 0 && (

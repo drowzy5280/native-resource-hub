@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { Tag } from '@/components/Tag'
+import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 
 export default async function TribeDetailPage({
@@ -24,6 +25,11 @@ export default async function TribeDetailPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Ad Unit */}
+      <div className="mb-8 flex justify-center">
+        <AdUnit adSlot="4567890124" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+      </div>
+
       {/* Tribe Header */}
       <div className="bg-white rounded-earth-lg p-8 mb-8 border border-earth-sand/30">
         <h1 className="text-4xl font-bold text-earth-brown mb-4">
@@ -100,6 +106,11 @@ export default async function TribeDetailPage({
             url={program.url}
           />
         ))}
+      </div>
+
+      {/* Ad Unit */}
+      <div className="my-8 flex justify-center">
+        <AdUnit adSlot="5678901235" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {tribe.programs.length === 0 && (

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { MobileNav } from '@/components/MobileNav'
 import { UserMenu } from '@/components/UserMenu'
 import { Analytics } from '@vercel/analytics/react'
+import { GoogleAdsense } from '@/components/GoogleAdsense'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
+      </head>
       <body className={`${inter.className} bg-earth-cream`}>
         <nav className="bg-white shadow-sm border-b border-earth-sand/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
