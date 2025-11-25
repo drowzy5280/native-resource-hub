@@ -28,6 +28,34 @@ export function ScholarshipCard({
   const deadlineInfo = deadline ? formatDeadline(deadline) : null
   const isClosingSoon = deadlineInfo && deadlineInfo.daysUntil <= 30 && !deadlineInfo.isPast
 
+  // Calculate progress bar color and width based on days remaining
+  const getProgressInfo = () => {
+    if (!deadlineInfo || deadlineInfo.isPast) return null
+
+    const daysUntil = deadlineInfo.daysUntil
+    let color = 'bg-earth-teal' // Default: plenty of time
+    let width = 100
+
+    // Assume 90 days is full (100%) and calculate percentage
+    const maxDays = 90
+    width = Math.max(0, Math.min(100, (daysUntil / maxDays) * 100))
+
+    // Color based on urgency
+    if (daysUntil <= 7) {
+      color = 'bg-clay' // Red/urgent
+    } else if (daysUntil <= 30) {
+      color = 'bg-gold' // Orange/warning
+    } else if (daysUntil <= 60) {
+      color = 'bg-gold/70' // Yellow/caution
+    } else {
+      color = 'bg-earth-teal' // Green/good
+    }
+
+    return { color, width }
+  }
+
+  const progressInfo = getProgressInfo()
+
   return (
     <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/20 hover:border-gold/40 transition-all group">
       <div className="mb-4">
@@ -57,7 +85,7 @@ export function ScholarshipCard({
 
       {deadlineInfo && !deadlineInfo.isPast && (
         <div className="mb-5 p-4 bg-gradient-to-br from-desert/20 to-gold/5 rounded-earth border border-desert/30">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-2">
             <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
@@ -65,9 +93,20 @@ export function ScholarshipCard({
               Deadline: {deadlineInfo.formatted}
             </p>
           </div>
-          <p className="text-xs text-midnight/60 ml-6">
+          <p className="text-xs text-midnight/60 ml-6 mb-2">
             {deadlineInfo.daysUntil} days remaining
           </p>
+          {progressInfo && (
+            <div className="ml-6">
+              <div className="w-full bg-desert/20 rounded-full h-2 overflow-hidden">
+                <div
+                  className={`h-full ${progressInfo.color} transition-all duration-300 rounded-full`}
+                  style={{ width: `${progressInfo.width}%` }}
+                  aria-label={`${Math.round(progressInfo.width)}% of time remaining`}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 

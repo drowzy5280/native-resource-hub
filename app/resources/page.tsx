@@ -55,8 +55,11 @@ export default async function ResourcesPage({
   }
 
   if (searchParams.tags) {
-    where.tags = {
-      has: searchParams.tags,
+    const tagArray = searchParams.tags.split(',').filter(Boolean)
+    if (tagArray.length > 0) {
+      where.tags = {
+        hasSome: tagArray,
+      }
     }
   }
 
