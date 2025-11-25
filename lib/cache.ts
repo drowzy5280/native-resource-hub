@@ -1,4 +1,4 @@
-import { unstable_cache } from 'next/cache'
+import { unstable_cache, revalidateTag } from 'next/cache'
 import { prisma } from './prisma'
 
 /**
@@ -167,11 +167,5 @@ export const getCachedTribeById = unstable_cache(
  * Use this after mutations (create, update, delete)
  */
 export const revalidateTags = (tags: string[]) => {
-  // In Next.js 14, you can use revalidateTag from next/cache
-  // This is a placeholder for manual revalidation
-  // In production, you'd import and use:
-  // import { revalidateTag } from 'next/cache'
-  // tags.forEach(tag => revalidateTag(tag))
-
-  console.log('Revalidating tags:', tags)
+  tags.forEach(tag => revalidateTag(tag))
 }

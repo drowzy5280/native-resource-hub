@@ -15,6 +15,13 @@ const envSchema = z.object({
   // Cron Secret
   CRON_SECRET: z.string().min(1),
 
+  // CSRF Protection
+  CSRF_SECRET: z.string().min(32, 'CSRF_SECRET must be at least 32 characters'),
+
+  // Email (optional)
+  RESEND_API_KEY: z.string().min(1).optional(),
+  FROM_EMAIL: z.string().email().optional(),
+
   // Node Environment
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 })

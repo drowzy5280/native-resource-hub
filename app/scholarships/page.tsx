@@ -1,14 +1,42 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
+import { Pagination } from '@/components/Pagination'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
 
-export default async function ScholarshipsPage() {
+const ITEMS_PER_PAGE = 20
+
+export default async function ScholarshipsPage({
+  searchParams,
+}: {
+  searchParams: { page?: string }
+}) {
+  const currentPage = parseInt(searchParams.page || '1', 10)
+  const skip = (currentPage - 1) * ITEMS_PER_PAGE
+
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to start of day for accurate comparison
 
-  // Query upcoming scholarships and rolling deadlines in parallel
+  // First get counts
+  const [upcomingCount, noDeadlineCount] = await Promise.all([
+    prisma.scholarship.count({
+      where: {
+        deletedAt: null,
+        deadline: {
+          gte: today,
+        },
+      },
+    }),
+    prisma.scholarship.count({
+      where: {
+        deletedAt: null,
+        deadline: null,
+      },
+    }),
+  ])
+
+  // Then query scholarships with proper skip values
   const [upcoming, noDeadline] = await Promise.all([
     prisma.scholarship.findMany({
       where: {
@@ -18,6 +46,8 @@ export default async function ScholarshipsPage() {
         },
       },
       orderBy: { deadline: 'asc' },
+      take: ITEMS_PER_PAGE,
+      skip,
     }),
     prisma.scholarship.findMany({
       where: {
@@ -25,16 +55,19 @@ export default async function ScholarshipsPage() {
         deadline: null,
       },
       orderBy: { createdAt: 'desc' },
+      take: ITEMS_PER_PAGE,
+      skip: Math.max(0, skip - upcomingCount),
     }),
   ])
 
-  const totalScholarships = upcoming.length + noDeadline.length
+  const totalCount = upcomingCount + noDeadlineCount
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <SectionHeader
         title="Scholarships"
-        description={`${totalScholarships} scholarships available for Native American students`}
+        description={`${totalCount} total scholarships available for Native American students (page ${currentPage} of ${totalPages})`}
       />
 
       {upcoming.length > 0 && (
@@ -77,13 +110,16 @@ export default async function ScholarshipsPage() {
         </section>
       )}
 
-      {totalScholarships === 0 && (
+      {totalCount === 0 && (
         <div className="text-center py-12">
           <p className="text-earth-brown/60 text-lg">
             No scholarships found. Check back soon as we add more data.
           </p>
         </div>
       )}
+
+      {/* Pagination */}
+      <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/scholarships" />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { prisma } from '@/lib/prisma'
 
 export default async function AdminLayout({
   children,
@@ -20,11 +21,10 @@ export default async function AdminLayout({
   }
 
   // Check if user has admin role
-  const { data: userData } = await supabase
-    .from('User')
-    .select('role')
-    .eq('id', user.id)
-    .single()
+  const userData = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: { role: true }
+  })
 
   if (!userData || userData.role !== 'admin') {
     redirect('/')

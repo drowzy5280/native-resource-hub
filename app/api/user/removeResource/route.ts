@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { SaveResourceSchema } from '@/lib/validators'
 import { requireAuth } from '@/lib/auth'
+import { requireCSRFToken } from '@/lib/csrf'
 import { ZodError } from 'zod'
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify CSRF token
+    const csrfCheck = requireCSRFToken(request)
+    if (!csrfCheck.valid) {
+      return NextResponse.json({ error: csrfCheck.error }, { status: 403 })
+    }
+
     // Require authentication
     const user = await requireAuth(request)
 

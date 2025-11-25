@@ -1,16 +1,22 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { FilterBar } from '@/components/FilterBar'
+import { Pagination } from '@/components/Pagination'
 import { prisma } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
 
+const ITEMS_PER_PAGE = 20
+
 export default async function ResourcesPage({
   searchParams,
 }: {
-  searchParams: { tags?: string; type?: string; state?: string }
+  searchParams: { tags?: string; type?: string; state?: string; page?: string }
 }) {
+  const currentPage = parseInt(searchParams.page || '1', 10)
+  const skip = (currentPage - 1) * ITEMS_PER_PAGE
+
   const where: Prisma.ResourceWhereInput = {
     deletedAt: null,
   }
@@ -32,21 +38,28 @@ export default async function ResourcesPage({
     ]
   }
 
-  const resources = await prisma.resource.findMany({
-    where,
-    orderBy: { createdAt: 'desc' },
-    include: {
-      tribe: {
-        select: { id: true, name: true },
+  const [resources, totalCount] = await Promise.all([
+    prisma.resource.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      take: ITEMS_PER_PAGE,
+      skip,
+      include: {
+        tribe: {
+          select: { id: true, name: true },
+        },
       },
-    },
-  })
+    }),
+    prisma.resource.count({ where }),
+  ])
+
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <SectionHeader
         title="All Resources"
-        description={`${resources.length} resources available`}
+        description={`${totalCount} total resources (showing ${resources.length} on page ${currentPage} of ${totalPages})`}
       />
 
       {/* Filter Bar */}
@@ -75,6 +88,9 @@ export default async function ResourcesPage({
           </p>
         </div>
       )}
+
+      {/* Pagination */}
+      <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/resources" />
     </div>
   )
 }

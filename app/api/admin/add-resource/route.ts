@@ -2,12 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { ResourceSchema } from '@/lib/validators'
 import { requireAdmin } from '@/lib/auth'
+import { requireCSRFToken } from '@/lib/csrf'
 import { ZodError } from 'zod'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify CSRF token
+    const csrfCheck = requireCSRFToken(request)
+    if (!csrfCheck.valid) {
+      return NextResponse.json({ error: csrfCheck.error }, { status: 403 })
+    }
+
     // Require admin authentication
     await requireAdmin(request)
 

@@ -4,8 +4,9 @@
  */
 
 import { randomBytes, createHmac } from 'crypto'
+import { env } from './env'
 
-const CSRF_SECRET = process.env.CSRF_SECRET || 'default-csrf-secret-change-in-production'
+const CSRF_SECRET = env.CSRF_SECRET
 const TOKEN_LIFETIME = 60 * 60 * 1000 // 1 hour
 
 interface CSRFToken {

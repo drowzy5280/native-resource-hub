@@ -39,6 +39,7 @@ model Tribe {
 
   @@index([name])
   @@index([region])
+  @@index([deletedAt])
 }
 
 model Resource {
@@ -62,6 +63,8 @@ model Resource {
   @@index([tribeId])
   @@index([type])
   @@index([createdAt])
+  @@index([deletedAt])
+  @@index([type, state, deletedAt])
 }
 
 model Scholarship {
@@ -80,6 +83,8 @@ model Scholarship {
 
   @@index([deadline])
   @@index([createdAt])
+  @@index([deletedAt])
+  @@index([deadline, deletedAt])
 }
 
 model SavedResource {
