@@ -2,8 +2,10 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { Pagination } from '@/components/Pagination'
 import { AdUnit } from '@/components/GoogleAdsense'
+import { FilterBar } from '@/components/FilterBar'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
+import type { Prisma } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,13 +44,45 @@ export const metadata: Metadata = {
 export default async function ScholarshipsPage({
   searchParams,
 }: {
-  searchParams: { page?: string }
+  searchParams: { page?: string; sort?: string }
 }) {
   const currentPage = parseInt(searchParams.page || '1', 10)
   const skip = (currentPage - 1) * ITEMS_PER_PAGE
+  const sortBy = searchParams.sort || 'deadline-asc'
 
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to start of day for accurate comparison
+
+  // Determine sort order
+  let upcomingOrderBy: Prisma.ScholarshipOrderByWithRelationInput = { deadline: 'asc' }
+  let noDeadlineOrderBy: Prisma.ScholarshipOrderByWithRelationInput = { createdAt: 'desc' }
+
+  switch (sortBy) {
+    case 'deadline-asc':
+      upcomingOrderBy = { deadline: 'asc' }
+      noDeadlineOrderBy = { createdAt: 'desc' }
+      break
+    case 'amount-desc':
+      upcomingOrderBy = { amount: 'desc' }
+      noDeadlineOrderBy = { amount: 'desc' }
+      break
+    case 'amount-asc':
+      upcomingOrderBy = { amount: 'asc' }
+      noDeadlineOrderBy = { amount: 'asc' }
+      break
+    case 'newest':
+      upcomingOrderBy = { createdAt: 'desc' }
+      noDeadlineOrderBy = { createdAt: 'desc' }
+      break
+    case 'name-asc':
+      upcomingOrderBy = { name: 'asc' }
+      noDeadlineOrderBy = { name: 'asc' }
+      break
+    case 'name-desc':
+      upcomingOrderBy = { name: 'desc' }
+      noDeadlineOrderBy = { name: 'desc' }
+      break
+  }
 
   // First get counts
   const [upcomingCount, noDeadlineCount] = await Promise.all([
@@ -77,7 +111,7 @@ export default async function ScholarshipsPage({
           gte: today,
         },
       },
-      orderBy: { deadline: 'asc' },
+      orderBy: upcomingOrderBy,
       take: ITEMS_PER_PAGE,
       skip,
     }),
@@ -86,7 +120,7 @@ export default async function ScholarshipsPage({
         deletedAt: null,
         deadline: null,
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: noDeadlineOrderBy,
       take: ITEMS_PER_PAGE,
       skip: Math.max(0, skip - upcomingCount),
     }),
@@ -100,6 +134,21 @@ export default async function ScholarshipsPage({
       <SectionHeader
         title="Scholarships"
         description={`${totalCount} total scholarships available for Native American students (page ${currentPage} of ${totalPages})`}
+      />
+
+      {/* Filter/Sort Bar */}
+      <FilterBar
+        showTypeFilter={false}
+        showStateFilter={false}
+        showSortFilter={true}
+        sortOptions={[
+          { value: 'deadline-asc', label: 'Deadline (Soonest)' },
+          { value: 'amount-desc', label: 'Amount (Highest)' },
+          { value: 'amount-asc', label: 'Amount (Lowest)' },
+          { value: 'newest', label: 'Recently Added' },
+          { value: 'name-asc', label: 'Name (A-Z)' },
+          { value: 'name-desc', label: 'Name (Z-A)' },
+        ]}
       />
 
       {/* Ad Unit */}

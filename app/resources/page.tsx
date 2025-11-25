@@ -44,10 +44,11 @@ export const metadata: Metadata = {
 export default async function ResourcesPage({
   searchParams,
 }: {
-  searchParams: { tags?: string; type?: string; state?: string; page?: string }
+  searchParams: { tags?: string; type?: string; state?: string; page?: string; sort?: string }
 }) {
   const currentPage = parseInt(searchParams.page || '1', 10)
   const skip = (currentPage - 1) * ITEMS_PER_PAGE
+  const sortBy = searchParams.sort || 'newest'
 
   const where: Prisma.ResourceWhereInput = {
     deletedAt: null,
@@ -70,10 +71,29 @@ export default async function ResourcesPage({
     ]
   }
 
+  // Determine sort order
+  let orderBy: Prisma.ResourceOrderByWithRelationInput = { createdAt: 'desc' }
+  switch (sortBy) {
+    case 'oldest':
+      orderBy = { createdAt: 'asc' }
+      break
+    case 'title-asc':
+      orderBy = { title: 'asc' }
+      break
+    case 'title-desc':
+      orderBy = { title: 'desc' }
+      break
+    case 'updated':
+      orderBy = { updatedAt: 'desc' }
+      break
+    default:
+      orderBy = { createdAt: 'desc' }
+  }
+
   const [resources, totalCount] = await Promise.all([
     prisma.resource.findMany({
       where,
-      orderBy: { createdAt: 'desc' },
+      orderBy,
       take: ITEMS_PER_PAGE,
       skip,
       include: {
@@ -95,7 +115,18 @@ export default async function ResourcesPage({
       />
 
       {/* Filter Bar */}
-      <FilterBar showTypeFilter={true} showStateFilter={true} />
+      <FilterBar
+        showTypeFilter={true}
+        showStateFilter={true}
+        showSortFilter={true}
+        sortOptions={[
+          { value: 'newest', label: 'Newest First' },
+          { value: 'oldest', label: 'Oldest First' },
+          { value: 'title-asc', label: 'Title (A-Z)' },
+          { value: 'title-desc', label: 'Title (Z-A)' },
+          { value: 'updated', label: 'Recently Updated' },
+        ]}
+      />
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">

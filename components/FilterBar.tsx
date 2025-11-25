@@ -7,18 +7,23 @@ interface FilterBarProps {
   showTypeFilter?: boolean
   showStateFilter?: boolean
   showTagsFilter?: boolean
+  showSortFilter?: boolean
+  sortOptions?: { value: string; label: string }[]
 }
 
 export function FilterBar({
   showTypeFilter = true,
   showStateFilter = true,
   showTagsFilter = true,
+  showSortFilter = false,
+  sortOptions = [],
 }: FilterBarProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
   const [selectedType, setSelectedType] = useState(searchParams.get('type') || '')
   const [selectedState, setSelectedState] = useState(searchParams.get('state') || '')
+  const [selectedSort, setSelectedSort] = useState(searchParams.get('sort') || '')
 
   const handleFilterChange = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams)
@@ -36,9 +41,10 @@ export function FilterBar({
     router.push(window.location.pathname)
     setSelectedType('')
     setSelectedState('')
+    setSelectedSort('')
   }
 
-  const hasFilters = selectedType || selectedState
+  const hasFilters = selectedType || selectedState || selectedSort
 
   return (
     <div className="bg-white rounded-earth-lg shadow-sm border border-earth-sand/30 p-4 mb-6">
@@ -91,6 +97,33 @@ export function FilterBar({
               className="w-full px-4 py-2 border border-earth-sand rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
               aria-label="Filter by state"
             />
+          </div>
+        )}
+
+        {showSortFilter && sortOptions.length > 0 && (
+          <div className="flex-1">
+            <label
+              htmlFor="sort-filter"
+              className="block text-sm font-medium text-earth-brown mb-2"
+            >
+              Sort By
+            </label>
+            <select
+              id="sort-filter"
+              value={selectedSort}
+              onChange={(e) => {
+                setSelectedSort(e.target.value)
+                handleFilterChange('sort', e.target.value)
+              }}
+              className="w-full px-4 py-2 border border-earth-sand rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
+              aria-label="Sort results"
+            >
+              {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
         )}
 
