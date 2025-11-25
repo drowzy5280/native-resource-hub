@@ -33,10 +33,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
-      </head>
       <body className={`${inter.className} bg-earth-cream`}>
+        <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
         <nav className="bg-white shadow-sm border-b border-earth-sand/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
