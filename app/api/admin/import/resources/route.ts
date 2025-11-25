@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     let failed = 0
     const errors: string[] = []
 
-    for (const record of records) {
+    for (const record of records as any[]) {
       try {
         // Required fields
         if (!record.type || !record.title || !record.description) {
