@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { formatDeadline, formatDate } from '@/lib/formatting'
 import { Metadata } from 'next'
 import { ScholarshipSchema, BreadcrumbSchema } from '@/components/StructuredData'
+import { Breadcrumb } from '@/components/Breadcrumb'
 
 export async function generateMetadata({
   params,
@@ -108,6 +109,16 @@ export default async function ScholarshipDetailPage({
           { name: scholarship.name, url: `/scholarships/${params.id}` },
         ]}
       />
+
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Scholarships', href: '/scholarships' },
+          { label: scholarship.name },
+        ]}
+      />
+
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />

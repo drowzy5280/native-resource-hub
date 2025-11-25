@@ -6,6 +6,7 @@ import { MobileNav } from '@/components/MobileNav'
 import { Analytics } from '@vercel/analytics/react'
 import { GoogleAdsense } from '@/components/GoogleAdsense'
 import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData'
+import { ToastProvider } from '@/components/Toast'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -106,9 +107,10 @@ export default function RootLayout({
         <WebSiteSchema />
       </head>
       <body className="font-body bg-cream antialiased">
-        <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
+        <ToastProvider>
+          <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 
-        {/* Header */}
+          {/* Header */}
         <nav className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-desert/20 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
@@ -209,7 +211,8 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
-        <Analytics />
+          <Analytics />
+        </ToastProvider>
       </body>
     </html>
   )
