@@ -36,25 +36,36 @@ export async function POST(request: NextRequest) {
           ? record.languageLinks.split(';').map((l: string) => l.trim()).filter(Boolean)
           : []
 
-        // Create or update tribe
-        await prisma.tribe.upsert({
-          where: { website: record.website || `generated-${Date.now()}-${Math.random()}` },
-          update: {
-            name: record.name,
-            federalRecognitionStatus: record.federalRecognitionStatus || null,
-            region: record.region || null,
-            enrollmentOffice: record.enrollmentOffice || null,
-            languageLinks,
-          },
-          create: {
-            name: record.name,
-            website: record.website || null,
-            federalRecognitionStatus: record.federalRecognitionStatus || null,
-            region: record.region || null,
-            enrollmentOffice: record.enrollmentOffice || null,
-            languageLinks,
-          },
+        // Check if tribe already exists by name
+        const existingTribe = await prisma.tribe.findFirst({
+          where: { name: record.name },
         })
+
+        if (existingTribe) {
+          // Update existing tribe
+          await prisma.tribe.update({
+            where: { id: existingTribe.id },
+            data: {
+              website: record.website || existingTribe.website,
+              federalRecognitionStatus: record.federalRecognitionStatus || existingTribe.federalRecognitionStatus,
+              region: record.region || existingTribe.region,
+              enrollmentOffice: record.enrollmentOffice || existingTribe.enrollmentOffice,
+              languageLinks: languageLinks.length > 0 ? languageLinks : existingTribe.languageLinks,
+            },
+          })
+        } else {
+          // Create new tribe
+          await prisma.tribe.create({
+            data: {
+              name: record.name,
+              website: record.website || null,
+              federalRecognitionStatus: record.federalRecognitionStatus || null,
+              region: record.region || null,
+              enrollmentOffice: record.enrollmentOffice || null,
+              languageLinks,
+            },
+          })
+        }
 
         imported++
       } catch (error: any) {
