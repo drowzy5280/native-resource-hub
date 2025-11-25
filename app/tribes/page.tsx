@@ -3,6 +3,8 @@ import { TribeCard } from '@/components/TribeCard'
 import { getCachedTribes } from '@/lib/cache'
 import { prisma } from '@/lib/prisma'
 
+// Force dynamic rendering to avoid build-time database connections
+export const dynamic = 'force-dynamic'
 // Revalidate this page every hour (3600 seconds)
 export const revalidate = 3600
 
@@ -10,18 +12,22 @@ export default async function TribesPage() {
   // Get tribes from cache (revalidates every hour)
   const tribesData = await getCachedTribes()
 
-  // Get program counts separately (not cached)
-  const tribes = await Promise.all(
-    tribesData.map(async (tribe) => {
-      const programCount = await prisma.resource.count({
-        where: { tribeId: tribe.id, deletedAt: null },
-      })
-      return {
-        ...tribe,
-        _count: { programs: programCount },
-      }
-    })
+  // Get all program counts in a single query to avoid connection pool exhaustion
+  const programCounts = await prisma.resource.groupBy({
+    by: ['tribeId'],
+    where: { deletedAt: null, tribeId: { not: null } },
+    _count: { id: true },
+  })
+
+  // Map counts to tribes
+  const countMap = new Map(
+    programCounts.map((pc) => [pc.tribeId, pc._count.id])
   )
+
+  const tribes = tribesData.map((tribe) => ({
+    ...tribe,
+    _count: { programs: countMap.get(tribe.id) || 0 },
+  }))
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
