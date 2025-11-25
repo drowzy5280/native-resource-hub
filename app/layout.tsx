@@ -4,6 +4,7 @@ import './globals.css'
 import Link from 'next/link'
 import { MobileNav } from '@/components/MobileNav'
 import { UserMenu } from '@/components/UserMenu'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -122,6 +123,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   )

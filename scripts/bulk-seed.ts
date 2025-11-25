@@ -73,16 +73,24 @@ async function bulkSeed() {
     },
   ]
 
+  let tribesAdded = 0
   for (const tribe of tribes) {
-    await prisma.tribe.create({
-      data: {
-        ...tribe,
-        federalRecognitionStatus: 'Federally Recognized',
-        languageLinks: [],
-      },
+    const existing = await prisma.tribe.findFirst({
+      where: { website: tribe.website },
     })
+
+    if (!existing) {
+      await prisma.tribe.create({
+        data: {
+          ...tribe,
+          federalRecognitionStatus: 'Federally Recognized',
+          languageLinks: [],
+        },
+      })
+      tribesAdded++
+    }
   }
-  console.log(`✅ Added ${tribes.length} tribes\n`)
+  console.log(`✅ Added ${tribesAdded} tribes (skipped ${tribes.length - tribesAdded} duplicates)\n`)
 
   // ========================================
   // RESOURCES (Add 30 diverse resources)
@@ -249,10 +257,16 @@ async function bulkSeed() {
     },
   ]
 
+  let resourcesAdded = 0
   for (const resource of resources) {
-    await prisma.resource.create({ data: resource as any })
+    const result = await prisma.resource.upsert({
+      where: { url: resource.url },
+      update: {},
+      create: resource as any,
+    })
+    if (result) resourcesAdded++
   }
-  console.log(`✅ Added ${resources.length} resources\n`)
+  console.log(`✅ Added ${resourcesAdded} resources (skipped duplicates)\n`)
 
   // ========================================
   // SCHOLARSHIPS (Add 25 scholarships)
@@ -380,15 +394,19 @@ async function bulkSeed() {
     },
   ]
 
+  let scholarshipsAdded = 0
   for (const scholarship of scholarships) {
-    await prisma.scholarship.create({
-      data: {
+    const result = await prisma.scholarship.upsert({
+      where: { url: scholarship.url },
+      update: {},
+      create: {
         ...scholarship,
         deadline: scholarship.deadline ? new Date(scholarship.deadline) : null,
       },
     })
+    if (result) scholarshipsAdded++
   }
-  console.log(`✅ Added ${scholarships.length} scholarships\n`)
+  console.log(`✅ Added ${scholarshipsAdded} scholarships (skipped duplicates)\n`)
 
   // ========================================
   // Summary
