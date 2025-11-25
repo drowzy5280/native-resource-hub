@@ -119,20 +119,6 @@ export default async function TribeDetailPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {tribe.website && (
-            <div>
-              <h3 className="font-semibold text-earth-brown mb-2">Official Website</h3>
-              <a
-                href={tribe.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-earth-teal hover:underline"
-              >
-                {tribe.website}
-              </a>
-            </div>
-          )}
-
           {tribe.enrollmentOffice && (
             <div>
               <h3 className="font-semibold text-earth-brown mb-2">Enrollment Office</h3>
@@ -142,7 +128,7 @@ export default async function TribeDetailPage({
         </div>
 
         {tribe.languageLinks.length > 0 && (
-          <div>
+          <div className="mb-6">
             <h3 className="font-semibold text-earth-brown mb-2">Language Resources</h3>
             <ul className="space-y-1">
               {tribe.languageLinks.map((link, index) => (
@@ -158,6 +144,20 @@ export default async function TribeDetailPage({
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* Website Button */}
+        {tribe.website && (
+          <div className="mb-6">
+            <a
+              href={tribe.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-earth-teal text-white rounded-earth font-medium hover:bg-earth-teal/90 transition-colors"
+            >
+              View Official Website ↗
+            </a>
           </div>
         )}
       </div>
