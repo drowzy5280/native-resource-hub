@@ -23,7 +23,7 @@ export default async function ScholarshipDetailPage({
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
-        <AdUnit adSlot="2345678902" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
 
       <div className="bg-white rounded-earth-lg p-8 border border-earth-sand/30">
@@ -112,7 +112,7 @@ export default async function ScholarshipDetailPage({
 
       {/* Ad Unit */}
       <div className="mt-8 flex justify-center">
-        <AdUnit adSlot="3456789013" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
     </div>
   )

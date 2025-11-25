@@ -66,7 +66,7 @@ export default async function Home() {
 
       {/* Ad Unit */}
       <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="1234567890" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {/* Recent Resources */}
@@ -96,7 +96,7 @@ export default async function Home() {
 
       {/* Ad Unit */}
       <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="2345678901" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {/* Upcoming Scholarships */}
@@ -125,7 +125,7 @@ export default async function Home() {
 
       {/* Ad Unit */}
       <div className="mb-16 flex justify-center">
-        <AdUnit adSlot="3456789012" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {/* Resource Categories */}

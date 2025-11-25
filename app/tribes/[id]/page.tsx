@@ -27,7 +27,7 @@ export default async function TribeDetailPage({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
-        <AdUnit adSlot="4567890124" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {/* Tribe Header */}
@@ -110,7 +110,7 @@ export default async function TribeDetailPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="5678901235" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
       {tribe.programs.length === 0 && (
