@@ -4,6 +4,77 @@ import { Tag } from '@/components/Tag'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/formatting'
+import { Metadata } from 'next'
+import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string }
+}): Promise<Metadata> {
+  const resource = await prisma.resource.findUnique({
+    where: { id: params.id },
+    include: {
+      tribe: {
+        select: { name: true },
+      },
+    },
+  })
+
+  if (!resource) {
+    return {
+      title: 'Resource Not Found',
+    }
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+  const pageUrl = `${baseUrl}/resources/${params.id}`
+
+  const description = resource.description.length > 160
+    ? `${resource.description.substring(0, 157)}...`
+    : resource.description
+
+  const keywords = [
+    'Native American',
+    'Indigenous',
+    resource.type,
+    ...resource.tags,
+    resource.tribe?.name,
+    resource.state,
+  ].filter((k): k is string => Boolean(k))
+
+  return {
+    title: `${resource.title} | Tribal Resource Hub`,
+    description,
+    keywords,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: resource.title,
+      description,
+      url: pageUrl,
+      siteName: 'Tribal Resource Hub',
+      locale: 'en_US',
+      type: 'article',
+      publishedTime: resource.createdAt.toISOString(),
+      modifiedTime: resource.updatedAt.toISOString(),
+      tags: resource.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: resource.title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  }
+}
 
 export default async function ResourceDetailPage({
   params,
@@ -21,8 +92,25 @@ export default async function ResourceDetailPage({
     notFound()
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+  const pageUrl = `${baseUrl}/resources/${params.id}`
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <ArticleSchema
+        title={resource.title}
+        description={resource.description}
+        datePublished={resource.createdAt.toISOString()}
+        dateModified={resource.updatedAt.toISOString()}
+        url={pageUrl}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Resources', url: '/resources' },
+          { name: resource.title, url: `/resources/${params.id}` },
+        ]}
+      />
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />

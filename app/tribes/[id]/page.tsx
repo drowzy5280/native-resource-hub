@@ -4,6 +4,74 @@ import { ResourceCard } from '@/components/ResourceCard'
 import { Tag } from '@/components/Tag'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
+import { Metadata } from 'next'
+import { BreadcrumbSchema } from '@/components/StructuredData'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string }
+}): Promise<Metadata> {
+  const tribe = await prisma.tribe.findUnique({
+    where: { id: params.id },
+    include: {
+      programs: {
+        select: { id: true },
+      },
+    },
+  })
+
+  if (!tribe) {
+    return {
+      title: 'Tribe Not Found',
+    }
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+  const pageUrl = `${baseUrl}/tribes/${params.id}`
+
+  const programCount = tribe.programs.length
+  const description = `Information about ${tribe.name}${tribe.region ? ` in ${tribe.region}` : ''}. ${programCount} available programs and resources for tribal members.`
+
+  const keywords = [
+    'Native American tribe',
+    'Indigenous tribe',
+    tribe.name,
+    tribe.region,
+    tribe.federalRecognitionStatus,
+    'tribal programs',
+    'tribal services',
+  ].filter((k): k is string => Boolean(k))
+
+  return {
+    title: `${tribe.name} | Tribal Resource Hub`,
+    description,
+    keywords,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: tribe.name,
+      description,
+      url: pageUrl,
+      siteName: 'Tribal Resource Hub',
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tribe.name,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  }
+}
 
 export default async function TribeDetailPage({
   params,
@@ -25,6 +93,13 @@ export default async function TribeDetailPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Tribes', url: '/tribes' },
+          { name: tribe.name, url: `/tribes/${params.id}` },
+        ]}
+      />
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />

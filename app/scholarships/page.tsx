@@ -3,10 +3,41 @@ import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { Pagination } from '@/components/Pagination'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
+import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
 const ITEMS_PER_PAGE = 20
+
+export const metadata: Metadata = {
+  title: 'Native American Scholarships | Tribal Resource Hub',
+  description: 'Find scholarships for Native American and Indigenous students. Browse college funding opportunities, grant programs, and educational financial aid for tribal members.',
+  keywords: [
+    'Native American scholarships',
+    'Indigenous scholarships',
+    'tribal scholarships',
+    'Native American college funding',
+    'Indigenous student aid',
+    'tribal student grants',
+    'Native American education funding',
+  ],
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/scholarships`,
+  },
+  openGraph: {
+    title: 'Native American Scholarships',
+    description: 'Find scholarships for Native American and Indigenous students.',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/scholarships`,
+    siteName: 'Tribal Resource Hub',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Native American Scholarships',
+    description: 'Find scholarships for Native American and Indigenous students.',
+  },
+}
 
 export default async function ScholarshipsPage({
   searchParams,

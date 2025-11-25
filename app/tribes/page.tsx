@@ -3,11 +3,42 @@ import { TribeCard } from '@/components/TribeCard'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { getCachedTribes } from '@/lib/cache'
 import { prisma } from '@/lib/prisma'
+import { Metadata } from 'next'
 
 // Force dynamic rendering to avoid build-time database connections
 export const dynamic = 'force-dynamic'
 // Revalidate this page every hour (3600 seconds)
 export const revalidate = 3600
+
+export const metadata: Metadata = {
+  title: 'Federally Recognized Tribes | Tribal Resource Hub',
+  description: 'Browse federally recognized Native American tribes and their available programs. Find tribal contact information, websites, and resources for tribal members.',
+  keywords: [
+    'Native American tribes',
+    'federally recognized tribes',
+    'Indigenous tribes',
+    'tribal nations',
+    'tribal programs',
+    'tribal contact information',
+    'Native American nations',
+  ],
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/tribes`,
+  },
+  openGraph: {
+    title: 'Federally Recognized Tribes',
+    description: 'Browse federally recognized Native American tribes and their available programs.',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/tribes`,
+    siteName: 'Tribal Resource Hub',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Federally Recognized Tribes',
+    description: 'Browse federally recognized Native American tribes and their available programs.',
+  },
+}
 
 export default async function TribesPage() {
   // Get tribes from cache (revalidates every hour)

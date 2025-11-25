@@ -3,6 +3,77 @@ import { Tag } from '@/components/Tag'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDeadline, formatDate } from '@/lib/formatting'
+import { Metadata } from 'next'
+import { ScholarshipSchema, BreadcrumbSchema } from '@/components/StructuredData'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string }
+}): Promise<Metadata> {
+  const scholarship = await prisma.scholarship.findUnique({
+    where: { id: params.id },
+  })
+
+  if (!scholarship) {
+    return {
+      title: 'Scholarship Not Found',
+    }
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+  const pageUrl = `${baseUrl}/scholarships/${params.id}`
+
+  const description = scholarship.description.length > 160
+    ? `${scholarship.description.substring(0, 157)}...`
+    : scholarship.description
+
+  const amountText = scholarship.amount ? `${scholarship.amount} scholarship` : 'Scholarship'
+  const deadlineText = scholarship.deadline
+    ? ` - Deadline: ${scholarship.deadline.toLocaleDateString()}`
+    : ''
+
+  const keywords = [
+    'Native American scholarship',
+    'Indigenous scholarship',
+    'tribal scholarship',
+    'college funding',
+    ...scholarship.tags,
+    scholarship.amount,
+  ].filter((k): k is string => Boolean(k))
+
+  return {
+    title: `${scholarship.name} | ${amountText} | Tribal Resource Hub`,
+    description: `${description}${deadlineText}`,
+    keywords,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title: scholarship.name,
+      description: `${amountText}. ${description}`,
+      url: pageUrl,
+      siteName: 'Tribal Resource Hub',
+      locale: 'en_US',
+      type: 'article',
+      publishedTime: scholarship.createdAt.toISOString(),
+      modifiedTime: scholarship.updatedAt.toISOString(),
+      tags: scholarship.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: scholarship.name,
+      description: `${amountText}. ${description}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
+  }
+}
 
 export default async function ScholarshipDetailPage({
   params,
@@ -18,9 +89,25 @@ export default async function ScholarshipDetailPage({
   }
 
   const deadlineInfo = scholarship.deadline ? formatDeadline(scholarship.deadline) : null
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+  const pageUrl = `${baseUrl}/scholarships/${params.id}`
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <ScholarshipSchema
+        name={scholarship.name}
+        description={scholarship.description}
+        amount={scholarship.amount}
+        deadline={scholarship.deadline}
+        url={pageUrl}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Scholarships', url: '/scholarships' },
+          { name: scholarship.name, url: `/scholarships/${params.id}` },
+        ]}
+      />
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />

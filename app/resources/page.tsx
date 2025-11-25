@@ -5,10 +5,41 @@ import { Pagination } from '@/components/Pagination'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import type { Prisma } from '@prisma/client'
+import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
 const ITEMS_PER_PAGE = 20
+
+export const metadata: Metadata = {
+  title: 'Browse Resources | Tribal Resource Hub',
+  description: 'Discover federal, state, and tribal programs for Native American communities. Find resources for education, health, housing, business support, and more.',
+  keywords: [
+    'Native American resources',
+    'Indigenous programs',
+    'tribal services',
+    'federal programs',
+    'state programs',
+    'Native American support',
+    'tribal assistance',
+  ],
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/resources`,
+  },
+  openGraph: {
+    title: 'Browse Resources',
+    description: 'Discover federal, state, and tribal programs for Native American communities.',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'}/resources`,
+    siteName: 'Tribal Resource Hub',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Browse Resources',
+    description: 'Discover federal, state, and tribal programs for Native American communities.',
+  },
+}
 
 export default async function ResourcesPage({
   searchParams,
