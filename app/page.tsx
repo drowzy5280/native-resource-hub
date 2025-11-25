@@ -27,42 +27,87 @@ export default async function Home() {
     ])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Hero Section */}
-      <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold text-earth-brown mb-6">
-          Find Resources for Your Community
-        </h1>
-        <p className="text-xl text-earth-brown/70 mb-8 max-w-3xl mx-auto">
-          Access federal programs, state resources, tribal services, and scholarships
-          all in one place.
-        </p>
-        <div className="flex justify-center">
-          <SearchBar />
+    <div>
+      {/* Hero Section with Sunrise Gradient */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-desert/20 via-gold/10 to-cream pattern-circles">
+        <div className="absolute inset-0 bg-gradient-to-r from-clay/5 to-pine/5 opacity-50"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+          <div className="text-center">
+            {/* Circular sun motif */}
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-gold to-clay rounded-full flex items-center justify-center shadow-soft-lg">
+                  <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <div className="absolute inset-0 w-20 h-20 bg-gradient-to-br from-gold to-clay rounded-full animate-ping opacity-20"></div>
+              </div>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-midnight mb-6 leading-tight">
+              Tribal Resource Hub
+            </h1>
+            <p className="text-xl md:text-2xl text-midnight/70 mb-10 max-w-4xl mx-auto leading-relaxed">
+              A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
+            </p>
+
+            {/* Search Bar */}
+            <div className="flex justify-center mb-8">
+              <div className="w-full max-w-2xl">
+                <SearchBar />
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="flex flex-wrap justify-center gap-4 mt-12">
+              <Link
+                href="/resources?tags=emergency"
+                className="px-6 py-3 bg-clay text-white rounded-earth-lg font-medium hover:bg-clay-dark transition-all shadow-soft hover:shadow-soft-lg"
+              >
+                Emergency Resources
+              </Link>
+              <Link
+                href="/scholarships"
+                className="px-6 py-3 bg-pine text-white rounded-earth-lg font-medium hover:bg-pine-dark transition-all shadow-soft hover:shadow-soft-lg"
+              >
+                Scholarships
+              </Link>
+              <Link
+                href="/tribes"
+                className="px-6 py-3 bg-midnight text-white rounded-earth-lg font-medium hover:bg-midnight-light transition-all shadow-soft hover:shadow-soft-lg"
+              >
+                Find Your Tribe
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
-          <div className="text-4xl font-bold text-earth-teal mb-2">
-            {resourceCounts.total}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+            <div className="text-5xl font-heading font-bold text-pine mb-3">
+              {resourceCounts.total}
+            </div>
+            <div className="text-midnight/60 font-medium">Resources Available</div>
           </div>
-          <div className="text-earth-brown/70">Resources Available</div>
-        </div>
-        <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
-          <div className="text-4xl font-bold text-earth-rust mb-2">
-            {scholarshipCounts.total}
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+            <div className="text-5xl font-heading font-bold text-clay mb-3">
+              {scholarshipCounts.total}
+            </div>
+            <div className="text-midnight/60 font-medium">Scholarships</div>
           </div>
-          <div className="text-earth-brown/70">Scholarships</div>
-        </div>
-        <div className="bg-white rounded-earth-lg p-6 text-center border border-earth-sand/30">
-          <div className="text-4xl font-bold text-earth-tan mb-2">
-            {tribeCount}
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+            <div className="text-5xl font-heading font-bold text-gold-dark mb-3">
+              {tribeCount}
+            </div>
+            <div className="text-midnight/60 font-medium">Tribes Listed</div>
           </div>
-          <div className="text-earth-brown/70">Tribes Listed</div>
         </div>
-      </div>
 
       {/* Ad Unit */}
       <div className="mb-16 flex justify-center">

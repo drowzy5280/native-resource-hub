@@ -4,15 +4,68 @@
 
 @layer base {
   html {
-    @apply antialiased;
+    @apply antialiased scroll-smooth;
   }
 
   body {
-    @apply text-earth-brown;
+    @apply text-midnight font-body;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+}
+
+@layer components {
+  /* Circular motif background pattern - subtle cultural element */
+  .pattern-circles {
+    background-image: radial-gradient(circle at 20% 50%, rgba(243, 198, 93, 0.03) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(166, 69, 46, 0.03) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 20%, rgba(46, 79, 51, 0.02) 0%, transparent 50%);
+  }
+
+  /* Sunrise gradient for hero */
+  .gradient-sunrise {
+    background: linear-gradient(135deg,
+      #FAF7F2 0%,
+      #DDBA8E 25%,
+      #F3C65D 50%,
+      #A6452E 75%,
+      #1E2A44 100%
+    );
+  }
+
+  /* Soft shadow for cards */
+  .card-shadow {
+    box-shadow: 0 4px 12px rgba(30, 42, 68, 0.08);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card-shadow:hover {
+    box-shadow: 0 8px 24px rgba(30, 42, 68, 0.12);
   }
 }
 
 @layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
