@@ -8,6 +8,7 @@ import { GoogleAdsense } from '@/components/GoogleAdsense'
 import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData'
 import { ToastProvider } from '@/components/Toast'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
+import { GeometricPattern } from '@/components/Patterns'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -186,8 +187,13 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="bg-midnight text-cream mt-16 sm:mt-20 lg:mt-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <footer className="bg-midnight text-cream mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
+          {/* Decorative pattern overlay */}
+          <div className="absolute inset-0 text-cream opacity-5">
+            <GeometricPattern className="w-full h-full" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
               <div className="sm:col-span-2 md:col-span-1">
                 <div className="flex items-center space-x-3 mb-4">

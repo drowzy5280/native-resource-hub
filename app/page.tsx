@@ -12,6 +12,17 @@ import {
   getCachedTribeCount,
 } from '@/lib/cache'
 import { Metadata } from 'next'
+import { MountainsSilhouette, SunRays, TribalBorder, GeometricPattern } from '@/components/Patterns'
+import {
+  EducationIcon,
+  HealthIcon,
+  HousingIcon,
+  EmergencyIcon,
+  YouthIcon,
+  EldersIcon,
+  BusinessIcon,
+  LanguageIcon,
+} from '@/components/CategoryIcons'
 
 // Revalidate home page every 10 minutes (600 seconds)
 export const revalidate = 600
@@ -35,14 +46,29 @@ export default async function Home() {
     <div>
       {/* Hero Section with Sunrise Gradient */}
       <div className="relative overflow-hidden bg-gradient-to-br from-desert/20 via-gold/10 to-cream pattern-circles">
+        {/* Background mountain silhouette */}
+        <div className="absolute bottom-0 left-0 right-0 text-pine opacity-30">
+          <MountainsSilhouette className="w-full h-48 sm:h-64" />
+        </div>
+
+        {/* Geometric pattern overlay */}
+        <div className="absolute inset-0 text-clay opacity-20">
+          <GeometricPattern className="w-full h-full" />
+        </div>
+
         <div className="absolute inset-0 bg-gradient-to-r from-clay/5 to-pine/5 opacity-50"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
           <div className="text-center">
-            {/* Circular sun motif */}
+            {/* Enhanced sun motif with rays */}
             <div className="flex justify-center mb-6 sm:mb-8">
               <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gold to-clay rounded-full flex items-center justify-center shadow-soft-lg">
+                {/* Sun rays background */}
+                <div className="absolute inset-0 -m-12 text-gold">
+                  <SunRays className="w-32 h-32 sm:w-40 sm:h-40" />
+                </div>
+
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gold to-clay rounded-full flex items-center justify-center shadow-soft-lg">
                   <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
@@ -90,22 +116,45 @@ export default async function Home() {
         </div>
       </div>
 
+      {/* Decorative border */}
+      <div className="text-desert/40">
+        <TribalBorder className="w-full h-10" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+            {/* Decorative corner accent */}
+            <div className="absolute top-0 right-0 w-16 h-16 text-pine/10">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
+              </svg>
+            </div>
             <div className="text-5xl font-heading font-bold text-pine mb-3">
               {resourceCounts.total}
             </div>
             <div className="text-midnight/60 font-medium">Resources Available</div>
           </div>
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+            {/* Decorative corner accent */}
+            <div className="absolute top-0 right-0 w-16 h-16 text-clay/10">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
+              </svg>
+            </div>
             <div className="text-5xl font-heading font-bold text-clay mb-3">
               {scholarshipCounts.total}
             </div>
             <div className="text-midnight/60 font-medium">Scholarships</div>
           </div>
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+            {/* Decorative corner accent */}
+            <div className="absolute top-0 right-0 w-16 h-16 text-gold/10">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
+              </svg>
+            </div>
             <div className="text-5xl font-heading font-bold text-gold-dark mb-3">
               {tribeCount}
             </div>
@@ -185,24 +234,34 @@ export default async function Home() {
         />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { name: 'Education', icon: '📚', href: '/resources?tags=education' },
-            { name: 'Health', icon: '🏥', href: '/resources?tags=health' },
-            { name: 'Housing', icon: '🏠', href: '/resources?tags=housing' },
-            { name: 'Emergency', icon: '🚨', href: '/resources?tags=emergency' },
-            { name: 'Youth', icon: '👶', href: '/resources?tags=youth' },
-            { name: 'Elders', icon: '👵', href: '/resources?tags=elders' },
-            { name: 'Business', icon: '💼', href: '/resources?tags=business' },
-            { name: 'Language', icon: '🗣️', href: '/resources?tags=language' },
-          ].map((category) => (
-            <Link
-              key={category.name}
-              href={category.href}
-              className="bg-white rounded-earth p-6 text-center hover:shadow-lg transition-shadow border border-earth-sand/30"
-            >
-              <div className="text-4xl mb-2">{category.icon}</div>
-              <div className="font-medium text-earth-brown">{category.name}</div>
-            </Link>
-          ))}
+            { name: 'Education', icon: EducationIcon, color: 'text-pine', bgColor: 'bg-pine/5', href: '/resources?tags=education' },
+            { name: 'Health', icon: HealthIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=health' },
+            { name: 'Housing', icon: HousingIcon, color: 'text-midnight', bgColor: 'bg-midnight/5', href: '/resources?tags=housing' },
+            { name: 'Emergency', icon: EmergencyIcon, color: 'text-clay-dark', bgColor: 'bg-clay/5', href: '/resources?tags=emergency' },
+            { name: 'Youth', icon: YouthIcon, color: 'text-gold-dark', bgColor: 'bg-gold/5', href: '/resources?tags=youth' },
+            { name: 'Elders', icon: EldersIcon, color: 'text-pine-dark', bgColor: 'bg-pine/5', href: '/resources?tags=elders' },
+            { name: 'Business', icon: BusinessIcon, color: 'text-midnight-light', bgColor: 'bg-midnight/5', href: '/resources?tags=business' },
+            { name: 'Language', icon: LanguageIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=language' },
+          ].map((category) => {
+            const IconComponent = category.icon
+            return (
+              <Link
+                key={category.name}
+                href={category.href}
+                className="group bg-white rounded-earth p-6 text-center hover:shadow-lg transition-all border border-desert/20 hover:border-clay/30 relative overflow-hidden"
+              >
+                {/* Background accent */}
+                <div className={`absolute inset-0 ${category.bgColor} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
+
+                <div className="relative">
+                  <div className={`flex justify-center mb-3 ${category.color}`}>
+                    <IconComponent className="w-12 h-12 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div className="font-medium text-midnight">{category.name}</div>
+                </div>
+              </Link>
+            )
+          })}
         </div>
         </section>
       </div>
