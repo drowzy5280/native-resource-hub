@@ -14,7 +14,7 @@ export function MobileNav() {
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
-        className="md:hidden p-2 rounded-earth text-midnight hover:bg-desert/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+        className="md:hidden p-2 rounded-earth text-midnight bg-white/90 hover:bg-desert/30 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm border border-desert/30"
         aria-label="Toggle menu"
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
