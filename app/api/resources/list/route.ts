@@ -2,10 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { ResourceTypeEnum, PaginationSchema } from '@/lib/validators'
 import { ZodError } from 'zod'
+import { apiRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await apiRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams
     const type = searchParams.get('type')
@@ -61,6 +72,7 @@ export async function GET(request: NextRequest) {
       }),
     ])
 
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
     return NextResponse.json({
       data: resources,
       pagination: {
@@ -69,7 +81,7 @@ export async function GET(request: NextRequest) {
         total,
         totalPages: Math.ceil(total / pagination.limit),
       },
-    })
+    }, { headers })
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(

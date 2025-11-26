@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { GoogleAdsense } from '@/components/GoogleAdsense'
 import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData'
 import { ToastProvider } from '@/components/Toast'
+import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -93,6 +94,22 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Tribal Resource Hub',
+  },
+  icons: {
+    icon: [
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icon-152.png', sizes: '152x152', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -105,8 +122,17 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
+        <meta name="theme-color" content="#A6452E" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Tribal Hub" />
+        <link rel="apple-touch-icon" href="/icon-152.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
       </head>
       <body className="font-body bg-cream antialiased">
+        <ServiceWorkerRegister />
         <ToastProvider>
           <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 

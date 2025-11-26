@@ -1,12 +1,46 @@
 {
-  "name": "Native Resource Hub",
-  "short_name": "NRH",
-  "description": "Connecting Native communities with resources, scholarships, and tribal programs",
+  "name": "Tribal Resource Hub",
+  "short_name": "Tribal Hub",
+  "description": "A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F5F1E8",
-  "theme_color": "#2C8C99",
+  "background_color": "#FAF7F2",
+  "theme_color": "#A6452E",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["education", "lifestyle", "social"],
   "icons": [
+    {
+      "src": "/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/icon-192.png",
       "sizes": "192x192",
@@ -14,10 +48,30 @@
       "purpose": "any maskable"
     },
     {
+      "src": "/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }

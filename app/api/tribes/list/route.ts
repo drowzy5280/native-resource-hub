@@ -1,7 +1,18 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { apiRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await apiRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
     const tribes = await prisma.tribe.findMany({
       orderBy: {
@@ -14,7 +25,8 @@ export async function GET() {
       },
     })
 
-    return NextResponse.json(tribes)
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(tribes, { headers })
   } catch (error) {
     console.error('Error fetching tribes:', error)
     return NextResponse.json(
