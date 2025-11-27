@@ -242,6 +242,8 @@ export default async function Home() {
             { name: 'Elders', icon: EldersIcon, color: 'text-pine-dark', bgColor: 'bg-pine/5', href: '/resources?tags=elders' },
             { name: 'Business', icon: BusinessIcon, color: 'text-midnight-light', bgColor: 'bg-midnight/5', href: '/resources?tags=business' },
             { name: 'Language', icon: LanguageIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=language' },
+            { name: 'Legal', icon: EducationIcon, color: 'text-pine', bgColor: 'bg-pine/5', href: '/resources?tags=legal' },
+            { name: 'Advocacy', icon: EmergencyIcon, color: 'text-clay-dark', bgColor: 'bg-clay/5', href: '/resources?tags=advocacy' },
           ].map((category) => {
             const IconComponent = category.icon
             return (

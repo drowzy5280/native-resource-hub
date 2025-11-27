@@ -13,16 +13,24 @@ interface FilterBarProps {
 }
 
 const DEFAULT_TAGS = [
+  'Advocacy',
+  'Business',
+  'Cultural Preservation',
   'Education',
+  'Elders',
+  'Emergency',
+  'Employment',
+  'Financial Assistance',
   'Health',
   'Housing',
-  'Business',
-  'Employment',
+  'Language',
   'Legal',
-  'Cultural',
-  'Youth',
-  'Elders',
+  'Mental Health',
+  'Scholarships',
+  'STEM',
+  'Substance Abuse',
   'Veterans',
+  'Youth',
 ]
 
 export function FilterBar({
