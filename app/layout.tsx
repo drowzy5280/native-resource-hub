@@ -163,6 +163,12 @@ export default function RootLayout({
                     Resources
                   </Link>
                   <Link
+                    href="/nonprofits"
+                    className="px-4 py-2 text-midnight hover:text-clay transition-colors font-medium rounded-earth hover:bg-desert/10"
+                  >
+                    Nonprofits
+                  </Link>
+                  <Link
                     href="/tribes"
                     className="px-4 py-2 text-midnight hover:text-clay transition-colors font-medium rounded-earth hover:bg-desert/10"
                   >
@@ -215,6 +221,11 @@ export default function RootLayout({
                   <li>
                     <Link href="/resources" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Browse Resources
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/nonprofits" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                      Nonprofits
                     </Link>
                   </li>
                   <li>

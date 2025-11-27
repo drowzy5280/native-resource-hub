@@ -80,6 +80,13 @@ export function MobileNav() {
               Resources
             </Link>
             <Link
+              href="/nonprofits"
+              onClick={closeMenu}
+              className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"
+            >
+              Nonprofits
+            </Link>
+            <Link
               href="/tribes"
               onClick={closeMenu}
               className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"

@@ -36,7 +36,11 @@
       "WebFetch(domain:opendata-1-bia-geospatial.hub.arcgis.com)",
       "WebFetch(domain:onemap-bia-geospatial.hub.arcgis.com)",
       "Bash(set DATABASE_URL=postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres)",
-      "Bash(vercel domains:*)"
+      "Bash(vercel domains:*)",
+      "Bash(nslookup:*)",
+      "WebFetch(domain:tribalresourcehub.com)",
+      "Bash(tsx scripts/add-comprehensive-data.ts:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []

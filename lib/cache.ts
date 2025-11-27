@@ -162,6 +162,38 @@ export const getCachedTribeById = unstable_cache(
   }
 )
 
+// Cache featured nonprofits for homepage (10 minutes)
+export const getCachedFeaturedNonprofits = unstable_cache(
+  async (limit: number = 6) => {
+    return prisma.resource.findMany({
+      where: {
+        deletedAt: null,
+        OR: [
+          { tags: { has: 'advocacy' } },
+          { tags: { has: 'legal' } },
+          { tags: { has: 'government services' } },
+          { tags: { has: 'tribal affairs' } },
+          { tags: { has: 'cultural preservation' } },
+          { tags: { has: 'community services' } },
+          { tags: { has: 'social services' } },
+        ],
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      include: {
+        tribe: {
+          select: { id: true, name: true },
+        },
+      },
+    })
+  },
+  ['featured-nonprofits'],
+  {
+    revalidate: 600, // 10 minutes
+    tags: ['resources', 'nonprofits', 'featured'],
+  }
+)
+
 /**
  * Helper function to revalidate cache tags
  * Use this after mutations (create, update, delete)

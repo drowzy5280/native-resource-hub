@@ -6,6 +6,7 @@ import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { AdUnit } from '@/components/GoogleAdsense'
 import {
   getCachedFeaturedResources,
+  getCachedFeaturedNonprofits,
   getCachedUpcomingScholarships,
   getCachedResourceCounts,
   getCachedScholarshipCounts,
@@ -33,9 +34,10 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Optimize: Use cached data and run all queries in parallel
-  const [recentResources, upcomingScholarships, resourceCounts, scholarshipCounts, tribeCount] =
+  const [recentResources, featuredNonprofits, upcomingScholarships, resourceCounts, scholarshipCounts, tribeCount] =
     await Promise.all([
       getCachedFeaturedResources(6),
+      getCachedFeaturedNonprofits(6),
       getCachedUpcomingScholarships(4),
       getCachedResourceCounts(),
       getCachedScholarshipCounts(),
@@ -98,6 +100,12 @@ export default async function Home() {
                 className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay text-white rounded-earth-lg font-medium hover:bg-clay-dark transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
               >
                 Emergency Resources
+              </Link>
+              <Link
+                href="/nonprofits"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold-dark text-white rounded-earth-lg font-medium hover:bg-gold transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
+              >
+                Nonprofits
               </Link>
               <Link
                 href="/scholarships"
@@ -187,6 +195,36 @@ export default async function Home() {
               tribe={resource.tribe || undefined}
               state={resource.state}
               url={resource.url}
+            />
+          ))}
+        </div>
+        </section>
+
+        {/* Ad Unit */}
+        <div className="mb-16 flex justify-center">
+          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        </div>
+
+        {/* Featured Nonprofits */}
+        <section className="mb-16">
+        <SectionHeader
+          title="Featured Nonprofit Organizations"
+          description="Organizations serving Native American and Indigenous communities"
+          actionLabel="View All Nonprofits"
+          actionHref="/nonprofits"
+        />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredNonprofits.map((nonprofit) => (
+            <ResourceCard
+              key={nonprofit.id}
+              id={nonprofit.id}
+              title={nonprofit.title}
+              description={nonprofit.description}
+              type={nonprofit.type}
+              tags={nonprofit.tags}
+              tribe={nonprofit.tribe || undefined}
+              state={nonprofit.state}
+              url={nonprofit.url}
             />
           ))}
         </div>
