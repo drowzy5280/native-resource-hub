@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 20
 
 export const metadata: Metadata = {
   title: 'Native American Nonprofits | Tribal Resource Hub',
-  description: 'Discover nonprofit organizations serving Native American and Indigenous communities. Find advocacy groups, legal services, educational programs, and cultural preservation organizations at federal and state levels.',
+  description: 'Connect with 65+ nonprofit organizations dedicated to serving Native American and First Nations communities. Find national advocacy groups (NCAI, NARF), legal services, educational organizations (AISES), health programs, cultural preservation groups, and state-level nonprofits across all 50 states. Free comprehensive directory with contact information and program details.',
   keywords: [
     'Native American nonprofits',
     'Indigenous organizations',
@@ -140,6 +140,20 @@ export default async function NonprofitsPage({
         title="Native American Nonprofit Organizations"
         description={`Connecting you to ${totalCount} nonprofit organizations serving Indigenous communities (page ${currentPage} of ${totalPages})`}
       />
+
+      {/* SEO Info Section */}
+      {currentPage === 1 && (
+        <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
+          <p className="text-midnight/80 leading-relaxed">
+            Connect with <strong>65+ nonprofit organizations</strong> dedicated to serving Native American, Alaska Native, and First Nations communities.
+            Our directory includes <strong>national advocacy groups</strong> (National Congress of American Indians, Native American Rights Fund),
+            <strong>legal services</strong> organizations, <strong>educational nonprofits</strong> (American Indian Science and Engineering Society,
+            National Indian Education Association), <strong>health programs</strong>, <strong>cultural preservation</strong> groups,
+            and <strong>state-level organizations</strong> across all 50 states. Each listing includes program descriptions, eligibility information,
+            and direct contact details to help you access legal aid, scholarships, health services, advocacy support, and community resources.
+          </p>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

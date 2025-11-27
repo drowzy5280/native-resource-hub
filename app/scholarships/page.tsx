@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 20
 
 export const metadata: Metadata = {
   title: 'Native American Scholarships | Tribal Resource Hub',
-  description: 'Find scholarships for Native American and Indigenous students. Browse college funding opportunities, grant programs, and educational financial aid for tribal members.',
+  description: 'Discover scholarships and financial aid for Native American, Alaska Native, and Indigenous students. Browse undergraduate and graduate funding from tribal colleges, STEM programs, medical schools, and tribal-specific scholarships. Track deadlines, amounts ($500-$40,000+), and eligibility requirements for enrolled tribal members and descendants.',
   keywords: [
     'Native American scholarships',
     'Indigenous scholarships',
@@ -135,6 +135,20 @@ export default async function ScholarshipsPage({
         title="Scholarships"
         description={`${totalCount} total scholarships available for Native American students (page ${currentPage} of ${totalPages})`}
       />
+
+      {/* SEO Info Section */}
+      {currentPage === 1 && (
+        <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
+          <p className="text-midnight/80 leading-relaxed">
+            Find scholarships and financial aid specifically for <strong>Native American, Alaska Native, and Indigenous students</strong> pursuing higher education.
+            Our database includes <strong>undergraduate scholarships</strong> for tribal college students, <strong>graduate fellowships</strong> (masters and doctoral programs),
+            <strong>STEM scholarships</strong> (science, technology, engineering, math), <strong>medical and health professional</strong> funding,
+            <strong>tribal-specific programs</strong> (Cherokee, Navajo, Hopi, and more), and <strong>general aid</strong> for enrolled tribal members and descendants.
+            Awards range from $500 to $40,000+ with deadlines throughout the year. Each scholarship listing includes eligibility requirements
+            (tribal enrollment, GPA, field of study), award amounts, application deadlines, and direct links to application portals.
+          </p>
+        </div>
+      )}
 
       {/* Filter/Sort Bar */}
       <FilterBar

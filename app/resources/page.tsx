@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 20
 
 export const metadata: Metadata = {
   title: 'Browse Resources | Tribal Resource Hub',
-  description: 'Discover federal, state, and tribal programs for Native American communities. Find resources for education, health, housing, business support, and more.',
+  description: 'Explore 175+ verified resources for Native American communities including federal programs (IHS, BIA, HUD), state assistance, tribal services, and emergency support. Filter by state, category, or program type to find education, healthcare, housing, employment, and cultural preservation resources.',
   keywords: [
     'Native American resources',
     'Indigenous programs',
@@ -116,6 +116,20 @@ export default async function ResourcesPage({
         title="All Resources"
         description={`${totalCount} total resources (showing ${resources.length} on page ${currentPage} of ${totalPages})`}
       />
+
+      {/* SEO Info Section */}
+      {currentPage === 1 && (
+        <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
+          <p className="text-midnight/80 leading-relaxed">
+            Browse verified resources for Native American, Alaska Native, and Indigenous communities across all 50 states.
+            Our comprehensive database includes <strong>federal programs</strong> (Indian Health Service, Bureau of Indian Affairs, HUD Native American programs),
+            <strong> state assistance</strong> programs, <strong>tribal services</strong>, and <strong>emergency support</strong>.
+            Filter by resource type, state, or category to find education grants, healthcare services, housing assistance,
+            employment programs, legal aid, cultural preservation initiatives, and emergency relief. Each resource includes
+            eligibility requirements, contact information, and direct links to official application sites.
+          </p>
+        </div>
+      )}
 
       {/* Filter Bar */}
       <FilterBar

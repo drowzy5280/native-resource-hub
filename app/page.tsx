@@ -264,6 +264,92 @@ export default async function Home() {
           <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
         </div>
 
+        {/* About Section - SEO Rich Content */}
+        <section className="mb-16">
+          <div className="bg-gradient-to-br from-desert/10 via-cream to-gold/5 rounded-earth-lg p-8 md:p-12 border border-desert/20">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-midnight mb-6 text-center">
+              Your Guide to Native American Resources & Benefits
+            </h2>
+            <div className="max-w-4xl mx-auto space-y-6 text-midnight/80 leading-relaxed">
+              <p className="text-lg md:text-xl text-center mb-8">
+                Whether you're seeking educational opportunities, healthcare services, housing assistance, or cultural preservation programs,
+                the Tribal Resource Hub connects you to verified resources across federal, state, and tribal organizations.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-8 mt-8">
+                <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
+                  <h3 className="text-xl font-heading font-semibold text-pine mb-3">📍 Finding Your Resources</h3>
+                  <p className="text-base">
+                    <strong>New to tribal benefits?</strong> Start by exploring our categories like Education, Health, or Housing.
+                    Use our search to find specific programs, or browse by your state to discover local opportunities.
+                    Every resource includes clear eligibility requirements and direct links to official websites.
+                  </p>
+                </div>
+
+                <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
+                  <h3 className="text-xl font-heading font-semibold text-clay mb-3">🎓 Scholarships & Education</h3>
+                  <p className="text-base">
+                    Access hundreds of scholarships specifically for Native American students pursuing higher education.
+                    From undergraduate programs at tribal colleges to graduate fellowships in STEM fields,
+                    we track deadlines and amounts to help you fund your educational journey.
+                  </p>
+                </div>
+
+                <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
+                  <h3 className="text-xl font-heading font-semibold text-gold-dark mb-3">🏛️ Federal & State Programs</h3>
+                  <p className="text-base">
+                    Navigate complex government programs with ease. We organize federal resources like Indian Health Service,
+                    BIA assistance, and HUD housing programs alongside state-specific benefits. Find programs by type
+                    (federal, state, tribal) or filter by your location.
+                  </p>
+                </div>
+
+                <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
+                  <h3 className="text-xl font-heading font-semibold text-midnight mb-3">🤝 Nonprofit Organizations</h3>
+                  <p className="text-base">
+                    Connect with 65+ nonprofit organizations dedicated to serving Native American communities.
+                    From legal advocacy groups like NARF to educational organizations like AISES,
+                    find specialized support for legal issues, cultural preservation, health services, and more.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-pine/5 rounded-earth p-6 border-l-4 border-pine mt-8">
+                <h3 className="text-xl font-heading font-semibold text-pine mb-3">💡 Who Can Use This Hub?</h3>
+                <ul className="space-y-2 text-base">
+                  <li><strong>Enrolled Tribal Members:</strong> Access federal, state, and tribal-specific resources using your tribal enrollment</li>
+                  <li><strong>Descendants & Family Members:</strong> Many programs serve descendants of enrolled members and immediate family</li>
+                  <li><strong>Students & Youth:</strong> Find scholarships, educational programs, and youth development opportunities</li>
+                  <li><strong>Elders:</strong> Discover nutrition services, healthcare, and senior support programs</li>
+                  <li><strong>Urban Indians:</strong> Connect with urban Indian health centers and community organizations</li>
+                  <li><strong>First-Time Seekers:</strong> Never applied for tribal benefits before? Start here with clear guidance on eligibility and applications</li>
+                </ul>
+              </div>
+
+              <div className="bg-clay/5 rounded-earth p-6 border-l-4 border-clay mt-6">
+                <h3 className="text-xl font-heading font-semibold text-clay mb-3">🔍 How to Get Started</h3>
+                <ol className="space-y-3 text-base list-decimal list-inside">
+                  <li><strong>Search or Browse:</strong> Use our search bar for specific needs, or browse categories like Health, Housing, or Emergency Resources</li>
+                  <li><strong>Filter by Location:</strong> Select your state to find local programs and state-specific benefits</li>
+                  <li><strong>Check Eligibility:</strong> Each resource lists clear eligibility requirements - look for tribal enrollment, income limits, or residency requirements</li>
+                  <li><strong>Visit Official Sites:</strong> Click "Visit Website" to access official application forms and detailed program information</li>
+                  <li><strong>Find Your Tribe:</strong> Don't know your tribal enrollment office? Use our Tribes directory to find contact information</li>
+                </ol>
+              </div>
+
+              <div className="text-center mt-8 p-6 bg-gold/10 rounded-earth border border-gold/30">
+                <p className="text-lg font-medium text-midnight mb-4">
+                  <strong>175+ Resources</strong> | <strong>65+ Nonprofits</strong> | <strong>Multiple Scholarships</strong> | <strong>All 50 States</strong>
+                </p>
+                <p className="text-base text-midnight/70">
+                  From emergency assistance and healthcare to education and cultural preservation,
+                  the Tribal Resource Hub is your starting point for accessing the benefits and support available to Native American and Indigenous communities.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Resource Categories */}
         <section>
         <SectionHeader
