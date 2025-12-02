@@ -7,6 +7,8 @@ import { formatDate } from '@/lib/formatting'
 import { Metadata } from 'next'
 import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { VerificationBadge } from '@/components/VerificationBadge'
+import { ReportOutdatedButton } from '@/components/ReportOutdatedButton'
 
 export async function generateMetadata({
   params,
@@ -137,6 +139,19 @@ export default async function ResourceDetailPage({
           <h1 className="text-4xl font-bold text-earth-brown dark:text-cream mb-4">
             {resource.title}
           </h1>
+
+          {/* Verification Status and Report Button */}
+          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-desert/20">
+            <VerificationBadge
+              lastVerified={resource.lastVerified}
+              verifiedBy={resource.verifiedBy}
+            />
+            <ReportOutdatedButton
+              resourceId={resource.id}
+              resourceTitle={resource.title}
+              compact
+            />
+          </div>
         </div>
 
         {/* Description */}
