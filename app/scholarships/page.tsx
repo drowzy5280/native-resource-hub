@@ -204,7 +204,7 @@ export default async function ScholarshipsPage({
       {/* SEO Info Section */}
       {currentPage === 1 && (
         <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
-          <p className="text-midnight/80 leading-relaxed">
+          <p className="text-gray-800 leading-relaxed">
             Find scholarships and financial aid specifically for <strong>Native American, Alaska Native, and Indigenous students</strong> pursuing higher education.
             Our database includes <strong>undergraduate scholarships</strong> for tribal college students, <strong>graduate fellowships</strong> (masters and doctoral programs),
             <strong>STEM scholarships</strong> (science, technology, engineering, math), <strong>medical and health professional</strong> funding,

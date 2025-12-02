@@ -259,10 +259,10 @@ export default async function Home() {
         {/* About Section - SEO Rich Content */}
         <section className="mb-16">
           <div className="bg-gradient-to-br from-desert/10 via-cream to-gold/5 rounded-earth-lg p-8 md:p-12 border border-desert/20">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-midnight mb-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6 text-center">
               Your Guide to Native American Resources & Benefits
             </h2>
-            <div className="max-w-4xl mx-auto space-y-6 text-midnight/80 leading-relaxed">
+            <div className="max-w-4xl mx-auto space-y-6 text-gray-800 leading-relaxed">
               <p className="text-lg md:text-xl text-center mb-8">
                 Whether you're seeking educational opportunities, healthcare services, housing assistance, or cultural preservation programs,
                 the Tribal Resource Hub connects you to verified resources across federal, state, and tribal organizations.
@@ -297,7 +297,7 @@ export default async function Home() {
                 </div>
 
                 <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
-                  <h3 className="text-xl font-heading font-semibold text-midnight mb-3">🤝 Nonprofit Organizations</h3>
+                  <h3 className="text-xl font-heading font-semibold text-gray-900 mb-3">🤝 Nonprofit Organizations</h3>
                   <p className="text-base">
                     Connect with 65+ nonprofit organizations dedicated to serving Native American communities.
                     From legal advocacy groups like NARF to educational organizations like AISES,
@@ -330,10 +330,10 @@ export default async function Home() {
               </div>
 
               <div className="text-center mt-8 p-6 bg-gold/10 rounded-earth border border-gold/30">
-                <p className="text-lg font-medium text-midnight mb-4">
+                <p className="text-lg font-medium text-gray-900 mb-4">
                   <strong>175+ Resources</strong> | <strong>65+ Nonprofits</strong> | <strong>Multiple Scholarships</strong> | <strong>All 50 States</strong>
                 </p>
-                <p className="text-base text-midnight/70">
+                <p className="text-base text-gray-700">
                   From emergency assistance and healthcare to education and cultural preservation,
                   the Tribal Resource Hub is your starting point for accessing the benefits and support available to Native American and Indigenous communities.
                 </p>
@@ -352,11 +352,11 @@ export default async function Home() {
           {[
             { name: 'Education', icon: EducationIcon, color: 'text-pine', bgColor: 'bg-pine/5', href: '/resources?tags=education' },
             { name: 'Health', icon: HealthIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=health' },
-            { name: 'Housing', icon: HousingIcon, color: 'text-midnight', bgColor: 'bg-midnight/5', href: '/resources?tags=housing' },
+            { name: 'Housing', icon: HousingIcon, color: 'text-stone-dark', bgColor: 'bg-stone/5', href: '/resources?tags=housing' },
             { name: 'Emergency', icon: EmergencyIcon, color: 'text-clay-dark', bgColor: 'bg-clay/5', href: '/resources?tags=emergency' },
             { name: 'Youth', icon: YouthIcon, color: 'text-gold-dark', bgColor: 'bg-gold/5', href: '/resources?tags=youth' },
             { name: 'Elders', icon: EldersIcon, color: 'text-pine-dark', bgColor: 'bg-pine/5', href: '/resources?tags=elders' },
-            { name: 'Business', icon: BusinessIcon, color: 'text-midnight-light', bgColor: 'bg-midnight/5', href: '/resources?tags=business' },
+            { name: 'Business', icon: BusinessIcon, color: 'text-stone', bgColor: 'bg-stone/5', href: '/resources?tags=business' },
             { name: 'Language', icon: LanguageIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=language' },
             { name: 'Legal', icon: EducationIcon, color: 'text-pine', bgColor: 'bg-pine/5', href: '/resources?tags=legal' },
             { name: 'Advocacy', icon: EmergencyIcon, color: 'text-clay-dark', bgColor: 'bg-clay/5', href: '/resources?tags=advocacy' },
@@ -375,7 +375,7 @@ export default async function Home() {
                   <div className={`flex justify-center mb-3 ${category.color}`}>
                     <IconComponent className="w-12 h-12 group-hover:scale-110 transition-transform" />
                   </div>
-                  <div className="font-medium text-midnight">{category.name}</div>
+                  <div className="font-medium text-gray-900">{category.name}</div>
                 </div>
               </Link>
             )
