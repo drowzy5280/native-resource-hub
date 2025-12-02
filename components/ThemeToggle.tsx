@@ -1,22 +1,40 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useTheme } from './ThemeProvider'
+import dynamic from 'next/dynamic'
 
-export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
+// Inner component that uses the theme context
+function ThemeToggleInner() {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [mounted, setMounted] = useState(false)
 
-  // Wait until mounted to avoid hydration mismatch
   useEffect(() => {
     setMounted(true)
+    // Get theme from localStorage or system preference
+    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null
+    if (stored) {
+      setTheme(stored)
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      setTheme(prefersDark ? 'dark' : 'light')
+    }
   }, [])
 
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+    localStorage.setItem('theme', newTheme)
+
+    // Update document class
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }
+
   if (!mounted) {
-    // Return placeholder during SSR to avoid hydration mismatch
-    return (
-      <div className="p-2 w-9 h-9" aria-hidden="true" />
-    )
+    return <div className="p-2 w-9 h-9" aria-hidden="true" />
   }
 
   return (
@@ -60,3 +78,9 @@ export function ThemeToggle() {
     </button>
   )
 }
+
+// Export as dynamic component to avoid SSR issues
+export const ThemeToggle = dynamic(() => Promise.resolve(ThemeToggleInner), {
+  ssr: false,
+  loading: () => <div className="p-2 w-9 h-9" aria-hidden="true" />,
+})
