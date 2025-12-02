@@ -119,3 +119,117 @@
     }
   }
 }
+
+/* Print Styles */
+@media print {
+  @page {
+    margin: 1cm;
+    size: letter;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  .print\:hidden,
+  button:not(.print\:block),
+  [role="complementary"],
+  aside,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Show main content */
+  main {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Card styles for print */
+  .card,
+  [class*="card"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: black !important;
+  }
+
+  /* Links */
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-style: italic;
+  }
+
+  /* Remove link URLs for internal links */
+  a[href^="/"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* Table styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  /* Scholarship/Resource cards */
+  .scholarship-card,
+  .resource-card {
+    border: 1px solid #333 !important;
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Print header */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: 1rem;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-after: always;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .no-page-break {
+    page-break-inside: avoid;
+  }
+}

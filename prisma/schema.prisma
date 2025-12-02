@@ -11,16 +11,19 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  role         UserRole @default(user)
-  tribeId      String?
-  state        String?
-  birthYear    Int?
-  tags         String[] @default([])
-  saved        SavedResource[]
-  createdAt    DateTime @default(now())
-  deletedAt    DateTime?
+  id                     String                   @id @default(uuid())
+  email                  String                   @unique
+  role                   UserRole                 @default(user)
+  tribeId                String?
+  state                  String?
+  birthYear              Int?
+  tags                   String[]                 @default([])
+  saved                  SavedResource[]
+  applications           ScholarshipApplication[]
+  resourceReviews        ResourceReview[]
+  scholarshipReviews     ScholarshipReview[]
+  createdAt              DateTime                 @default(now())
+  deletedAt              DateTime?
 
   @@index([email])
 }
@@ -43,21 +46,24 @@ model Tribe {
 }
 
 model Resource {
-  id          String         @id @default(uuid())
-  type        ResourceType
-  title       String
-  description String
-  url         String?        @unique
-  eligibility String[]
-  tags        String[]
-  state       String?
-  tribeId     String?
-  tribe       Tribe?         @relation(fields: [tribeId], references: [id])
-  saved       SavedResource[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  deletedAt   DateTime?
-  source      String?
+  id            String           @id @default(uuid())
+  type          ResourceType
+  title         String
+  description   String
+  url           String?          @unique
+  eligibility   String[]
+  tags          String[]
+  state         String?
+  tribeId       String?
+  tribe         Tribe?           @relation(fields: [tribeId], references: [id])
+  saved         SavedResource[]
+  reviews       ResourceReview[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  deletedAt     DateTime?
+  source        String?
+  lastVerified  DateTime?
+  verifiedBy    String?
 
   @@index([state])
   @@index([tribeId])
@@ -65,26 +71,32 @@ model Resource {
   @@index([createdAt])
   @@index([deletedAt])
   @@index([type, state, deletedAt])
+  @@index([lastVerified])
 }
 
 model Scholarship {
-  id          String    @id @default(uuid())
-  name        String
-  amount      String?
-  deadline    DateTime?
-  description String
-  tags        String[]
-  eligibility String[]
-  url         String?   @unique
-  source      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
+  id            String                   @id @default(uuid())
+  name          String
+  amount        String?
+  deadline      DateTime?
+  description   String
+  tags          String[]
+  eligibility   String[]
+  url           String?                  @unique
+  source        String?
+  applications  ScholarshipApplication[]
+  reviews       ScholarshipReview[]
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+  deletedAt     DateTime?
+  lastVerified  DateTime?
+  verifiedBy    String?
 
   @@index([deadline])
   @@index([createdAt])
   @@index([deletedAt])
   @@index([deadline, deletedAt])
+  @@index([lastVerified])
 }
 
 model SavedResource {
@@ -109,6 +121,62 @@ model ChangeLog {
   createdAt      DateTime @default(now())
 }
 
+model ScholarshipApplication {
+  id              String              @id @default(uuid())
+  userId          String
+  scholarshipId   String
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scholarship     Scholarship         @relation(fields: [scholarshipId], references: [id], onDelete: Cascade)
+  status          ApplicationStatus   @default(interested)
+  applicationDate DateTime?
+  notes           String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@unique([userId, scholarshipId])
+  @@index([userId])
+  @@index([scholarshipId])
+  @@index([status])
+}
+
+model ResourceReview {
+  id          String   @id @default(uuid())
+  userId      String
+  resourceId  String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  rating      Int      // 1-5 stars
+  comment     String?
+  helpful     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, resourceId])
+  @@index([resourceId])
+  @@index([rating])
+  @@index([createdAt])
+}
+
+model ScholarshipReview {
+  id             String      @id @default(uuid())
+  userId         String
+  scholarshipId  String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scholarship    Scholarship @relation(fields: [scholarshipId], references: [id], onDelete: Cascade)
+  rating         Int         // 1-5 stars
+  comment        String?
+  wasAwarded     Boolean?
+  helpful        Boolean     @default(true)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([userId, scholarshipId])
+  @@index([scholarshipId])
+  @@index([rating])
+  @@index([wasAwarded])
+  @@index([createdAt])
+}
+
 enum ResourceType {
   federal
   state
@@ -120,4 +188,14 @@ enum ResourceType {
 enum UserRole {
   user
   admin
+}
+
+enum ApplicationStatus {
+  interested
+  researching
+  preparing
+  submitted
+  accepted
+  rejected
+  withdrawn
 }
