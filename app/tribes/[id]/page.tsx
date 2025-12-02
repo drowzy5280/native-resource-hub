@@ -118,8 +118,8 @@ export default async function TribeDetailPage({
       </div>
 
       {/* Tribe Header */}
-      <div className="bg-white rounded-earth-lg p-8 mb-8 border border-earth-sand/30">
-        <h1 className="text-4xl font-bold text-earth-brown mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-earth-lg p-8 mb-8 border border-earth-sand/30 dark:border-white/30">
+        <h1 className="text-4xl font-bold text-earth-brown dark:text-cream mb-4">
           {tribe.name}
         </h1>
 
@@ -133,15 +133,15 @@ export default async function TribeDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {tribe.enrollmentOffice && (
             <div>
-              <h3 className="font-semibold text-earth-brown mb-2">Enrollment Office</h3>
-              <p className="text-earth-brown/80">{tribe.enrollmentOffice}</p>
+              <h3 className="font-semibold text-earth-brown dark:text-cream mb-2">Enrollment Office</h3>
+              <p className="text-earth-brown/80 dark:text-cream/80">{tribe.enrollmentOffice}</p>
             </div>
           )}
         </div>
 
         {tribe.languageLinks.length > 0 && (
           <div className="mb-6">
-            <h3 className="font-semibold text-earth-brown mb-2">Language Resources</h3>
+            <h3 className="font-semibold text-earth-brown dark:text-cream mb-2">Language Resources</h3>
             <ul className="space-y-1">
               {tribe.languageLinks.map((link, index) => (
                 <li key={index}>
@@ -149,7 +149,7 @@ export default async function TribeDetailPage({
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-earth-teal hover:underline"
+                    className="text-earth-teal dark:text-gold hover:underline"
                   >
                     {link}
                   </a>
@@ -166,7 +166,7 @@ export default async function TribeDetailPage({
               href={tribe.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-earth-teal text-white rounded-earth font-medium hover:bg-earth-teal/90 transition-colors"
+              className="inline-block px-6 py-3 bg-earth-teal dark:bg-gold text-white rounded-earth font-medium hover:bg-earth-teal/90 dark:hover:bg-gold/90 transition-colors"
             >
               View Official Website ↗
             </a>
@@ -201,8 +201,8 @@ export default async function TribeDetailPage({
       </div>
 
       {tribe.programs.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-earth-lg">
-          <p className="text-earth-brown/60 text-lg">
+        <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-earth-lg">
+          <p className="text-earth-brown/60 dark:text-cream/60 text-lg">
             No programs currently listed for this tribe.
           </p>
         </div>
