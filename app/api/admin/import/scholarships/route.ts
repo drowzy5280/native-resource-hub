@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
 import { parse } from 'csv-parse/sync'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { requireAdmin } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
+    // Require admin authentication
+    await requireAdmin(request)
+
     const csvContent = await request.text()
 
     // Parse CSV with relaxed column count to handle commas in fields
@@ -76,11 +78,15 @@ export async function POST(request: NextRequest) {
       errors: errors.length > 0 ? errors.slice(0, 10) : undefined,
     })
   } catch (error: any) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof Error && error.message.includes('Forbidden')) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+    }
     return NextResponse.json(
       { error: `Import failed: ${error.message}` },
       { status: 500 }
     )
-  } finally {
-    await prisma.$disconnect()
   }
 }

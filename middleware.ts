@@ -1,17 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { rateLimit } from './lib/rate-limit'
-
-// Rate limiters for different route types
-const apiRateLimit = rateLimit({
-  maxRequests: 60,
-  windowMs: 60000, // 1 minute
-})
-
-const adminRateLimit = rateLimit({
-  maxRequests: 30,
-  windowMs: 60000, // 1 minute
-})
+import { apiRateLimiter, adminRateLimiter, addRateLimitHeaders } from './lib/rateLimit'
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -20,19 +9,25 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith('/api/')) {
     // More strict rate limiting for admin routes
     if (pathname.startsWith('/api/admin/')) {
-      if (!adminRateLimit(request)) {
-        return NextResponse.json(
+      const result = await adminRateLimiter.check(request)
+      if (!result.success) {
+        const response = NextResponse.json(
           { error: 'Too many requests - Please try again later' },
           { status: 429 }
         )
+        addRateLimitHeaders(response.headers, result)
+        return response
       }
     } else if (!pathname.startsWith('/api/health') && !pathname.startsWith('/api/cron/')) {
       // Standard rate limiting for other API routes (except health checks and cron)
-      if (!apiRateLimit(request)) {
-        return NextResponse.json(
+      const result = await apiRateLimiter.check(request)
+      if (!result.success) {
+        const response = NextResponse.json(
           { error: 'Too many requests - Please try again later' },
           { status: 429 }
         )
+        addRateLimitHeaders(response.headers, result)
+        return response
       }
     }
   }

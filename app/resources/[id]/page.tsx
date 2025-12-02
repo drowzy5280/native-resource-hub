@@ -22,7 +22,7 @@ export async function generateMetadata({
     },
   })
 
-  if (!resource) {
+  if (!resource || resource.deletedAt) {
     return {
       title: 'Resource Not Found',
     }
@@ -89,7 +89,7 @@ export default async function ResourceDetailPage({
     },
   })
 
-  if (!resource) {
+  if (!resource || resource.deletedAt) {
     notFound()
   }
 

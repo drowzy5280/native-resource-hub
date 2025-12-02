@@ -16,7 +16,7 @@ export async function generateMetadata({
     where: { id: params.id },
   })
 
-  if (!scholarship) {
+  if (!scholarship || scholarship.deletedAt) {
     return {
       title: 'Scholarship Not Found',
     }
@@ -85,7 +85,7 @@ export default async function ScholarshipDetailPage({
     where: { id: params.id },
   })
 
-  if (!scholarship) {
+  if (!scholarship || scholarship.deletedAt) {
     notFound()
   }
 

@@ -9,6 +9,7 @@ import { OrganizationSchema, WebSiteSchema } from '@/components/StructuredData'
 import { ToastProvider } from '@/components/Toast'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { GeometricPattern } from '@/components/Patterns'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -200,9 +201,11 @@ export default function RootLayout({
           </div>
         </nav>
 
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <ErrorBoundary>
+          <main className="min-h-screen">
+            {children}
+          </main>
+        </ErrorBoundary>
 
         <footer className="bg-midnight text-cream mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
           {/* Decorative pattern overlay */}

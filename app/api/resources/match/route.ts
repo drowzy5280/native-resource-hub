@@ -10,8 +10,13 @@ export async function GET(request: NextRequest) {
     const state = searchParams.get('state')
     const tags = searchParams.getAll('tags')
 
+    // Pagination parameters
+    const page = parseInt(searchParams.get('page') || '1', 10)
+    const limit = Math.min(parseInt(searchParams.get('limit') || '20', 10), 100)
+    const skip = (page - 1) * limit
+
     const where: any = {
-      AND: [],
+      AND: [{ deletedAt: null }],
     }
 
     if (tribe) {
@@ -35,10 +40,8 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // If no filters, return all resources
-    if (where.AND.length === 0) {
-      delete where.AND
-    }
+    // Get total count for pagination
+    const total = await prisma.resource.count({ where })
 
     const resources = await prisma.resource.findMany({
       where,
@@ -53,9 +56,21 @@ export async function GET(request: NextRequest) {
       orderBy: {
         createdAt: 'desc',
       },
+      take: limit,
+      skip,
     })
 
-    return NextResponse.json(resources)
+    return NextResponse.json({
+      resources,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasNext: page * limit < total,
+        hasPrev: page > 1,
+      },
+    })
   } catch (error) {
     console.error('Error matching resources:', error)
     return NextResponse.json(

@@ -22,7 +22,7 @@ export async function generateMetadata({
     },
   })
 
-  if (!tribe) {
+  if (!tribe || tribe.deletedAt) {
     return {
       title: 'Tribe Not Found',
     }
@@ -83,12 +83,13 @@ export default async function TribeDetailPage({
     where: { id: params.id },
     include: {
       programs: {
+        where: { deletedAt: null },
         orderBy: { createdAt: 'desc' },
       },
     },
   })
 
-  if (!tribe) {
+  if (!tribe || tribe.deletedAt) {
     notFound()
   }
 

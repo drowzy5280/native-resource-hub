@@ -1,11 +1,13 @@
-import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
 import { stringify } from 'csv-stringify/sync'
+import { prisma } from '@/lib/prisma'
+import { requireAdmin } from '@/lib/auth'
 
-const prisma = new PrismaClient()
-
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    await requireAdmin(request)
+
     const resources = await prisma.resource.findMany({
       where: { deletedAt: null },
       orderBy: { createdAt: 'desc' },
@@ -36,11 +38,15 @@ export async function GET() {
       },
     })
   } catch (error: any) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof Error && error.message.includes('Forbidden')) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+    }
     return NextResponse.json(
       { error: `Export failed: ${error.message}` },
       { status: 500 }
     )
-  } finally {
-    await prisma.$disconnect()
   }
 }
