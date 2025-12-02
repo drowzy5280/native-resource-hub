@@ -6,6 +6,11 @@ interface EmptyStateProps {
   description: string
   actionLabel?: string
   actionHref?: string
+  suggestions?: string[]
+  secondaryAction?: {
+    label: string
+    href: string
+  }
 }
 
 export function EmptyState({
@@ -14,20 +19,54 @@ export function EmptyState({
   description,
   actionLabel,
   actionHref,
+  suggestions = [],
+  secondaryAction,
 }: EmptyStateProps) {
   return (
     <div className="text-center py-12 px-4">
       <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold text-earth-brown mb-2">{title}</h3>
-      <p className="text-earth-brown/70 mb-6 max-w-md mx-auto">{description}</p>
-      {actionLabel && actionHref && (
-        <Link
-          href={actionHref}
-          className="inline-block px-6 py-3 bg-earth-teal text-white rounded-earth hover:bg-earth-teal/90 transition-colors"
-        >
-          {actionLabel}
-        </Link>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+      <p className="text-gray-600 mb-6 max-w-md mx-auto">{description}</p>
+
+      {suggestions.length > 0 && (
+        <div className="bg-desert/10 rounded-earth-lg p-6 mb-6 max-w-lg mx-auto text-left">
+          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Try these suggestions:
+          </h4>
+          <ul className="space-y-2 text-gray-700 text-sm">
+            {suggestions.map((suggestion, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <svg className="w-5 h-5 text-pine flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+                <span>{suggestion}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
+
+      <div className="flex flex-wrap gap-4 justify-center">
+        {actionLabel && actionHref && (
+          <Link
+            href={actionHref}
+            className="inline-block px-6 py-3 bg-clay text-white rounded-earth-lg hover:bg-clay-dark transition-colors shadow-soft hover:shadow-soft-lg"
+          >
+            {actionLabel}
+          </Link>
+        )}
+        {secondaryAction && (
+          <Link
+            href={secondaryAction.href}
+            className="inline-block px-6 py-3 bg-white text-clay border-2 border-clay rounded-earth-lg hover:bg-clay/5 transition-colors"
+          >
+            {secondaryAction.label}
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
@@ -37,9 +76,19 @@ export function NoResourcesFound() {
     <EmptyState
       icon="🔍"
       title="No Resources Found"
-      description="We couldn't find any resources matching your criteria. Try adjusting your filters or check back later."
+      description="We couldn't find any resources matching your criteria. Try adjusting your filters or broadening your search."
+      suggestions={[
+        'Remove or adjust state filters to see more results',
+        'Try different categories or resource types',
+        'Use broader search terms',
+        'Check back later for new resources',
+      ]}
       actionLabel="View All Resources"
       actionHref="/resources"
+      secondaryAction={{
+        label: 'Browse Nonprofits',
+        href: '/nonprofits',
+      }}
     />
   )
 }
@@ -50,8 +99,18 @@ export function NoScholarshipsFound() {
       icon="🎓"
       title="No Scholarships Found"
       description="There are no scholarships matching your search. Check back soon for new opportunities."
+      suggestions={[
+        'Adjust your filters to see more scholarships',
+        'Browse scholarships by state or category',
+        'Check back regularly - new scholarships are added often',
+        'Look for alternative funding in our Resources section',
+      ]}
       actionLabel="View All Scholarships"
       actionHref="/scholarships"
+      secondaryAction={{
+        label: 'Browse Resources',
+        href: '/resources?tags=education',
+      }}
     />
   )
 }
@@ -62,8 +121,17 @@ export function NoTribesFound() {
       icon="🏛️"
       title="No Tribes Found"
       description="We couldn't find any tribes matching your search."
+      suggestions={[
+        'Try searching by state or region',
+        'Check your spelling - try alternative tribe names',
+        'Browse all tribes to find your nation',
+      ]}
       actionLabel="View All Tribes"
       actionHref="/tribes"
+      secondaryAction={{
+        label: 'Browse Resources',
+        href: '/resources',
+      }}
     />
   )
 }

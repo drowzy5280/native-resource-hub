@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { useDebounce } from '@/hooks/useDebounce'
 
 interface FilterBarProps {
   showTypeFilter?: boolean
@@ -50,6 +51,9 @@ export function FilterBar({
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [showTagsDropdown, setShowTagsDropdown] = useState(false)
 
+  // Debounce the state input to avoid excessive navigation
+  const debouncedState = useDebounce(selectedState, 500)
+
   useEffect(() => {
     const tagsParam = searchParams.get('tags')
     if (tagsParam) {
@@ -58,6 +62,14 @@ export function FilterBar({
       setSelectedTags([])
     }
   }, [searchParams])
+
+  // Update URL when debounced state changes
+  useEffect(() => {
+    const currentState = searchParams.get('state') || ''
+    if (debouncedState !== currentState) {
+      handleFilterChange('state', debouncedState)
+    }
+  }, [debouncedState])
 
   const handleFilterChange = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams)
@@ -142,10 +154,7 @@ export function FilterBar({
               id="state-filter"
               placeholder="e.g., AZ, CA, NM"
               value={selectedState}
-              onChange={(e) => {
-                setSelectedState(e.target.value)
-                handleFilterChange('state', e.target.value)
-              }}
+              onChange={(e) => setSelectedState(e.target.value)}
               className="w-full px-4 py-2 border border-earth-sand rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
               aria-label="Filter by state"
             />

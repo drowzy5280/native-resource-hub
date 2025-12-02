@@ -8,6 +8,7 @@ import {
   getCachedFeaturedResources,
   getCachedFeaturedNonprofits,
   getCachedUpcomingScholarships,
+  getCachedClosingSoonScholarships,
   getCachedResourceCounts,
   getCachedScholarshipCounts,
   getCachedTribeCount,
@@ -34,11 +35,12 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Optimize: Use cached data and run all queries in parallel
-  const [recentResources, featuredNonprofits, upcomingScholarships, resourceCounts, scholarshipCounts, tribeCount] =
+  const [recentResources, featuredNonprofits, upcomingScholarships, closingSoonScholarships, resourceCounts, scholarshipCounts, tribeCount] =
     await Promise.all([
       getCachedFeaturedResources(6),
       getCachedFeaturedNonprofits(6),
       getCachedUpcomingScholarships(4),
+      getCachedClosingSoonScholarships(6),
       getCachedResourceCounts(),
       getCachedScholarshipCounts(),
       getCachedTribeCount(),
@@ -161,6 +163,142 @@ export default async function Home() {
             <div className="text-gray-700 font-medium">Tribes Listed</div>
           </div>
         </div>
+
+        {/* Quick State Filters */}
+        <section className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold text-gray-900 mb-3">
+              Find Resources by State
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Quick access to resources in states with large Indigenous communities
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+            {[
+              { state: 'OK', name: 'Oklahoma', color: 'bg-clay/10 hover:bg-clay/20 border-clay/30' },
+              { state: 'CA', name: 'California', color: 'bg-pine/10 hover:bg-pine/20 border-pine/30' },
+              { state: 'AZ', name: 'Arizona', color: 'bg-gold/10 hover:bg-gold/20 border-gold/30' },
+              { state: 'NM', name: 'New Mexico', color: 'bg-clay/10 hover:bg-clay/20 border-clay/30' },
+              { state: 'TX', name: 'Texas', color: 'bg-pine/10 hover:bg-pine/20 border-pine/30' },
+              { state: 'NC', name: 'North Carolina', color: 'bg-gold/10 hover:bg-gold/20 border-gold/30' },
+              { state: 'AK', name: 'Alaska', color: 'bg-clay/10 hover:bg-clay/20 border-clay/30' },
+              { state: 'WA', name: 'Washington', color: 'bg-pine/10 hover:bg-pine/20 border-pine/30' },
+            ].map((item) => (
+              <Link
+                key={item.state}
+                href={`/resources?state=${item.state}`}
+                className={`group ${item.color} border-2 rounded-earth-lg p-6 text-center hover:shadow-soft transition-all`}
+              >
+                <div className="text-3xl font-heading font-bold text-gray-900 mb-2">
+                  {item.state}
+                </div>
+                <div className="text-sm text-gray-700 font-medium">{item.name}</div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/resources"
+              className="inline-flex items-center gap-2 text-clay hover:text-clay-dark font-medium transition-colors"
+            >
+              View all states
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        </section>
+
+        {/* Closing Soon Scholarships Widget */}
+        {closingSoonScholarships.length > 0 && (
+          <section className="mb-16">
+            <div className="bg-gradient-to-br from-clay/10 via-gold/5 to-clay/5 rounded-earth-lg p-8 border-2 border-clay/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-clay rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+                    ⏰ Closing Soon!
+                  </h2>
+                  <p className="text-gray-600 mt-1">
+                    Apply now - these scholarships close within the next 30 days
+                  </p>
+                </div>
+                <Link
+                  href="/scholarships"
+                  className="hidden sm:inline-flex items-center gap-2 text-clay hover:text-clay-dark font-medium transition-colors"
+                >
+                  View all
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {closingSoonScholarships.map((scholarship) => {
+                  const daysUntilDeadline = scholarship.deadline
+                    ? Math.ceil((new Date(scholarship.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+                    : null
+
+                  return (
+                    <Link
+                      key={scholarship.id}
+                      href={`/scholarships/${scholarship.id}`}
+                      className="group bg-white rounded-earth-lg p-5 border-2 border-desert/20 hover:border-clay/40 hover:shadow-soft transition-all"
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <h3 className="font-heading font-bold text-gray-900 group-hover:text-clay transition-colors line-clamp-2 flex-1">
+                          {scholarship.name}
+                        </h3>
+                        {daysUntilDeadline !== null && (
+                          <span className={`flex-shrink-0 px-2 py-1 text-xs font-bold rounded-earth ${
+                            daysUntilDeadline <= 7
+                              ? 'bg-clay text-white'
+                              : daysUntilDeadline <= 14
+                              ? 'bg-gold text-gray-900'
+                              : 'bg-pine/20 text-pine-dark'
+                          }`}>
+                            {daysUntilDeadline}d
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                        {scholarship.description}
+                      </p>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-semibold text-gold-dark">
+                          {scholarship.amount}
+                        </span>
+                        {scholarship.deadline && (
+                          <span className="text-gray-500">
+                            {new Date(scholarship.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+
+              <div className="text-center mt-6 sm:hidden">
+                <Link
+                  href="/scholarships"
+                  className="inline-flex items-center gap-2 text-clay hover:text-clay-dark font-medium transition-colors"
+                >
+                  View all scholarships
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Ad Unit */}
         <div className="mb-16 flex justify-center">

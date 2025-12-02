@@ -148,6 +148,34 @@ export const getCachedUpcomingScholarships = unstable_cache(
   }
 )
 
+// Cache scholarships closing soon (within 30 days) for homepage urgency widget
+export const getCachedClosingSoonScholarships = unstable_cache(
+  async (limit: number = 6) => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const thirtyDaysFromNow = new Date(today)
+    thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30)
+
+    return prisma.scholarship.findMany({
+      where: {
+        deletedAt: null,
+        deadline: {
+          gte: today,
+          lte: thirtyDaysFromNow,
+        },
+      },
+      orderBy: { deadline: 'asc' },
+      take: limit,
+    })
+  },
+  ['closing-soon-scholarships'],
+  {
+    revalidate: 300, // 5 minutes (more frequent updates for urgency)
+    tags: ['scholarships', 'closing-soon'],
+  }
+)
+
 // Cache single tribe by ID for 30 minutes
 export const getCachedTribeById = unstable_cache(
   async (id: string) => {
