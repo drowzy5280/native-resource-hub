@@ -1,9 +1,23 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useTheme } from './ThemeProvider'
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  // Wait until mounted to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    // Return placeholder during SSR to avoid hydration mismatch
+    return (
+      <div className="p-2 w-9 h-9" aria-hidden="true" />
+    )
+  }
 
   return (
     <button
