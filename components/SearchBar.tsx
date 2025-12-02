@@ -139,7 +139,7 @@ export function SearchBar() {
           onKeyDown={handleKeyDown}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           placeholder="Search for resources, tribes, scholarships..."
-          className="w-full px-4 sm:px-6 py-3 sm:py-4 pr-12 sm:pr-14 text-base sm:text-lg rounded-earth-lg border-2 border-earth-sand focus:border-earth-teal focus:outline-none transition-colors"
+          className="w-full px-4 sm:px-6 py-3 sm:py-4 pr-12 sm:pr-14 text-base sm:text-lg text-gray-900 placeholder:text-gray-600 rounded-earth-lg border-2 border-earth-sand focus:border-earth-teal focus:outline-none transition-colors"
           aria-label="Search for resources, tribes, and scholarships"
           autoComplete="off"
         />
