@@ -1,5 +1,3 @@
-import { formatDistanceToNow } from 'date-fns'
-
 interface VerificationBadgeProps {
   lastVerified?: Date | null
   verifiedBy?: string | null
