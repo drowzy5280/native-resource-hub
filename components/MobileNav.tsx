@@ -15,7 +15,7 @@ export function MobileNav() {
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
-        className="md:hidden p-2 rounded-earth text-midnight bg-white/90 hover:bg-desert/30 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm border border-desert/30"
+        className="md:hidden p-2 rounded-earth text-midnight dark:text-cream bg-white/90 dark:bg-gray-800/90 hover:bg-desert/30 dark:hover:bg-white/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center shadow-sm border border-desert/30 dark:border-white/30"
         aria-label="Toggle menu"
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
@@ -49,14 +49,14 @@ export function MobileNav() {
       {/* Mobile Menu */}
       <nav
         id="mobile-menu"
-        className={`fixed top-0 right-0 h-full w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+        className={`fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="flex flex-col p-6">
           <button
             onClick={closeMenu}
-            className="self-end p-2 rounded-earth text-midnight hover:bg-desert/20 mb-8 min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="self-end p-2 rounded-earth text-midnight dark:text-cream hover:bg-desert/20 dark:hover:bg-white/10 mb-8 min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Close menu"
           >
             <svg
@@ -76,36 +76,36 @@ export function MobileNav() {
             <Link
               href="/resources"
               onClick={closeMenu}
-              className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"
+              className="text-lg text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 dark:hover:bg-white/10 min-h-[44px] flex items-center"
             >
               Resources
             </Link>
             <Link
               href="/nonprofits"
               onClick={closeMenu}
-              className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"
+              className="text-lg text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 dark:hover:bg-white/10 min-h-[44px] flex items-center"
             >
               Nonprofits
             </Link>
             <Link
               href="/tribes"
               onClick={closeMenu}
-              className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"
+              className="text-lg text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 dark:hover:bg-white/10 min-h-[44px] flex items-center"
             >
               Tribes
             </Link>
             <Link
               href="/scholarships"
               onClick={closeMenu}
-              className="text-lg text-midnight hover:text-clay transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 min-h-[44px] flex items-center"
+              className="text-lg text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium py-3 px-2 rounded-earth hover:bg-desert/20 dark:hover:bg-white/10 min-h-[44px] flex items-center"
             >
               Scholarships
             </Link>
 
             {/* Theme Toggle */}
-            <div className="pt-4 mt-4 border-t border-desert/20">
+            <div className="pt-4 mt-4 border-t border-desert/20 dark:border-white/20">
               <div className="flex items-center justify-between py-3 px-2">
-                <span className="text-lg text-midnight font-medium">Theme</span>
+                <span className="text-lg text-midnight dark:text-cream font-medium">Theme</span>
                 <ThemeToggle />
               </div>
             </div>

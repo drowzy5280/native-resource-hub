@@ -1,53 +1,22 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { useTheme } from './ThemeProvider'
 
-// Inner component that uses the theme context
 function ThemeToggleInner() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    // Get theme from localStorage or system preference
-    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null
-    if (stored) {
-      setTheme(stored)
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      setTheme(prefersDark ? 'dark' : 'light')
-    }
-  }, [])
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(newTheme)
-    localStorage.setItem('theme', newTheme)
-
-    // Update document class
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
-
-  if (!mounted) {
-    return <div className="p-2 w-9 h-9" aria-hidden="true" />
-  }
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-earth hover:bg-desert/10 transition-colors"
+      className="p-2 rounded-earth hover:bg-desert/10 dark:hover:bg-white/10 transition-colors"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
       {theme === 'light' ? (
         // Moon icon for dark mode
         <svg
-          className="w-5 h-5 text-midnight"
+          className="w-5 h-5 text-midnight dark:text-cream"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
