@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Work_Sans, Inter } from 'next/font/google'
 import './globals.css'
 import Link from 'next/link'
@@ -23,6 +23,12 @@ const inter = Inter({
   display: 'swap',
 })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'),
   title: {
@@ -30,11 +36,6 @@ export const metadata: Metadata = {
     template: '%s | Tribal Resource Hub',
   },
   description: 'Discover 175+ verified resources, scholarships, and benefits for Native American and Indigenous communities. Access federal programs, state assistance, tribal services, nonprofit organizations, and educational opportunities across all 50 states. Free comprehensive guide for enrolled tribal members, descendants, students, elders, and first-time benefit seekers.',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
   keywords: [
     'Native American resources',
     'Indigenous resources',

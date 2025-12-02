@@ -2,8 +2,16 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apiRateLimiter, adminRateLimiter, addRateLimitHeaders } from './lib/rateLimit'
 
+// Generate unique request ID
+function generateRequestId(): string {
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // Generate unique request ID for tracing
+  const requestId = generateRequestId()
 
   // Apply rate limiting to API routes
   if (pathname.startsWith('/api/')) {
@@ -38,6 +46,9 @@ export async function middleware(request: NextRequest) {
   response.headers.set('X-Frame-Options', 'DENY')
   response.headers.set('X-XSS-Protection', '1; mode=block')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+
+  // Add request ID for tracing
+  response.headers.set('X-Request-ID', requestId)
 
   return response
 }
