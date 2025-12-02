@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { logger } from '@/lib/logger'
 
 export const dynamic = 'force-dynamic'
 
@@ -72,7 +73,10 @@ export async function GET(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('Error matching resources:', error)
+    logger.error('Error matching resources', error instanceof Error ? error : undefined, {
+      action: 'resources_match',
+      requestId: request.headers.get('x-request-id') || undefined,
+    })
     return NextResponse.json(
       { error: 'Failed to match resources' },
       { status: 500 }
