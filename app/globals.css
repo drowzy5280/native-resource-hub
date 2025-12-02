@@ -8,9 +8,9 @@
     --color-bg-primary: #FAF7F2; /* cream */
     --color-bg-secondary: #FFFFFF;
     --color-bg-tertiary: #F5F1EA;
-    --color-text-primary: #4A4A4A; /* stone dark for readability */
-    --color-text-secondary: #6B6B6B; /* stone */
-    --color-text-tertiary: #8A8A8A; /* stone light */
+    --color-text-primary: #1F2937; /* gray-800 for excellent readability */
+    --color-text-secondary: #374151; /* gray-700 */
+    --color-text-tertiary: #6B7280; /* gray-500 */
     --color-border: #E8CDA7; /* desert */
     --color-accent: #7A9B7E; /* pine - softer accent */
     --color-accent-hover: #5F7D63; /* pine dark */

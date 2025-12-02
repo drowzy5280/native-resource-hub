@@ -45,12 +45,12 @@ export function ResourceCard({
           </div>
           <SaveButton id={id} type="resource" title={title} variant="icon" />
         </div>
-        <h3 className="text-xl font-heading font-semibold text-stone-dark mb-2 group-hover:text-pine transition-colors line-clamp-2">
+        <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-pine transition-colors line-clamp-2">
           {title}
         </h3>
       </div>
 
-      <p className="text-stone mb-5 line-clamp-3 leading-relaxed">
+      <p className="text-gray-700 mb-5 line-clamp-3 leading-relaxed">
         {description}
       </p>
 
@@ -71,7 +71,7 @@ export function ResourceCard({
           <Tag key={tag} label={tag} />
         ))}
         {tags.length > 3 && (
-          <span className="text-xs text-stone-light font-medium">
+          <span className="text-xs text-gray-500 font-medium">
             +{tags.length - 3} more
           </span>
         )}

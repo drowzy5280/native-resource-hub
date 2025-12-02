@@ -97,12 +97,12 @@ export function ScholarshipCard({
             <SaveButton id={id} type="scholarship" title={name} variant="icon" />
           </div>
         </div>
-        <h3 className="text-xl font-heading font-semibold text-stone-dark mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
+        <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
           {name}
         </h3>
       </div>
 
-      <p className="text-stone mb-5 line-clamp-3 leading-relaxed">
+      <p className="text-gray-700 mb-5 line-clamp-3 leading-relaxed">
         {description}
       </p>
 
@@ -112,11 +112,11 @@ export function ScholarshipCard({
             <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <p className="text-sm font-medium text-stone-dark">
+            <p className="text-sm font-medium text-gray-900">
               Deadline: {deadlineInfo.formatted}
             </p>
           </div>
-          <p className="text-xs text-stone ml-6 mb-2">
+          <p className="text-xs text-gray-700 ml-6 mb-2">
             {deadlineInfo.daysUntil} days remaining
           </p>
           {progressInfo && (
@@ -138,7 +138,7 @@ export function ScholarshipCard({
           <Tag key={tag} label={tag} />
         ))}
         {tags.length > 3 && (
-          <span className="text-xs text-stone-light font-medium">
+          <span className="text-xs text-gray-500 font-medium">
             +{tags.length - 3} more
           </span>
         )}

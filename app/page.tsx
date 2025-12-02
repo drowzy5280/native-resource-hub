@@ -71,10 +71,10 @@ export default async function Home() {
               </div>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-stone-dark mb-6 leading-tight px-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-gray-900 mb-6 leading-tight px-2">
               Tribal Resource Hub
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-stone mb-10 max-w-4xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed px-4">
               A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
             </p>
 
@@ -134,7 +134,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-pine mb-3">
               {resourceCounts.total}
             </div>
-            <div className="text-stone font-medium">Resources Available</div>
+            <div className="text-gray-700 font-medium">Resources Available</div>
           </div>
           <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
@@ -146,7 +146,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-clay mb-3">
               {scholarshipCounts.total}
             </div>
-            <div className="text-stone font-medium">Scholarships</div>
+            <div className="text-gray-700 font-medium">Scholarships</div>
           </div>
           <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
@@ -158,7 +158,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-gold-dark mb-3">
               {tribeCount}
             </div>
-            <div className="text-stone font-medium">Tribes Listed</div>
+            <div className="text-gray-700 font-medium">Tribes Listed</div>
           </div>
         </div>
 

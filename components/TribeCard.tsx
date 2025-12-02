@@ -33,7 +33,7 @@ export function TribeCard({
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-heading font-semibold text-stone-dark mb-2 group-hover:text-pine transition-colors line-clamp-2">
+              <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-pine transition-colors line-clamp-2">
                 {name}
               </h3>
             </div>
@@ -43,7 +43,7 @@ export function TribeCard({
 
         <div className="flex flex-wrap gap-2 mb-4">
           {region && (
-            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-desert/20 text-stone-dark border border-desert/40">
+            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-desert/20 text-gray-900 border border-desert/40">
               {region}
             </span>
           )}
@@ -55,7 +55,7 @@ export function TribeCard({
         </div>
 
         {programCount !== undefined && (
-          <div className="flex items-center gap-2 text-sm text-stone">
+          <div className="flex items-center gap-2 text-sm text-gray-700">
             <svg className="w-4 h-4 text-pine" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
