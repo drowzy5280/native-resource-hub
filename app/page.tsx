@@ -46,43 +46,35 @@ export default async function Home() {
 
   return (
     <div>
-      {/* Hero Section with Sunrise Gradient */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-desert/20 via-gold/10 to-cream pattern-circles">
-        {/* Background mountain silhouette */}
-        <div className="absolute bottom-0 left-0 right-0 text-pine opacity-30">
+      {/* Hero Section - Minimal and Clean */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-desert/10 to-cream pattern-circles">
+        {/* Subtle background mountain silhouette */}
+        <div className="absolute bottom-0 left-0 right-0 text-pine opacity-10">
           <MountainsSilhouette className="w-full h-48 sm:h-64" />
         </div>
 
-        {/* Geometric pattern overlay */}
-        <div className="absolute inset-0 text-clay opacity-20">
+        {/* Minimal geometric pattern overlay */}
+        <div className="absolute inset-0 text-pine opacity-[0.03]">
           <GeometricPattern className="w-full h-full" />
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-r from-clay/5 to-pine/5 opacity-50"></div>
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
           <div className="text-center">
-            {/* Enhanced sun motif with rays */}
+            {/* Minimal sun icon */}
             <div className="flex justify-center mb-6 sm:mb-8">
               <div className="relative">
-                {/* Sun rays background */}
-                <div className="absolute inset-0 -m-12 text-gold">
-                  <SunRays className="w-32 h-32 sm:w-40 sm:h-40" />
-                </div>
-
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gold to-clay rounded-full flex items-center justify-center shadow-soft-lg">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center">
                   <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-gold to-clay rounded-full animate-ping opacity-20"></div>
               </div>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-midnight mb-6 leading-tight px-2">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-stone-dark mb-6 leading-tight px-2">
               Tribal Resource Hub
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-midnight/70 mb-10 max-w-4xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-stone mb-10 max-w-4xl mx-auto leading-relaxed px-4">
               A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
             </p>
 
@@ -93,29 +85,29 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* Quick Links - Minimal outlined style */}
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-12 px-4">
               <Link
                 href="/resources?tags=emergency"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay text-white rounded-earth-lg font-medium hover:bg-clay-dark transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay/5 text-clay border-2 border-clay/30 rounded-earth-lg font-medium hover:bg-clay/10 hover:border-clay/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
               >
                 Emergency Resources
               </Link>
               <Link
                 href="/nonprofits"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold-dark text-white rounded-earth-lg font-medium hover:bg-gold transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold/5 text-gold-dark border-2 border-gold/30 rounded-earth-lg font-medium hover:bg-gold/10 hover:border-gold/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
               >
                 Nonprofits
               </Link>
               <Link
                 href="/scholarships"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine text-white rounded-earth-lg font-medium hover:bg-pine-dark transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine/5 text-pine-dark border-2 border-pine/30 rounded-earth-lg font-medium hover:bg-pine/10 hover:border-pine/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
               >
                 Scholarships
               </Link>
               <Link
                 href="/tribes"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-midnight text-white rounded-earth-lg font-medium hover:bg-midnight-light transition-all shadow-soft hover:shadow-soft-lg text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-stone/5 text-stone-dark border-2 border-stone/30 rounded-earth-lg font-medium hover:bg-stone/10 hover:border-stone/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
               >
                 Find Your Tribe
               </Link>
@@ -130,11 +122,11 @@ export default async function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Quick Stats */}
+        {/* Quick Stats - Minimal styling */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
-            <div className="absolute top-0 right-0 w-16 h-16 text-pine/10">
+            <div className="absolute top-0 right-0 w-16 h-16 text-pine/5">
               <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
               </svg>
@@ -142,11 +134,11 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-pine mb-3">
               {resourceCounts.total}
             </div>
-            <div className="text-midnight/60 font-medium">Resources Available</div>
+            <div className="text-stone font-medium">Resources Available</div>
           </div>
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
-            <div className="absolute top-0 right-0 w-16 h-16 text-clay/10">
+            <div className="absolute top-0 right-0 w-16 h-16 text-clay/5">
               <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
               </svg>
@@ -154,11 +146,11 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-clay mb-3">
               {scholarshipCounts.total}
             </div>
-            <div className="text-midnight/60 font-medium">Scholarships</div>
+            <div className="text-stone font-medium">Scholarships</div>
           </div>
-          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/20 relative overflow-hidden group">
+          <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
-            <div className="absolute top-0 right-0 w-16 h-16 text-gold/10">
+            <div className="absolute top-0 right-0 w-16 h-16 text-gold/5">
               <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L64 0L64 64L32 32L0 0Z" fill="currentColor" />
               </svg>
@@ -166,7 +158,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-gold-dark mb-3">
               {tribeCount}
             </div>
-            <div className="text-midnight/60 font-medium">Tribes Listed</div>
+            <div className="text-stone font-medium">Tribes Listed</div>
           </div>
         </div>
 

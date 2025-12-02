@@ -9,35 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Cultural earth-tone palette
+        // Modern lighter earth-tone palette
         clay: {
-          DEFAULT: '#A6452E',
-          light: '#C45F47',
-          dark: '#7A2E1E',
+          DEFAULT: '#D4816A', // Lighter terracotta
+          light: '#E6A491',
+          dark: '#B8654F',
         },
         desert: {
-          DEFAULT: '#DDBA8E',
-          light: '#E8CDA7',
-          dark: '#C9A36D',
+          DEFAULT: '#E8CDA7', // Soft sand
+          light: '#F2DFC2',
+          dark: '#D4B887',
         },
         pine: {
-          DEFAULT: '#2E4F33',
-          light: '#3D6743',
-          dark: '#1F3422',
+          DEFAULT: '#7A9B7E', // Soft sage green
+          light: '#9BB49E',
+          dark: '#5F7D63',
         },
-        midnight: {
-          DEFAULT: '#1E2A44',
-          light: '#2D3F5F',
-          dark: '#141D2E',
+        stone: { // Replacing midnight with warm stone gray
+          DEFAULT: '#6B6B6B', // Warm medium gray
+          light: '#8A8A8A',
+          dark: '#4A4A4A',
         },
         gold: {
-          DEFAULT: '#F3C65D',
-          light: '#F6D482',
-          dark: '#D9A937',
+          DEFAULT: '#E8B86D', // Softer gold
+          light: '#F0CB8E',
+          dark: '#D1A050',
         },
         cream: {
           DEFAULT: '#FAF7F2',
-          dark: '#F0EBE3',
+          dark: '#F5F1EA',
         },
       },
       fontFamily: {
@@ -50,8 +50,8 @@ const config: Config = {
         'earth-xl': '32px',
       },
       boxShadow: {
-        'soft': '0 4px 12px rgba(30, 42, 68, 0.08)',
-        'soft-lg': '0 8px 24px rgba(30, 42, 68, 0.12)',
+        'soft': '0 2px 8px rgba(107, 107, 107, 0.06)',
+        'soft-lg': '0 4px 16px rgba(107, 107, 107, 0.08)',
       },
     },
   },

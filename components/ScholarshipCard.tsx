@@ -77,12 +77,12 @@ export function ScholarshipCard({
   const progressInfo = getProgressInfo()
 
   return (
-    <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/20 hover:border-gold/40 transition-all group">
+    <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/30 hover:border-gold/30 transition-all group">
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2 flex-1">
             {amount && (
-              <span className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gradient-to-r from-gold/20 to-gold/10 text-gold-dark border border-gold/30">
+              <span className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gold/15 text-gold-dark border border-gold/30">
                 {amount}
               </span>
             )}
@@ -97,31 +97,31 @@ export function ScholarshipCard({
             <SaveButton id={id} type="scholarship" title={name} variant="icon" />
           </div>
         </div>
-        <h3 className="text-xl font-heading font-semibold text-midnight mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
+        <h3 className="text-xl font-heading font-semibold text-stone-dark mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
           {name}
         </h3>
       </div>
 
-      <p className="text-midnight/70 mb-5 line-clamp-3 leading-relaxed">
+      <p className="text-stone mb-5 line-clamp-3 leading-relaxed">
         {description}
       </p>
 
       {deadlineInfo && !deadlineInfo.isPast && (
-        <div className="mb-5 p-4 bg-gradient-to-br from-desert/20 to-gold/5 rounded-earth border border-desert/30">
+        <div className="mb-5 p-4 bg-desert/10 rounded-earth border border-desert/30">
           <div className="flex items-center gap-2 mb-2">
             <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <p className="text-sm font-medium text-midnight">
+            <p className="text-sm font-medium text-stone-dark">
               Deadline: {deadlineInfo.formatted}
             </p>
           </div>
-          <p className="text-xs text-midnight/60 ml-6 mb-2">
+          <p className="text-xs text-stone ml-6 mb-2">
             {deadlineInfo.daysUntil} days remaining
           </p>
           {progressInfo && (
             <div className="ml-6">
-              <div className="w-full bg-desert/20 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-desert/25 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full ${progressInfo.color} transition-all duration-300 rounded-full`}
                   style={{ width: `${progressInfo.width}%` }}
@@ -138,13 +138,13 @@ export function ScholarshipCard({
           <Tag key={tag} label={tag} />
         ))}
         {tags.length > 3 && (
-          <span className="text-xs text-midnight/50 font-medium">
+          <span className="text-xs text-stone-light font-medium">
             +{tags.length - 3} more
           </span>
         )}
       </div>
 
-      <div className="space-y-3 pt-4 border-t border-desert/20">
+      <div className="space-y-3 pt-4 border-t border-desert/30">
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href={`/scholarships/${id}`}
@@ -160,7 +160,7 @@ export function ScholarshipCard({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold rounded-earth transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-gold-dark bg-gold/10 hover:bg-gold/15 border border-gold/30 hover:border-gold/50 rounded-earth transition-all flex items-center justify-center gap-2"
             >
               Apply Now
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

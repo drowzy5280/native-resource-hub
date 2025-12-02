@@ -5,7 +5,7 @@ interface TagProps {
 
 export function Tag({ label, variant = 'default' }: TagProps) {
   const colors = {
-    default: 'bg-desert/30 text-midnight border border-desert/50',
+    default: 'bg-desert/30 text-stone-dark border border-desert/50',
     pine: 'bg-pine/10 text-pine border border-pine/20',
     clay: 'bg-clay/10 text-clay border border-clay/20',
     gold: 'bg-gold/20 text-gold-dark border border-gold/40',

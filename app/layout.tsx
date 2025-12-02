@@ -141,7 +141,7 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
-        <meta name="theme-color" content="#A6452E" />
+        <meta name="theme-color" content="#7A9B7E" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -154,7 +154,7 @@ export default function RootLayout({
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-clay focus:text-cream focus:rounded-earth focus:shadow-soft-lg focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-pine focus:text-white focus:rounded-earth focus:shadow-soft-lg focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
         >
           Skip to main content
         </a>
@@ -167,17 +167,17 @@ export default function RootLayout({
                 <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 
           {/* Header */}
-        <nav className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-soft border-b border-desert/20 dark:border-white/20 sticky top-0 z-50">
+        <nav className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-desert/30 dark:border-white/20 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
               {/* Logo */}
               <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-clay to-gold rounded-full flex items-center justify-center shadow-soft group-hover:shadow-soft-lg transition-all">
+                <div className="w-10 h-10 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center group-hover:shadow-soft transition-all">
                   <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-2xl font-heading font-bold text-midnight dark:text-cream">
+                <span className="text-2xl font-heading font-bold text-stone-dark dark:text-cream">
                   Tribal Resource Hub
                 </span>
               </Link>
@@ -187,25 +187,25 @@ export default function RootLayout({
                 <div className="hidden md:flex items-center space-x-1">
                   <Link
                     href="/resources"
-                    className="px-4 py-2 text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
                   >
                     Resources
                   </Link>
                   <Link
                     href="/nonprofits"
-                    className="px-4 py-2 text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
                   >
                     Nonprofits
                   </Link>
                   <Link
                     href="/tribes"
-                    className="px-4 py-2 text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
                   >
                     Tribes
                   </Link>
                   <Link
                     href="/scholarships"
-                    className="px-4 py-2 text-midnight dark:text-cream hover:text-clay dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
                   >
                     Scholarships
                   </Link>
@@ -229,9 +229,9 @@ export default function RootLayout({
           </main>
         </ErrorBoundary>
 
-        <footer className="bg-midnight text-cream mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
+        <footer className="bg-cream-dark border-t border-desert/30 mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
           {/* Decorative pattern overlay */}
-          <div className="absolute inset-0 text-cream opacity-5">
+          <div className="absolute inset-0 text-pine opacity-[0.02]">
             <GeometricPattern className="w-full h-full" />
           </div>
 
@@ -239,38 +239,38 @@ export default function RootLayout({
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
               <div className="sm:col-span-2 md:col-span-1">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-clay to-gold rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-heading font-bold">Tribal Resource Hub</h3>
+                  <h3 className="text-lg sm:text-xl font-heading font-bold text-stone-dark">Tribal Resource Hub</h3>
                 </div>
-                <p className="text-cream/70 text-sm sm:text-base leading-relaxed">
+                <p className="text-stone text-sm sm:text-base leading-relaxed">
                   A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4">Quick Links</h4>
+                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-stone-dark">Quick Links</h4>
                 <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base">
                   <li>
-                    <Link href="/resources" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/resources" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Browse Resources
                     </Link>
                   </li>
                   <li>
-                    <Link href="/nonprofits" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/nonprofits" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Nonprofits
                     </Link>
                   </li>
                   <li>
-                    <Link href="/tribes" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/tribes" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Find Tribes
                     </Link>
                   </li>
                   <li>
-                    <Link href="/scholarships" className="text-cream/70 hover:text-gold transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/scholarships" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Scholarships
                     </Link>
                   </li>
@@ -278,14 +278,14 @@ export default function RootLayout({
               </div>
 
               <div>
-                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4">Our Mission</h4>
-                <p className="text-cream/70 text-sm sm:text-base leading-relaxed">
+                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-stone-dark">Our Mission</h4>
+                <p className="text-stone text-sm sm:text-base leading-relaxed">
                   Supporting Indigenous communities by providing easy access to resources from federal, state, and tribal sources.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-cream/10 mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-cream/50">
+            <div className="border-t border-desert/30 mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-stone-light">
               <p>&copy; {new Date().getFullYear()} Tribal Resource Hub. All rights reserved.</p>
             </div>
           </div>
