@@ -2,7 +2,7 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { Pagination } from '@/components/Pagination'
 import { AdUnit } from '@/components/GoogleAdsense'
-import { FilterBar } from '@/components/FilterBar'
+import { ScholarshipFilterBar } from '@/components/ScholarshipFilterBar'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import type { Prisma } from '@prisma/client'
@@ -44,7 +44,14 @@ export const metadata: Metadata = {
 export default async function ScholarshipsPage({
   searchParams,
 }: {
-  searchParams: { page?: string; sort?: string }
+  searchParams: {
+    page?: string
+    sort?: string
+    tags?: string
+    level?: string
+    amount?: string
+    deadline?: string
+  }
 }) {
   const currentPage = parseInt(searchParams.page || '1', 10)
   const skip = (currentPage - 1) * ITEMS_PER_PAGE
@@ -52,6 +59,54 @@ export default async function ScholarshipsPage({
 
   const today = new Date()
   today.setHours(0, 0, 0, 0) // Set to start of day for accurate comparison
+
+  // Build where clause for filters
+  const baseWhere: Prisma.ScholarshipWhereInput = {
+    deletedAt: null,
+  }
+
+  // Tags filter
+  if (searchParams.tags) {
+    const tagArray = searchParams.tags.split(',').filter(Boolean)
+    if (tagArray.length > 0) {
+      baseWhere.tags = {
+        hasSome: tagArray,
+      }
+    }
+  }
+
+  // Education level filter
+  if (searchParams.level) {
+    baseWhere.tags = {
+      ...baseWhere.tags,
+      has: searchParams.level,
+    }
+  }
+
+  // Amount range filter
+  if (searchParams.amount) {
+    const [min, max] = searchParams.amount.split('-').map(Number)
+    // This is tricky since amount is stored as string. We'll filter client-side for now
+    // In production, you might want to store amount as a number
+  }
+
+  // Deadline range filter
+  let upcomingDeadlineFilter: any = { gte: today }
+  if (searchParams.deadline) {
+    const deadlineFilter = searchParams.deadline
+    if (deadlineFilter === 'rolling') {
+      // Special case: only show rolling deadlines
+      upcomingDeadlineFilter = null
+    } else if (deadlineFilter.startsWith('next-')) {
+      const days = parseInt(deadlineFilter.split('-')[1])
+      const futureDate = new Date(today)
+      futureDate.setDate(futureDate.getDate() + days)
+      upcomingDeadlineFilter = {
+        gte: today,
+        lte: futureDate,
+      }
+    }
+  }
 
   // Determine sort order
   let upcomingOrderBy: Prisma.ScholarshipOrderByWithRelationInput = { deadline: 'asc' }
@@ -84,47 +139,57 @@ export default async function ScholarshipsPage({
       break
   }
 
+  // Build where clauses
+  const upcomingWhere = searchParams.deadline === 'rolling' ? null : {
+    ...baseWhere,
+    deadline: upcomingDeadlineFilter,
+  }
+
+  const noDeadlineWhere = {
+    ...baseWhere,
+    deadline: null,
+  }
+
   // First get counts
   const [upcomingCount, noDeadlineCount] = await Promise.all([
-    prisma.scholarship.count({
-      where: {
-        deletedAt: null,
-        deadline: {
-          gte: today,
-        },
-      },
-    }),
-    prisma.scholarship.count({
-      where: {
-        deletedAt: null,
-        deadline: null,
-      },
-    }),
+    upcomingWhere ? prisma.scholarship.count({ where: upcomingWhere }) : Promise.resolve(0),
+    prisma.scholarship.count({ where: noDeadlineWhere }),
   ])
 
   // Then query scholarships with proper skip values
   const [upcoming, noDeadline] = await Promise.all([
-    prisma.scholarship.findMany({
-      where: {
-        deletedAt: null,
-        deadline: {
-          gte: today,
-        },
-      },
+    upcomingWhere ? prisma.scholarship.findMany({
+      where: upcomingWhere,
       orderBy: upcomingOrderBy,
       take: ITEMS_PER_PAGE,
       skip,
-    }),
+    }) : Promise.resolve([]),
     prisma.scholarship.findMany({
-      where: {
-        deletedAt: null,
-        deadline: null,
-      },
+      where: noDeadlineWhere,
       orderBy: noDeadlineOrderBy,
       take: ITEMS_PER_PAGE,
       skip: Math.max(0, skip - upcomingCount),
     }),
   ])
+
+  // Filter by amount range (client-side since amount is stored as string)
+  let filteredUpcoming = upcoming
+  let filteredNoDeadline = noDeadline
+
+  if (searchParams.amount) {
+    const [min, max] = searchParams.amount.split('-').map(Number)
+    const filterByAmount = (scholarships: any[]) => {
+      return scholarships.filter(s => {
+        if (!s.amount) return false
+        const amountMatch = s.amount.match(/\$?([\d,]+)/)?.[1]
+        if (!amountMatch) return false
+        const amount = parseInt(amountMatch.replace(/,/g, ''))
+        return amount >= min && (max === 999999 || amount <= max)
+      })
+    }
+    filteredUpcoming = filterByAmount(upcoming)
+    filteredNoDeadline = filterByAmount(noDeadline)
+  }
 
   const totalCount = upcomingCount + noDeadlineCount
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
@@ -150,31 +215,19 @@ export default async function ScholarshipsPage({
         </div>
       )}
 
-      {/* Filter/Sort Bar */}
-      <FilterBar
-        showTypeFilter={false}
-        showStateFilter={false}
-        showSortFilter={true}
-        sortOptions={[
-          { value: 'deadline-asc', label: 'Deadline (Soonest)' },
-          { value: 'amount-desc', label: 'Amount (Highest)' },
-          { value: 'amount-asc', label: 'Amount (Lowest)' },
-          { value: 'newest', label: 'Recently Added' },
-          { value: 'name-asc', label: 'Name (A-Z)' },
-          { value: 'name-desc', label: 'Name (Z-A)' },
-        ]}
-      />
+      {/* Advanced Filter/Sort Bar */}
+      <ScholarshipFilterBar totalCount={totalCount} />
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
       </div>
 
-      {upcoming.length > 0 && (
+      {filteredUpcoming.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-earth-brown mb-6">Upcoming Deadlines</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {upcoming.map((scholarship) => (
+            {filteredUpcoming.map((scholarship) => (
               <ScholarshipCard
                 key={scholarship.id}
                 id={scholarship.id}
@@ -193,11 +246,11 @@ export default async function ScholarshipsPage({
         </section>
       )}
 
-      {noDeadline.length > 0 && (
+      {filteredNoDeadline.length > 0 && (
         <section>
           <h2 className="text-2xl font-bold text-earth-brown mb-6">Rolling Deadlines</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {noDeadline.map((scholarship) => (
+            {filteredNoDeadline.map((scholarship) => (
               <ScholarshipCard
                 key={scholarship.id}
                 id={scholarship.id}
