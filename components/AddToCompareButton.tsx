@@ -10,20 +10,20 @@ interface AddToCompareButtonProps {
 
 export function AddToCompareButton({ scholarship, variant = 'default' }: AddToCompareButtonProps) {
   const { addScholarship, removeScholarship, isInComparison, scholarships, maxItems } = useComparison()
-  const { showToast } = useToast()
+  const { addToast } = useToast()
   const inComparison = isInComparison(scholarship.id)
   const isAtMax = scholarships.length >= maxItems
 
   const handleClick = () => {
     if (inComparison) {
       removeScholarship(scholarship.id)
-      showToast('Removed from comparison', 'info')
+      addToast('Removed from comparison', 'info')
     } else {
       const success = addScholarship(scholarship)
       if (success) {
-        showToast('Added to comparison', 'success')
+        addToast('Added to comparison', 'success')
       } else if (isAtMax) {
-        showToast(`Maximum ${maxItems} scholarships allowed`, 'error')
+        addToast(`Maximum ${maxItems} scholarships allowed`, 'error')
       }
     }
   }
