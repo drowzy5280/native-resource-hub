@@ -13,7 +13,7 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
   const [isOpen, setIsOpen] = useState(false)
   const [reason, setReason] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { showToast } = useToast()
+  const { addToast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,15 +31,15 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
       })
 
       if (response.ok) {
-        showToast('Thank you! We\'ll review this resource soon.', 'success')
+        addToast('Thank you! We\'ll review this resource soon.', 'success')
         setIsOpen(false)
         setReason('')
       } else {
-        showToast('Failed to submit report. Please try again.', 'error')
+        addToast('Failed to submit report. Please try again.', 'error')
       }
     } catch (error) {
       console.error('Failed to report outdated resource:', error)
-      showToast('Failed to submit report. Please try again.', 'error')
+      addToast('Failed to submit report. Please try again.', 'error')
     } finally {
       setIsSubmitting(false)
     }
