@@ -1,0 +1,93 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <rect width="1200" height="630" fill="#A6452E"/>
+  <rect width="1200" height="630" fill="url(#gradient)" opacity="0.3"/>
+
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2E4F33"/>
+      <stop offset="100%" stop-color="#A6452E"/>
+    </linearGradient>
+
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Decorative pattern overlay -->
+  <g opacity="0.1">
+    <circle cx="100" cy="100" r="150" fill="#FAF7F2"/>
+    <circle cx="1100" cy="530" r="200" fill="#FAF7F2"/>
+    <circle cx="600" cy="315" r="250" fill="#FAF7F2"/>
+  </g>
+
+  <!-- Main content container -->
+  <g filter="url(#shadow)">
+    <!-- Icon/Logo -->
+    <g transform="translate(100, 150)">
+      <!-- Stylized feather/cultural symbol -->
+      <rect x="-8" y="-80" width="16" height="160" rx="8" fill="#FAF7F2"/>
+      <ellipse cx="-40" cy="-50" rx="35" ry="20" fill="#FAF7F2" opacity="0.9" transform="rotate(-30 -40 -50)"/>
+      <ellipse cx="-45" cy="-10" rx="40" ry="23" fill="#FAF7F2" opacity="0.9" transform="rotate(-25 -45 -10)"/>
+      <ellipse cx="-48" cy="30" rx="43" ry="25" fill="#FAF7F2" opacity="0.9" transform="rotate(-20 -48 30)"/>
+      <ellipse cx="40" cy="-50" rx="35" ry="20" fill="#FAF7F2" opacity="0.9" transform="rotate(30 40 -50)"/>
+      <ellipse cx="45" cy="-10" rx="40" ry="23" fill="#FAF7F2" opacity="0.9" transform="rotate(25 45 -10)"/>
+      <ellipse cx="48" cy="30" rx="43" ry="25" fill="#FAF7F2" opacity="0.9" transform="rotate(20 48 30)"/>
+      <circle cx="0" cy="-70" r="8" fill="#F3C65D"/>
+    </g>
+
+    <!-- Text Content -->
+    <text x="220" y="240" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#FAF7F2">
+      Tribal Resource Hub
+    </text>
+
+    <text x="220" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#FAF7F2" opacity="0.9">
+      Connecting Indigenous communities to
+    </text>
+
+    <text x="220" y="355" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#FAF7F2" opacity="0.9">
+      trusted resources, programs, and support
+    </text>
+  </g>
+
+  <!-- Stats/Features -->
+  <g transform="translate(220, 440)">
+    <!-- Stat 1 -->
+    <g>
+      <rect x="0" y="0" width="200" height="80" rx="12" fill="#FAF7F2" opacity="0.15"/>
+      <text x="100" y="35" font-family="system-ui" font-size="28" font-weight="700" fill="#F3C65D" text-anchor="middle">
+        175+
+      </text>
+      <text x="100" y="60" font-family="system-ui" font-size="16" font-weight="400" fill="#FAF7F2" text-anchor="middle" opacity="0.9">
+        Resources
+      </text>
+    </g>
+
+    <!-- Stat 2 -->
+    <g transform="translate(230, 0)">
+      <rect x="0" y="0" width="200" height="80" rx="12" fill="#FAF7F2" opacity="0.15"/>
+      <text x="100" y="35" font-family="system-ui" font-size="28" font-weight="700" fill="#F3C65D" text-anchor="middle">
+        574
+      </text>
+      <text x="100" y="60" font-family="system-ui" font-size="16" font-weight="400" fill="#FAF7F2" text-anchor="middle" opacity="0.9">
+        Tribes
+      </text>
+    </g>
+
+    <!-- Stat 3 -->
+    <g transform="translate(460, 0)">
+      <rect x="0" y="0" width="200" height="80" rx="12" fill="#FAF7F2" opacity="0.15"/>
+      <text x="100" y="35" font-family="system-ui" font-size="28" font-weight="700" fill="#F3C65D" text-anchor="middle">
+        50
+      </text>
+      <text x="100" y="60" font-family="system-ui" font-size="16" font-weight="400" fill="#FAF7F2" text-anchor="middle" opacity="0.9">
+        States
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom branding -->
+  <text x="1100" y="590" font-family="system-ui" font-size="18" font-weight="400" fill="#FAF7F2" text-anchor="end" opacity="0.7">
+    native-resource-hub.vercel.app
+  </text>
+</svg>
