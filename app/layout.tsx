@@ -10,6 +10,11 @@ import { ToastProvider } from '@/components/Toast'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { GeometricPattern } from '@/components/Patterns'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { ComparisonProvider } from '@/components/ComparisonContext'
+import { ComparisonBar } from '@/components/ComparisonBar'
+import { RecentlyViewedProvider } from '@/components/RecentlyViewedContext'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -146,9 +151,20 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
       </head>
       <body className="font-body bg-cream antialiased">
+        {/* Skip to main content link for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-clay focus:text-cream focus:rounded-earth focus:shadow-soft-lg focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+        >
+          Skip to main content
+        </a>
+
         <ServiceWorkerRegister />
-        <ToastProvider>
-          <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
+        <ThemeProvider>
+          <RecentlyViewedProvider>
+            <ComparisonProvider>
+              <ToastProvider>
+                <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 
           {/* Header */}
         <nav className="bg-white/95 backdrop-blur-sm shadow-soft border-b border-desert/20 sticky top-0 z-50">
@@ -195,6 +211,11 @@ export default function RootLayout({
                   </Link>
                 </div>
 
+                {/* Theme Toggle */}
+                <div className="hidden md:block">
+                  <ThemeToggle />
+                </div>
+
                 {/* Mobile Navigation */}
                 <MobileNav />
               </div>
@@ -203,7 +224,7 @@ export default function RootLayout({
         </nav>
 
         <ErrorBoundary>
-          <main className="min-h-screen">
+          <main id="main-content" className="min-h-screen">
             {children}
           </main>
         </ErrorBoundary>
@@ -269,8 +290,12 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
-          <Analytics />
-        </ToastProvider>
+                <Analytics />
+                <ComparisonBar />
+              </ToastProvider>
+            </ComparisonProvider>
+          </RecentlyViewedProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

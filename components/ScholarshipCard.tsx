@@ -5,6 +5,8 @@ import { Tag } from './Tag'
 import { formatDeadline } from '@/lib/formatting'
 import { SaveButton } from './SaveButton'
 import { ShareButton } from './ShareButton'
+import { AddToCompareButton } from './AddToCompareButton'
+import type { ComparisonScholarship } from './ComparisonContext'
 
 interface ScholarshipCardProps {
   id: string
@@ -14,6 +16,9 @@ interface ScholarshipCardProps {
   deadline?: Date | string | null
   tags: string[]
   url?: string | null
+  organization?: string
+  eligibility?: string[]
+  state?: string | null
 }
 
 export function ScholarshipCard({
@@ -24,9 +29,24 @@ export function ScholarshipCard({
   deadline,
   tags,
   url,
+  organization = 'Not specified',
+  eligibility = [],
+  state = null,
 }: ScholarshipCardProps) {
   const deadlineInfo = deadline ? formatDeadline(deadline) : null
   const isClosingSoon = deadlineInfo && deadlineInfo.daysUntil <= 30 && !deadlineInfo.isPast
+
+  // Prepare scholarship data for comparison
+  const comparisonData: ComparisonScholarship = {
+    id,
+    name,
+    organization,
+    amount: amount || 'Amount varies',
+    deadline: deadline ? new Date(deadline).toISOString() : null,
+    description,
+    eligibility,
+    state,
+  }
 
   // Calculate progress bar color and width based on days remaining
   const getProgressInfo = () => {
@@ -72,7 +92,10 @@ export function ScholarshipCard({
               </span>
             )}
           </div>
-          <SaveButton id={id} type="scholarship" title={name} variant="icon" />
+          <div className="flex items-center gap-2">
+            <AddToCompareButton scholarship={comparisonData} variant="compact" />
+            <SaveButton id={id} type="scholarship" title={name} variant="icon" />
+          </div>
         </div>
         <h3 className="text-xl font-heading font-semibold text-midnight mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
           {name}

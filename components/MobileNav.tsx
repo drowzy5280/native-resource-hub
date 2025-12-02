@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { ThemeToggle } from './ThemeToggle'
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
@@ -100,6 +101,14 @@ export function MobileNav() {
             >
               Scholarships
             </Link>
+
+            {/* Theme Toggle */}
+            <div className="pt-4 mt-4 border-t border-desert/20">
+              <div className="flex items-center justify-between py-3 px-2">
+                <span className="text-lg text-midnight font-medium">Theme</span>
+                <ThemeToggle />
+              </div>
+            </div>
           </div>
         </div>
       </nav>

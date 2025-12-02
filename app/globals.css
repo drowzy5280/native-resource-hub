@@ -3,12 +3,43 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light mode colors */
+    --color-bg-primary: #FAF7F2; /* cream */
+    --color-bg-secondary: #FFFFFF;
+    --color-bg-tertiary: #F5F0EA;
+    --color-text-primary: #1E2A44; /* midnight */
+    --color-text-secondary: #4A5568;
+    --color-text-tertiary: #718096;
+    --color-border: #E2D5C3;
+    --color-accent: #A6452E; /* clay */
+    --color-accent-hover: #8B3723;
+  }
+
+  .dark {
+    /* Dark mode colors */
+    --color-bg-primary: #1A202C;
+    --color-bg-secondary: #2D3748;
+    --color-bg-tertiary: #4A5568;
+    --color-text-primary: #F7FAFC;
+    --color-text-secondary: #E2E8F0;
+    --color-text-tertiary: #CBD5E0;
+    --color-border: #4A5568;
+    --color-accent: #F3C65D; /* gold */
+    --color-accent-hover: #E5B84D;
+  }
+
   html {
     @apply antialiased scroll-smooth;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
-    @apply text-midnight font-body;
+    @apply font-body;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
   }
 
   h1, h2, h3, h4, h5, h6 {

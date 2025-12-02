@@ -184,6 +184,9 @@ export default async function ScholarshipsPage({
                 deadline={scholarship.deadline}
                 tags={scholarship.tags}
                 url={scholarship.url}
+                organization={scholarship.source || undefined}
+                eligibility={scholarship.eligibility}
+                state={null}
               />
             ))}
           </div>
@@ -204,6 +207,9 @@ export default async function ScholarshipsPage({
                 deadline={scholarship.deadline}
                 tags={scholarship.tags}
                 url={scholarship.url}
+                organization={scholarship.source || undefined}
+                eligibility={scholarship.eligibility}
+                state={null}
               />
             ))}
           </div>
