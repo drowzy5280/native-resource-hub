@@ -60,23 +60,23 @@ export default async function Home() {
           <GeometricPattern className="w-full h-full" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-20 lg:py-28">
           <div className="text-center">
             {/* Minimal sun icon */}
-            <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="flex justify-center mb-4 sm:mb-6">
               <div className="relative">
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center">
-                  <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
               </div>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold text-gray-900 mb-6 leading-tight px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2">
               Tribal Resource Hub
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed px-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-4">
               A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
             </p>
 
@@ -88,28 +88,28 @@ export default async function Home() {
             </div>
 
             {/* Quick Links - Minimal outlined style */}
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-12 px-4">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 mt-8 sm:mt-10 md:mt-12 px-4 max-w-3xl mx-auto">
               <Link
                 href="/resources?tags=emergency"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay/5 text-clay border-2 border-clay/30 rounded-earth-lg font-medium hover:bg-clay/10 hover:border-clay/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay/5 text-clay border-2 border-clay/30 rounded-earth-lg font-medium hover:bg-clay/10 hover:border-clay/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Emergency Resources
               </Link>
               <Link
                 href="/nonprofits"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold/5 text-gold-dark border-2 border-gold/30 rounded-earth-lg font-medium hover:bg-gold/10 hover:border-gold/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold/5 text-gold-dark border-2 border-gold/30 rounded-earth-lg font-medium hover:bg-gold/10 hover:border-gold/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Nonprofits
               </Link>
               <Link
                 href="/scholarships"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine/5 text-pine-dark border-2 border-pine/30 rounded-earth-lg font-medium hover:bg-pine/10 hover:border-pine/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine/5 text-pine-dark border-2 border-pine/30 rounded-earth-lg font-medium hover:bg-pine/10 hover:border-pine/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Scholarships
               </Link>
               <Link
                 href="/tribes"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-stone/5 text-stone-dark border-2 border-stone/30 rounded-earth-lg font-medium hover:bg-stone/10 hover:border-stone/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-stone/5 text-stone-dark border-2 border-stone/30 rounded-earth-lg font-medium hover:bg-stone/10 hover:border-stone/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Find Your Tribe
               </Link>
@@ -216,7 +216,7 @@ export default async function Home() {
           title="Browse by Category"
           description="Find resources specific to your needs"
         />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
           {[
             { name: 'Education', icon: EducationIcon, color: 'text-pine', bgColor: 'bg-pine/5', href: '/resources?tags=education' },
             { name: 'Health', icon: HealthIcon, color: 'text-clay', bgColor: 'bg-clay/5', href: '/resources?tags=health' },
@@ -234,16 +234,16 @@ export default async function Home() {
               <Link
                 key={category.name}
                 href={category.href}
-                className="group bg-white rounded-earth p-6 text-center hover:shadow-lg transition-all border border-desert/20 hover:border-clay/30 relative overflow-hidden"
+                className="group bg-white rounded-earth p-5 sm:p-6 text-center hover:shadow-lg transition-all border border-desert/20 hover:border-clay/30 relative overflow-hidden min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center"
               >
                 {/* Background accent */}
                 <div className={`absolute inset-0 ${category.bgColor} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
 
                 <div className="relative">
-                  <div className={`flex justify-center mb-3 ${category.color}`}>
-                    <IconComponent className="w-12 h-12 group-hover:scale-110 transition-transform" />
+                  <div className={`flex justify-center mb-2 sm:mb-3 ${category.color}`}>
+                    <IconComponent className="w-10 h-10 sm:w-12 sm:h-12 group-hover:scale-110 transition-transform" />
                   </div>
-                  <div className="font-medium text-gray-900">{category.name}</div>
+                  <div className="font-medium text-sm sm:text-base text-gray-900">{category.name}</div>
                 </div>
               </Link>
             )
@@ -301,7 +301,7 @@ export default async function Home() {
               Quick access to resources in states with large Indigenous communities
             </p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
             {[
               { state: 'OK', name: 'Oklahoma', color: 'bg-clay/10 hover:bg-clay/20 border-clay/30' },
               { state: 'CA', name: 'California', color: 'bg-pine/10 hover:bg-pine/20 border-pine/30' },
@@ -315,9 +315,9 @@ export default async function Home() {
               <Link
                 key={item.state}
                 href={`/resources?state=${item.state}`}
-                className={`group ${item.color} border-2 rounded-earth-lg p-6 text-center hover:shadow-soft transition-all`}
+                className={`group ${item.color} border-2 rounded-earth-lg p-5 sm:p-6 text-center hover:shadow-soft transition-all min-h-[80px] flex flex-col items-center justify-center`}
               >
-                <div className="text-3xl font-heading font-bold text-gray-900 mb-2">
+                <div className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 mb-1 sm:mb-2">
                   {item.state}
                 </div>
                 <div className="text-sm text-gray-700 font-medium">{item.name}</div>

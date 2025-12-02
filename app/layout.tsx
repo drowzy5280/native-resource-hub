@@ -171,14 +171,15 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
               {/* Logo */}
-              <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center group-hover:shadow-soft transition-all">
+              <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+                <div className="w-10 h-10 bg-gradient-to-br from-pine to-gold rounded-full flex items-center justify-center group-hover:shadow-soft transition-all flex-shrink-0">
                   <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-2xl font-heading font-bold text-stone-dark dark:text-cream">
-                  Tribal Resource Hub
+                <span className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-stone-dark dark:text-cream">
+                  <span className="hidden sm:inline">Tribal Resource Hub</span>
+                  <span className="sm:hidden">Tribal Hub</span>
                 </span>
               </Link>
 
