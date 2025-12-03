@@ -30,27 +30,27 @@ export function ResourceCard({
   url,
 }: ResourceCardProps) {
   return (
-    <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/30 hover:border-pine/20 transition-all group">
+    <div className="bg-white rounded-earth-lg shadow-card p-6 border border-desert/40 hover:border-pine/30 hover:shadow-soft transition-all group">
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2 flex-1">
-            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-pine/10 text-pine border border-pine/20">
+            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-pine/15 text-pine-dark border border-pine/30">
               {type}
             </span>
             {state && (
-              <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-clay/10 text-clay border border-clay/20">
+              <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-clay/15 text-clay-dark border border-clay/30">
                 {state}
               </span>
             )}
           </div>
           <SaveButton id={id} type="resource" title={title} variant="icon" />
         </div>
-        <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-pine transition-colors line-clamp-2">
+        <h3 className="text-xl font-heading font-semibold text-text mb-2 group-hover:text-pine transition-colors line-clamp-2">
           {title}
         </h3>
       </div>
 
-      <p className="text-gray-700 mb-5 line-clamp-3 leading-relaxed">
+      <p className="text-text-secondary mb-5 line-clamp-3 leading-relaxed">
         {description}
       </p>
 
@@ -71,17 +71,17 @@ export function ResourceCard({
           <Tag key={tag} label={tag} />
         ))}
         {tags.length > 3 && (
-          <span className="text-xs text-gray-500 font-medium">
+          <span className="text-xs text-text-muted font-medium">
             +{tags.length - 3} more
           </span>
         )}
       </div>
 
-      <div className="space-y-3 pt-4 border-t border-desert/30">
+      <div className="space-y-3 pt-4 border-t border-desert/40">
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href={`/resources/${id}`}
-            className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/5 hover:bg-pine/10 border border-pine/20 hover:border-pine/40 rounded-earth transition-all flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/10 hover:bg-pine/15 border border-pine/30 hover:border-pine/50 rounded-earth transition-all flex items-center justify-center gap-2"
           >
             View Details
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,7 +93,7 @@ export function ResourceCard({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-clay bg-clay/10 hover:bg-clay/15 border border-clay/30 hover:border-clay/50 rounded-earth transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-clay hover:bg-clay-dark border border-clay rounded-earth transition-all flex items-center justify-center gap-2"
             >
               Visit Website
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

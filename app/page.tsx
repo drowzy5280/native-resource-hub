@@ -73,10 +73,10 @@ export default async function Home() {
               </div>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-bold text-text mb-4 sm:mb-6 leading-tight px-2">
               Tribal Resource Hub
             </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-text-secondary mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-4">
               A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
             </p>
 
@@ -91,25 +91,25 @@ export default async function Home() {
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 mt-8 sm:mt-10 md:mt-12 px-4 max-w-3xl mx-auto">
               <Link
                 href="/resources?tags=emergency"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay/5 text-clay border-2 border-clay/30 rounded-earth-lg font-medium hover:bg-clay/10 hover:border-clay/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-clay/10 text-clay-dark border-2 border-clay/40 rounded-earth-lg font-medium hover:bg-clay/15 hover:border-clay/60 hover:shadow-soft transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Emergency Resources
               </Link>
               <Link
                 href="/nonprofits"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold/5 text-gold-dark border-2 border-gold/30 rounded-earth-lg font-medium hover:bg-gold/10 hover:border-gold/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-gold/10 text-gold-dark border-2 border-gold/40 rounded-earth-lg font-medium hover:bg-gold/15 hover:border-gold/60 hover:shadow-soft transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Nonprofits
               </Link>
               <Link
                 href="/scholarships"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine/5 text-pine-dark border-2 border-pine/30 rounded-earth-lg font-medium hover:bg-pine/10 hover:border-pine/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-pine/10 text-pine-dark border-2 border-pine/40 rounded-earth-lg font-medium hover:bg-pine/15 hover:border-pine/60 hover:shadow-soft transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Scholarships
               </Link>
               <Link
                 href="/tribes"
-                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-stone/5 text-stone-dark border-2 border-stone/30 rounded-earth-lg font-medium hover:bg-stone/10 hover:border-stone/50 transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
+                className="px-5 sm:px-6 py-3 sm:py-3.5 bg-stone/10 text-stone border-2 border-stone/40 rounded-earth-lg font-medium hover:bg-stone/15 hover:border-stone/60 hover:shadow-soft transition-all text-sm sm:text-base min-h-[44px] flex items-center justify-center text-center"
               >
                 Find Your Tribe
               </Link>

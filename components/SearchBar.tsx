@@ -139,13 +139,13 @@ export function SearchBar() {
           onKeyDown={handleKeyDown}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           placeholder="Search for resources, tribes, scholarships..."
-          className="w-full px-4 sm:px-6 py-3 sm:py-4 pr-12 sm:pr-14 text-base sm:text-lg text-gray-900 placeholder:text-gray-600 rounded-earth-lg border-2 border-earth-sand focus:border-earth-teal focus:outline-none transition-colors"
+          className="w-full px-4 sm:px-6 py-3 sm:py-4 pr-12 sm:pr-14 text-base sm:text-lg text-text placeholder:text-text-muted bg-white rounded-earth-lg border-2 border-desert/60 focus:border-pine focus:outline-none focus:ring-2 focus:ring-pine/20 transition-all"
           aria-label="Search for resources, tribes, and scholarships"
           autoComplete="off"
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-earth-teal text-white rounded-earth hover:bg-earth-teal/90 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 bg-pine text-white rounded-earth hover:bg-pine-dark transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center shadow-soft"
           aria-label="Search"
         >
           <svg
@@ -166,20 +166,20 @@ export function SearchBar() {
 
         {/* Suggestions Dropdown */}
         {showSuggestions && suggestions.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-earth-sand rounded-earth-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-desert/60 rounded-earth-lg shadow-soft-lg z-50 max-h-80 overflow-y-auto">
             <ul className="py-2">
               {suggestions.map((suggestion, index) => (
                 <li key={index}>
                   <button
                     type="button"
                     onClick={() => handleSuggestionClick(suggestion)}
-                    className={`w-full px-4 py-3 text-left hover:bg-desert/10 transition-colors flex items-center gap-3 ${
-                      index === selectedIndex ? 'bg-desert/20' : ''
+                    className={`w-full px-4 py-3 text-left hover:bg-desert/30 transition-colors flex items-center gap-3 ${
+                      index === selectedIndex ? 'bg-desert/40' : ''
                     }`}
                   >
                     {getTypeIcon(suggestion.type)}
-                    <span className="text-gray-900 flex-1">{suggestion.text}</span>
-                    <span className="text-xs text-gray-500 capitalize">{suggestion.type}</span>
+                    <span className="text-text flex-1">{suggestion.text}</span>
+                    <span className="text-xs text-text-muted capitalize">{suggestion.type}</span>
                   </button>
                 </li>
               ))}

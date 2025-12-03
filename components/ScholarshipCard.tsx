@@ -77,17 +77,17 @@ export function ScholarshipCard({
   const progressInfo = getProgressInfo()
 
   return (
-    <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/30 hover:border-gold/30 transition-all group">
+    <div className="bg-white rounded-earth-lg shadow-card p-6 border border-desert/40 hover:border-gold/40 hover:shadow-soft transition-all group">
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2 flex-1">
             {amount && (
-              <span className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gold/15 text-gold-dark border border-gold/30">
+              <span className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gold/20 text-gold-dark border border-gold/40">
                 {amount}
               </span>
             )}
             {isClosingSoon && (
-              <span className="px-3 py-1 text-xs font-medium rounded-earth bg-clay/10 text-clay border border-clay/20 animate-pulse">
+              <span className="px-3 py-1 text-xs font-medium rounded-earth bg-clay/15 text-clay-dark border border-clay/30 animate-pulse">
                 Closing Soon
               </span>
             )}
@@ -97,31 +97,31 @@ export function ScholarshipCard({
             <SaveButton id={id} type="scholarship" title={name} variant="icon" />
           </div>
         </div>
-        <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
+        <h3 className="text-xl font-heading font-semibold text-text mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
           {name}
         </h3>
       </div>
 
-      <p className="text-gray-700 mb-5 line-clamp-3 leading-relaxed">
+      <p className="text-text-secondary mb-5 line-clamp-3 leading-relaxed">
         {description}
       </p>
 
       {deadlineInfo && !deadlineInfo.isPast && (
-        <div className="mb-5 p-4 bg-desert/10 rounded-earth border border-desert/30">
+        <div className="mb-5 p-4 bg-desert/20 rounded-earth border border-desert/40">
           <div className="flex items-center gap-2 mb-2">
             <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            <p className="text-sm font-medium text-gray-900">
+            <p className="text-sm font-medium text-text">
               Deadline: {deadlineInfo.formatted}
             </p>
           </div>
-          <p className="text-xs text-gray-700 ml-6 mb-2">
+          <p className="text-xs text-text-secondary ml-6 mb-2">
             {deadlineInfo.daysUntil} days remaining
           </p>
           {progressInfo && (
             <div className="ml-6">
-              <div className="w-full bg-desert/25 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-desert/40 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full ${progressInfo.color} transition-all duration-300 rounded-full`}
                   style={{ width: `${progressInfo.width}%` }}
@@ -138,17 +138,17 @@ export function ScholarshipCard({
           <Tag key={tag} label={tag} />
         ))}
         {tags.length > 3 && (
-          <span className="text-xs text-gray-500 font-medium">
+          <span className="text-xs text-text-muted font-medium">
             +{tags.length - 3} more
           </span>
         )}
       </div>
 
-      <div className="space-y-3 pt-4 border-t border-desert/30">
+      <div className="space-y-3 pt-4 border-t border-desert/40">
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href={`/scholarships/${id}`}
-            className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/5 hover:bg-pine/10 border border-pine/20 hover:border-pine/40 rounded-earth transition-all flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/10 hover:bg-pine/15 border border-pine/30 hover:border-pine/50 rounded-earth transition-all flex items-center justify-center gap-2"
           >
             View Details
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -160,7 +160,7 @@ export function ScholarshipCard({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-gold-dark bg-gold/10 hover:bg-gold/15 border border-gold/30 hover:border-gold/50 rounded-earth transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-gold hover:bg-gold-dark border border-gold rounded-earth transition-all flex items-center justify-center gap-2"
             >
               Apply Now
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

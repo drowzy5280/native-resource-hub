@@ -41,7 +41,8 @@
       "WebFetch(domain:tribalresourcehub.com)",
       "Bash(tsx scripts/add-comprehensive-data.ts:*)",
       "Bash(npx tsx:*)",
-      "Bash(timeout 60 bash:*)"
+      "Bash(timeout 60 bash:*)",
+      "Bash(timeout 90 bash:*)"
     ],
     "deny": [],
     "ask": []
