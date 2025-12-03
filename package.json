@@ -20,7 +20,8 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:add-more": "tsx scripts/add-more-data.ts",
-    "db:bulk-seed": "tsx scripts/bulk-seed.ts"
+    "db:bulk-seed": "tsx scripts/bulk-seed.ts",
+    "db:setup-search": "tsx scripts/setup-full-text-search.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",

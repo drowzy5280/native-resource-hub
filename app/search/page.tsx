@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { universalSearch } from '@/lib/search'
 import { prisma } from '@/lib/prisma'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
@@ -25,49 +26,103 @@ async function SearchResults({ query }: { query: string }) {
 
   const searchTerm = query.trim()
 
-  // Search resources, scholarships, and tribes in parallel
-  const [resources, scholarships, tribes] = await Promise.all([
-    prisma.resource.findMany({
-      where: {
-        deletedAt: null,
-        OR: [
-          { title: { contains: searchTerm, mode: 'insensitive' } },
-          { description: { contains: searchTerm, mode: 'insensitive' } },
-          { tags: { has: searchTerm } },
-        ],
-      },
-      include: {
-        tribe: {
-          select: { id: true, name: true },
+  // Use full-text search with fallback to basic search
+  let resources: any[] = []
+  let scholarships: any[] = []
+  let tribes: any[] = []
+
+  try {
+    // Try using full-text search
+    const results = await universalSearch(searchTerm, {
+      limit: 20,
+      useFullTextSearch: true,
+    })
+
+    // Extract items from search results and enrich with relations
+    const resourceIds = results.resources.map((r) => r.item.id)
+    const scholarshipIds = results.scholarships.map((s) => s.item.id)
+    const tribeIds = results.tribes.map((t) => t.item.id)
+
+    // Fetch full data with relations for resources
+    if (resourceIds.length > 0) {
+      resources = await prisma.resource.findMany({
+        where: { id: { in: resourceIds } },
+        include: {
+          tribe: {
+            select: { id: true, name: true },
+          },
         },
-      },
-      take: 20,
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.scholarship.findMany({
-      where: {
-        deletedAt: null,
-        OR: [
-          { name: { contains: searchTerm, mode: 'insensitive' } },
-          { description: { contains: searchTerm, mode: 'insensitive' } },
-          { tags: { has: searchTerm } },
-        ],
-      },
-      take: 20,
-      orderBy: { createdAt: 'desc' },
-    }),
-    prisma.tribe.findMany({
-      where: {
-        deletedAt: null,
-        OR: [
-          { name: { contains: searchTerm, mode: 'insensitive' } },
-          { region: { contains: searchTerm, mode: 'insensitive' } },
-        ],
-      },
-      take: 10,
-      orderBy: { name: 'asc' },
-    }),
-  ])
+      })
+      // Sort by original search ranking
+      resources.sort(
+        (a, b) => resourceIds.indexOf(a.id) - resourceIds.indexOf(b.id)
+      )
+    }
+
+    // Fetch full data for scholarships
+    if (scholarshipIds.length > 0) {
+      scholarships = await prisma.scholarship.findMany({
+        where: { id: { in: scholarshipIds } },
+      })
+      scholarships.sort(
+        (a, b) => scholarshipIds.indexOf(a.id) - scholarshipIds.indexOf(b.id)
+      )
+    }
+
+    // Fetch full data for tribes
+    if (tribeIds.length > 0) {
+      tribes = await prisma.tribe.findMany({
+        where: { id: { in: tribeIds } },
+      })
+      tribes.sort((a, b) => tribeIds.indexOf(a.id) - tribeIds.indexOf(b.id))
+    }
+  } catch (error) {
+    console.error('Full-text search error, falling back to basic search:', error)
+
+    // Fallback to basic search if full-text search fails
+    ;[resources, scholarships, tribes] = await Promise.all([
+      prisma.resource.findMany({
+        where: {
+          deletedAt: null,
+          OR: [
+            { title: { contains: searchTerm, mode: 'insensitive' } },
+            { description: { contains: searchTerm, mode: 'insensitive' } },
+            { tags: { hasSome: [searchTerm] } },
+          ],
+        },
+        include: {
+          tribe: {
+            select: { id: true, name: true },
+          },
+        },
+        take: 20,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.scholarship.findMany({
+        where: {
+          deletedAt: null,
+          OR: [
+            { name: { contains: searchTerm, mode: 'insensitive' } },
+            { description: { contains: searchTerm, mode: 'insensitive' } },
+            { tags: { hasSome: [searchTerm] } },
+          ],
+        },
+        take: 20,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.tribe.findMany({
+        where: {
+          deletedAt: null,
+          OR: [
+            { name: { contains: searchTerm, mode: 'insensitive' } },
+            { region: { contains: searchTerm, mode: 'insensitive' } },
+          ],
+        },
+        take: 10,
+        orderBy: { name: 'asc' },
+      }),
+    ])
+  }
 
   const totalResults = resources.length + scholarships.length + tribes.length
 
