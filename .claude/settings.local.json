@@ -40,7 +40,8 @@
       "Bash(nslookup:*)",
       "WebFetch(domain:tribalresourcehub.com)",
       "Bash(tsx scripts/add-comprehensive-data.ts:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(timeout 60 bash:*)"
     ],
     "deny": [],
     "ask": []

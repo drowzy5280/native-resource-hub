@@ -9,35 +9,41 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Modern lighter earth-tone palette
+        // Light, modern earth-tone palette with excellent contrast
         clay: {
-          DEFAULT: '#D4816A', // Lighter terracotta
-          light: '#E6A491',
-          dark: '#B8654F',
+          DEFAULT: '#C67B5C', // Warm terracotta
+          light: '#E8B4A0',
+          dark: '#A05739',
         },
         desert: {
-          DEFAULT: '#E8CDA7', // Soft sand
-          light: '#F2DFC2',
-          dark: '#D4B887',
+          DEFAULT: '#F4E4D1', // Soft cream/sand
+          light: '#FDFBF7',
+          dark: '#E8D1B5',
         },
         pine: {
-          DEFAULT: '#7A9B7E', // Soft sage green
-          light: '#9BB49E',
-          dark: '#5F7D63',
+          DEFAULT: '#6B9270', // Soft sage green
+          light: '#A5C4A8',
+          dark: '#4A6F4F',
         },
-        stone: { // Replacing midnight with warm stone gray
-          DEFAULT: '#6B6B6B', // Warm medium gray
-          light: '#8A8A8A',
-          dark: '#4A4A4A',
+        stone: {
+          DEFAULT: '#5A5550', // Deep warm gray for text
+          light: '#8A837C',
+          dark: '#3D3933',
         },
         gold: {
-          DEFAULT: '#E8B86D', // Softer gold
-          light: '#F0CB8E',
-          dark: '#D1A050',
+          DEFAULT: '#D9A566', // Warm gold
+          light: '#F0D4A6',
+          dark: '#B88642',
         },
         cream: {
-          DEFAULT: '#FAF7F2',
-          dark: '#F5F1EA',
+          DEFAULT: '#FFFDF9', // Very light warm white
+          dark: '#F9F5F0',
+        },
+        // Additional colors for better contrast
+        text: {
+          DEFAULT: '#3D3933', // Dark warm brown for main text
+          secondary: '#5A5550', // Medium warm gray for secondary text
+          muted: '#8A837C', // Light warm gray for muted text
         },
       },
       fontFamily: {
@@ -45,13 +51,14 @@ const config: Config = {
         body: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        'earth': '16px',
-        'earth-lg': '24px',
-        'earth-xl': '32px',
+        'earth': '12px',
+        'earth-lg': '20px',
+        'earth-xl': '28px',
       },
       boxShadow: {
-        'soft': '0 2px 8px rgba(107, 107, 107, 0.06)',
-        'soft-lg': '0 4px 16px rgba(107, 107, 107, 0.08)',
+        'soft': '0 2px 8px rgba(90, 85, 80, 0.08)',
+        'soft-lg': '0 4px 16px rgba(90, 85, 80, 0.12)',
+        'card': '0 1px 3px rgba(90, 85, 80, 0.1)',
       },
     },
   },

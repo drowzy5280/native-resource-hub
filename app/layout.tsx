@@ -10,8 +10,6 @@ import { ToastProvider } from '@/components/Toast'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 import { GeometricPattern } from '@/components/Patterns'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { ThemeProvider } from '@/components/ThemeProvider'
-import { ThemeToggle } from '@/components/ThemeToggle'
 import { ComparisonProvider } from '@/components/ComparisonContext'
 import { ComparisonBar } from '@/components/ComparisonBar'
 import { RecentlyViewedProvider } from '@/components/RecentlyViewedContext'
@@ -160,14 +158,13 @@ export default function RootLayout({
         </a>
 
         <ServiceWorkerRegister />
-        <ThemeProvider>
-          <RecentlyViewedProvider>
-            <ComparisonProvider>
-              <ToastProvider>
-                <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
+        <RecentlyViewedProvider>
+          <ComparisonProvider>
+            <ToastProvider>
+              <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 
           {/* Header */}
-        <nav className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-b border-desert/30 dark:border-white/20 sticky top-0 z-50">
+        <nav className="bg-white/98 backdrop-blur-sm border-b border-desert/40 sticky top-0 z-50 shadow-soft">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
               {/* Logo */}
@@ -177,44 +174,39 @@ export default function RootLayout({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-stone-dark dark:text-cream">
+                <span className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-text">
                   <span className="hidden sm:inline">Tribal Resource Hub</span>
                   <span className="sm:hidden">Tribal Hub</span>
                 </span>
               </Link>
 
-              <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-4">
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-1">
                   <Link
                     href="/resources"
-                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
                   >
                     Resources
                   </Link>
                   <Link
                     href="/nonprofits"
-                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
                   >
                     Nonprofits
                   </Link>
                   <Link
                     href="/tribes"
-                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
                   >
                     Tribes
                   </Link>
                   <Link
                     href="/scholarships"
-                    className="px-4 py-2 text-stone dark:text-cream hover:text-pine dark:hover:text-gold transition-colors font-medium rounded-earth hover:bg-desert/10 dark:hover:bg-white/10"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
                   >
                     Scholarships
                   </Link>
-                </div>
-
-                {/* Theme Toggle */}
-                <div className="hidden md:block">
-                  <ThemeToggle />
                 </div>
 
                 {/* Mobile Navigation */}
@@ -230,9 +222,9 @@ export default function RootLayout({
           </main>
         </ErrorBoundary>
 
-        <footer className="bg-cream-dark border-t border-desert/30 mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
+        <footer className="bg-desert/30 border-t border-desert/50 mt-16 sm:mt-20 lg:mt-24 relative overflow-hidden">
           {/* Decorative pattern overlay */}
-          <div className="absolute inset-0 text-pine opacity-[0.02]">
+          <div className="absolute inset-0 text-pine opacity-[0.03]">
             <GeometricPattern className="w-full h-full" />
           </div>
 
@@ -245,33 +237,33 @@ export default function RootLayout({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-heading font-bold text-stone-dark">Tribal Resource Hub</h3>
+                  <h3 className="text-lg sm:text-xl font-heading font-bold text-text">Tribal Resource Hub</h3>
                 </div>
-                <p className="text-stone text-sm sm:text-base leading-relaxed">
+                <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
                   A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-stone-dark">Quick Links</h4>
+                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-text">Quick Links</h4>
                 <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base">
                   <li>
-                    <Link href="/resources" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/resources" className="text-text-secondary hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Browse Resources
                     </Link>
                   </li>
                   <li>
-                    <Link href="/nonprofits" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/nonprofits" className="text-text-secondary hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Nonprofits
                     </Link>
                   </li>
                   <li>
-                    <Link href="/tribes" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/tribes" className="text-text-secondary hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Find Tribes
                     </Link>
                   </li>
                   <li>
-                    <Link href="/scholarships" className="text-stone hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
+                    <Link href="/scholarships" className="text-text-secondary hover:text-pine transition-colors inline-block py-1 min-h-[44px] flex items-center">
                       Scholarships
                     </Link>
                   </li>
@@ -279,14 +271,14 @@ export default function RootLayout({
               </div>
 
               <div>
-                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-stone-dark">Our Mission</h4>
-                <p className="text-stone text-sm sm:text-base leading-relaxed">
+                <h4 className="text-base sm:text-lg font-heading font-semibold mb-3 sm:mb-4 text-text">Our Mission</h4>
+                <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
                   Supporting Indigenous communities by providing easy access to resources from federal, state, and tribal sources.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-desert/30 mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-stone-light">
+            <div className="border-t border-desert/50 mt-8 sm:mt-10 lg:mt-12 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-text-muted">
               <p>&copy; {new Date().getFullYear()} Tribal Resource Hub. All rights reserved.</p>
             </div>
           </div>
@@ -296,7 +288,6 @@ export default function RootLayout({
               </ToastProvider>
             </ComparisonProvider>
           </RecentlyViewedProvider>
-        </ThemeProvider>
       </body>
     </html>
   )
