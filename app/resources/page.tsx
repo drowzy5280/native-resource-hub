@@ -168,7 +168,7 @@ export default async function ResourcesPage({
 
       {resources.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-earth-brown/60 text-lg">
+          <p className="text-text/60 text-lg">
             No resources found. Try adjusting your filters.
           </p>
         </div>

@@ -129,19 +129,19 @@ export default async function ResourceDetailPage({
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-earth-lg p-8 border border-earth-sand/30 dark:border-white/30">
+      <div className="bg-white rounded-earth-lg shadow-card p-8 border border-desert/40">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Tag label={resource.type} variant="pine" />
             {resource.state && <Tag label={resource.state} variant="clay" />}
           </div>
-          <h1 className="text-4xl font-bold text-earth-brown dark:text-cream mb-4">
+          <h1 className="text-4xl font-bold text-text mb-4">
             {resource.title}
           </h1>
 
           {/* Verification Status and Report Button */}
-          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-desert/20">
+          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-desert/30">
             <VerificationBadge
               lastVerified={resource.lastVerified}
               verifiedBy={resource.verifiedBy}
@@ -156,8 +156,8 @@ export default async function ResourceDetailPage({
 
         {/* Description */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Description</h2>
-          <p className="text-earth-brown/80 dark:text-cream/80 leading-relaxed">
+          <h2 className="text-xl font-semibold text-text mb-3">Description</h2>
+          <p className="text-text-secondary leading-relaxed">
             {resource.description}
           </p>
         </div>
@@ -165,10 +165,10 @@ export default async function ResourceDetailPage({
         {/* Eligibility */}
         {resource.eligibility.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Eligibility</h2>
+            <h2 className="text-xl font-semibold text-text mb-3">Eligibility</h2>
             <ul className="list-disc list-inside space-y-2">
               {resource.eligibility.map((req, index) => (
-                <li key={index} className="text-earth-brown/80 dark:text-cream/80">
+                <li key={index} className="text-text-secondary">
                   {req}
                 </li>
               ))}
@@ -178,7 +178,7 @@ export default async function ResourceDetailPage({
 
         {/* Tags */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Categories</h2>
+          <h2 className="text-xl font-semibold text-text mb-3">Categories</h2>
           <div className="flex flex-wrap gap-2">
             {resource.tags.map((tag) => (
               <Tag key={tag} label={tag} />
@@ -189,10 +189,10 @@ export default async function ResourceDetailPage({
         {/* Tribe */}
         {resource.tribe && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Tribe</h2>
+            <h2 className="text-xl font-semibold text-text mb-3">Tribe</h2>
             <Link
               href={`/tribes/${resource.tribe.id}`}
-              className="text-earth-teal dark:text-gold hover:underline text-lg"
+              className="text-pine hover:text-pine-dark hover:underline text-lg font-medium"
             >
               {resource.tribe.name}
             </Link>
@@ -206,7 +206,7 @@ export default async function ResourceDetailPage({
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-earth-teal dark:bg-gold text-white rounded-earth font-medium hover:bg-earth-teal/90 dark:hover:bg-gold/90 transition-colors"
+              className="inline-block px-6 py-3 bg-pine text-white rounded-earth font-medium hover:bg-pine-dark transition-colors shadow-soft"
             >
               Visit Official Website ↗
             </a>
@@ -214,7 +214,7 @@ export default async function ResourceDetailPage({
         </div>
 
         {/* Meta */}
-        <div className="border-t border-earth-sand dark:border-white/20 pt-6 text-sm text-earth-brown/60 dark:text-cream/60">
+        <div className="border-t border-desert/40 pt-6 text-sm text-text-muted">
           <p>Last updated: {formatDate(resource.updatedAt)}</p>
           {resource.source && <p>Source: {resource.source}</p>}
         </div>

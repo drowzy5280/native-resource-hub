@@ -94,7 +94,7 @@ export default async function TribesPage() {
 
       {tribes.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-earth-brown/60 text-lg">
+          <p className="text-text/60 text-lg">
             No tribes found. Check back soon as we add more data.
           </p>
         </div>

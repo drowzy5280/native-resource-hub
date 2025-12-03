@@ -124,12 +124,12 @@ export default async function ScholarshipDetailPage({
         <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-earth-lg p-8 border border-earth-sand/30 dark:border-white/30">
+      <div className="bg-white rounded-earth-lg shadow-card p-8 border border-desert/40">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
             {scholarship.amount && (
-              <span className="px-4 py-2 text-lg font-semibold rounded-full bg-earth-teal/10 dark:bg-earth-teal/20 text-earth-teal dark:text-earth-teal">
+              <span className="px-4 py-2 text-lg font-semibold rounded-earth bg-gold/20 text-gold-dark border border-gold/40">
                 {scholarship.amount}
               </span>
             )}
@@ -137,19 +137,19 @@ export default async function ScholarshipDetailPage({
               <Tag label="Closing Soon" variant="clay" />
             )}
           </div>
-          <h1 className="text-4xl font-bold text-earth-brown dark:text-cream mb-4">
+          <h1 className="text-4xl font-bold text-text mb-4">
             {scholarship.name}
           </h1>
         </div>
 
         {/* Deadline */}
         {deadlineInfo && !deadlineInfo.isPast && (
-          <div className="mb-8 p-4 bg-earth-cream dark:bg-gray-700 rounded-earth-lg">
-            <h2 className="text-lg font-semibold text-earth-brown dark:text-cream mb-1">Application Deadline</h2>
-            <p className="text-2xl font-bold text-earth-rust dark:text-gold mb-1">
+          <div className="mb-8 p-4 bg-desert/20 rounded-earth-lg border border-desert/40">
+            <h2 className="text-lg font-semibold text-text mb-1">Application Deadline</h2>
+            <p className="text-2xl font-bold text-clay-dark mb-1">
               {deadlineInfo.formatted}
             </p>
-            <p className="text-earth-brown/70 dark:text-cream/70">
+            <p className="text-text-secondary">
               {deadlineInfo.daysUntil} days remaining
             </p>
           </div>
@@ -157,8 +157,8 @@ export default async function ScholarshipDetailPage({
 
         {/* Description */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">About This Scholarship</h2>
-          <p className="text-earth-brown/80 dark:text-cream/80 leading-relaxed">
+          <h2 className="text-xl font-semibold text-text mb-3">About This Scholarship</h2>
+          <p className="text-text-secondary leading-relaxed">
             {scholarship.description}
           </p>
         </div>
@@ -166,10 +166,10 @@ export default async function ScholarshipDetailPage({
         {/* Eligibility */}
         {scholarship.eligibility.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Eligibility Requirements</h2>
+            <h2 className="text-xl font-semibold text-text mb-3">Eligibility Requirements</h2>
             <ul className="list-disc list-inside space-y-2">
               {scholarship.eligibility.map((req, index) => (
-                <li key={index} className="text-earth-brown/80 dark:text-cream/80">
+                <li key={index} className="text-text-secondary">
                   {req}
                 </li>
               ))}
@@ -179,7 +179,7 @@ export default async function ScholarshipDetailPage({
 
         {/* Tags */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-earth-brown dark:text-cream mb-3">Categories</h2>
+          <h2 className="text-xl font-semibold text-text mb-3">Categories</h2>
           <div className="flex flex-wrap gap-2">
             {scholarship.tags.map((tag) => (
               <Tag key={tag} label={tag} />
@@ -194,7 +194,7 @@ export default async function ScholarshipDetailPage({
               href={scholarship.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-earth-teal dark:bg-gold text-white rounded-earth-lg font-semibold text-lg hover:bg-earth-teal/90 dark:hover:bg-gold/90 transition-colors"
+              className="inline-block px-8 py-4 bg-gold text-white rounded-earth-lg font-semibold text-lg hover:bg-gold-dark transition-colors shadow-soft"
             >
               Apply Now ↗
             </a>
@@ -202,7 +202,7 @@ export default async function ScholarshipDetailPage({
         )}
 
         {/* Meta */}
-        <div className="border-t border-earth-sand dark:border-white/20 pt-6 text-sm text-earth-brown/60 dark:text-cream/60">
+        <div className="border-t border-desert/40 pt-6 text-sm text-text-muted">
           <p>Last updated: {formatDate(scholarship.updatedAt)}</p>
           {scholarship.source && <p>Source: {scholarship.source}</p>}
         </div>

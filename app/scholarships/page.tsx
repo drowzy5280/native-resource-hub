@@ -225,7 +225,7 @@ export default async function ScholarshipsPage({
 
       {filteredUpcoming.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-earth-brown mb-6">Upcoming Deadlines</h2>
+          <h2 className="text-2xl font-bold text-text mb-6">Upcoming Deadlines</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredUpcoming.map((scholarship) => (
               <ScholarshipCard
@@ -248,7 +248,7 @@ export default async function ScholarshipsPage({
 
       {filteredNoDeadline.length > 0 && (
         <section>
-          <h2 className="text-2xl font-bold text-earth-brown mb-6">Rolling Deadlines</h2>
+          <h2 className="text-2xl font-bold text-text mb-6">Rolling Deadlines</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredNoDeadline.map((scholarship) => (
               <ScholarshipCard
@@ -276,7 +276,7 @@ export default async function ScholarshipsPage({
 
       {totalCount === 0 && (
         <div className="text-center py-12">
-          <p className="text-earth-brown/60 text-lg">
+          <p className="text-text/60 text-lg">
             No scholarships found. Check back soon as we add more data.
           </p>
         </div>

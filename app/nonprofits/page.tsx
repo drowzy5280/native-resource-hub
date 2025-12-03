@@ -166,7 +166,7 @@ export default async function NonprofitsPage({
             </div>
             <div>
               <div className="text-3xl font-heading font-bold text-pine">{federalCount}</div>
-              <div className="text-gray-600">National Organizations</div>
+              <div className="text-text-muted">National Organizations</div>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ export default async function NonprofitsPage({
             </div>
             <div>
               <div className="text-3xl font-heading font-bold text-clay">{stateCount}</div>
-              <div className="text-gray-600">State Organizations</div>
+              <div className="text-text-muted">State Organizations</div>
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@ export default async function NonprofitsPage({
 
       {nonprofits.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-earth-brown/60 text-lg">
+          <p className="text-text/60 text-lg">
             No nonprofit organizations found. Try adjusting your filters.
           </p>
         </div>

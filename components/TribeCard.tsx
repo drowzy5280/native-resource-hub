@@ -22,7 +22,7 @@ export function TribeCard({
   programCount,
 }: TribeCardProps) {
   return (
-    <div className="bg-white rounded-earth-lg card-shadow p-6 border border-desert/30 hover:border-pine/20 transition-all group">
+    <div className="bg-white rounded-earth-lg shadow-card p-6 border border-desert/30 hover:border-pine/20 transition-all group">
       <div className="mb-5">
         {/* Tribe Icon and Save Button */}
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -33,7 +33,7 @@ export function TribeCard({
               </svg>
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-heading font-semibold text-gray-900 mb-2 group-hover:text-pine transition-colors line-clamp-2">
+              <h3 className="text-xl font-heading font-semibold text-text mb-2 group-hover:text-pine transition-colors line-clamp-2">
                 {name}
               </h3>
             </div>
@@ -43,7 +43,7 @@ export function TribeCard({
 
         <div className="flex flex-wrap gap-2 mb-4">
           {region && (
-            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-desert/20 text-gray-900 border border-desert/40">
+            <span className="px-3 py-1.5 text-xs font-medium rounded-earth bg-desert/20 text-text border border-desert/40">
               {region}
             </span>
           )}
@@ -55,7 +55,7 @@ export function TribeCard({
         </div>
 
         {programCount !== undefined && (
-          <div className="flex items-center gap-2 text-sm text-gray-700">
+          <div className="flex items-center gap-2 text-sm text-text-secondary">
             <svg className="w-4 h-4 text-pine" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>

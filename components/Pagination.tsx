@@ -57,14 +57,14 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       {currentPage > 1 ? (
         <Link
           href={createPageUrl(currentPage - 1)}
-          className="px-4 py-2 rounded-earth border border-earth-sand hover:bg-earth-sand/10 transition-colors"
+          className="px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors"
         >
           Previous
         </Link>
       ) : (
         <button
           disabled
-          className="px-4 py-2 rounded-earth border border-earth-sand/30 text-earth-brown/30 cursor-not-allowed"
+          className="px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed"
         >
           Previous
         </button>
@@ -92,8 +92,8 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
                 px-4 py-2 rounded-earth border transition-colors
                 ${
                   isActive
-                    ? 'bg-earth-brown text-earth-cream border-earth-brown'
-                    : 'border-earth-sand hover:bg-earth-sand/10'
+                    ? 'bg-text text-earth-cream border-text'
+                    : 'border-desert hover:bg-earth-sand/10'
                 }
               `}
             >
@@ -107,14 +107,14 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       {currentPage < totalPages ? (
         <Link
           href={createPageUrl(currentPage + 1)}
-          className="px-4 py-2 rounded-earth border border-earth-sand hover:bg-earth-sand/10 transition-colors"
+          className="px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors"
         >
           Next
         </Link>
       ) : (
         <button
           disabled
-          className="px-4 py-2 rounded-earth border border-earth-sand/30 text-earth-brown/30 cursor-not-allowed"
+          className="px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed"
         >
           Next
         </button>

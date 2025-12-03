@@ -11,11 +11,11 @@ export function SectionHeader({ title, description, actionLabel, actionHref }: S
   return (
     <div className="flex justify-between items-end mb-6">
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <h2 className="text-3xl font-bold text-text mb-2">
           {title}
         </h2>
         {description && (
-          <p className="text-gray-700">
+          <p className="text-text-secondary">
             {description}
           </p>
         )}

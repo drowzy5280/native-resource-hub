@@ -25,18 +25,18 @@ export function EmptyState({
   return (
     <div className="text-center py-12 px-4">
       <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600 mb-6 max-w-md mx-auto">{description}</p>
+      <h3 className="text-xl font-semibold text-text mb-2">{title}</h3>
+      <p className="text-text-muted mb-6 max-w-md mx-auto">{description}</p>
 
       {suggestions.length > 0 && (
         <div className="bg-desert/10 rounded-earth-lg p-6 mb-6 max-w-lg mx-auto text-left">
-          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+          <h4 className="font-semibold text-text mb-3 flex items-center gap-2">
             <svg className="w-5 h-5 text-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Try these suggestions:
           </h4>
-          <ul className="space-y-2 text-gray-700 text-sm">
+          <ul className="space-y-2 text-text-secondary text-sm">
             {suggestions.map((suggestion, index) => (
               <li key={index} className="flex items-start gap-2">
                 <svg className="w-5 h-5 text-pine flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
