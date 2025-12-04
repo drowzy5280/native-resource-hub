@@ -13,6 +13,9 @@ import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { ComparisonProvider } from '@/components/ComparisonContext'
 import { ComparisonBar } from '@/components/ComparisonBar'
 import { RecentlyViewedProvider } from '@/components/RecentlyViewedContext'
+import { BottomNav } from '@/components/BottomNav'
+import { OfflineIndicator } from '@/components/OfflineIndicator'
+import { AccessibilityControls } from '@/components/AccessibilityControls'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -158,6 +161,8 @@ export default function RootLayout({
         </a>
 
         <ServiceWorkerRegister />
+        <OfflineIndicator />
+        <AccessibilityControls />
         <RecentlyViewedProvider>
           <ComparisonProvider>
             <ToastProvider>
@@ -285,6 +290,7 @@ export default function RootLayout({
         </footer>
                 <Analytics />
                 <ComparisonBar />
+                <BottomNav />
               </ToastProvider>
             </ComparisonProvider>
           </RecentlyViewedProvider>

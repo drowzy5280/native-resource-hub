@@ -126,18 +126,18 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
   const hasFilters = selectedTags.length > 0 || selectedEducationLevel || selectedAmountRange || selectedDeadlineRange
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-earth-lg shadow-sm border border-earth-sand/30 dark:border-white/20 p-4 sm:p-6 mb-6">
+    <div className="bg-white rounded-earth-lg shadow-soft border border-desert/20 p-4 sm:p-6 mb-6">
       {/* Header with results count */}
       {totalCount !== undefined && (
-        <div className="mb-4 pb-4 border-b border-earth-sand/20 dark:border-white/10">
+        <div className="mb-4 pb-4 border-b border-desert/40">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-midnight dark:text-cream">
+            <h3 className="text-lg font-semibold text-text">
               {totalCount} Scholarship{totalCount !== 1 ? 's' : ''} Found
             </h3>
             <button
               type="button"
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              className="text-sm text-clay dark:text-gold hover:underline flex items-center gap-2"
+              className="text-sm text-pine hover:text-pine-dark transition-colors flex items-center gap-2 font-medium"
             >
               {showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters
               <svg
@@ -159,7 +159,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
         <div className="flex-1 w-full lg:w-auto">
           <label
             htmlFor="level-filter"
-            className="block text-sm font-medium text-midnight dark:text-cream mb-2"
+            className="block text-sm font-medium text-text mb-2"
           >
             Education Level
           </label>
@@ -170,7 +170,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
               setSelectedEducationLevel(e.target.value)
               handleFilterChange('level', e.target.value)
             }}
-            className="w-full px-4 py-2 border border-earth-sand dark:border-white/30 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay dark:focus:ring-gold bg-white dark:bg-gray-700 text-midnight dark:text-cream"
+            className="w-full px-4 py-2 border border-desert/60 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine bg-white text-text"
             aria-label="Filter by education level"
           >
             <option value="">All Levels</option>
@@ -184,22 +184,22 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
 
         {/* Categories/Tags */}
         <div className="flex-1 w-full lg:w-auto relative">
-          <label className="block text-sm font-medium text-midnight dark:text-cream mb-2">
+          <label className="block text-sm font-medium text-text mb-2">
             Categories {selectedTags.length > 0 && `(${selectedTags.length})`}
           </label>
           <button
             type="button"
             onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-            className="w-full px-4 py-2 border border-earth-sand dark:border-white/30 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay dark:focus:ring-gold text-left flex items-center justify-between bg-white dark:bg-gray-700"
+            className="w-full px-4 py-2 border border-desert/60 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine text-left flex items-center justify-between bg-white"
             aria-label="Filter by categories"
           >
-            <span className="text-midnight/70 dark:text-cream/70 truncate">
+            <span className="text-text-secondary truncate">
               {selectedTags.length === 0
                 ? 'Select categories...'
                 : selectedTags.slice(0, 3).join(', ') + (selectedTags.length > 3 ? '...' : '')}
             </span>
             <svg
-              className={`w-5 h-5 text-midnight/50 dark:text-cream/50 transition-transform flex-shrink-0 ml-2 ${
+              className={`w-5 h-5 text-text-muted transition-transform flex-shrink-0 ml-2 ${
                 showTagsDropdown ? 'rotate-180' : ''
               }`}
               fill="none"
@@ -216,20 +216,20 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                 className="fixed inset-0 z-10"
                 onClick={() => setShowTagsDropdown(false)}
               />
-              <div className="absolute z-20 mt-1 w-full bg-white dark:bg-gray-700 border border-earth-sand dark:border-white/30 rounded-earth shadow-lg max-h-64 overflow-y-auto">
+              <div className="absolute z-20 mt-1 w-full bg-white border border-desert/60 rounded-earth shadow-soft max-h-64 overflow-y-auto">
                 <div className="p-2 space-y-1">
                   {SCHOLARSHIP_TAGS.map((tag) => (
                     <label
                       key={tag}
-                      className="flex items-center px-3 py-2 hover:bg-earth-cream dark:hover:bg-gray-600 rounded cursor-pointer"
+                      className="flex items-center px-3 py-2 hover:bg-desert/10 rounded-earth cursor-pointer transition-colors"
                     >
                       <input
                         type="checkbox"
                         checked={selectedTags.includes(tag)}
                         onChange={() => handleTagToggle(tag)}
-                        className="mr-3 h-4 w-4 text-clay dark:text-gold border-earth-sand dark:border-white/30 rounded focus:ring-clay dark:focus:ring-gold"
+                        className="mr-3 h-4 w-4 text-pine border-desert/60 rounded focus:ring-pine/20"
                       />
-                      <span className="text-midnight dark:text-cream">{tag}</span>
+                      <span className="text-text">{tag}</span>
                     </label>
                   ))}
                 </div>
@@ -242,7 +242,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
         <div className="flex-1 w-full lg:w-auto">
           <label
             htmlFor="sort-filter"
-            className="block text-sm font-medium text-midnight dark:text-cream mb-2"
+            className="block text-sm font-medium text-text mb-2"
           >
             Sort By
           </label>
@@ -253,7 +253,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
               setSelectedSort(e.target.value)
               handleFilterChange('sort', e.target.value)
             }}
-            className="w-full px-4 py-2 border border-earth-sand dark:border-white/30 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay dark:focus:ring-gold bg-white dark:bg-gray-700 text-midnight dark:text-cream"
+            className="w-full px-4 py-2 border border-desert/60 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine bg-white text-text"
             aria-label="Sort results"
           >
             <option value="deadline-asc">Deadline (Soonest)</option>
@@ -268,7 +268,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
         {hasFilters && (
           <button
             onClick={clearFilters}
-            className="px-4 py-2 text-clay dark:text-gold hover:text-clay/80 dark:hover:text-gold/80 font-medium transition-colors whitespace-nowrap"
+            className="px-4 py-2 text-pine hover:text-pine-dark font-medium transition-colors whitespace-nowrap"
             aria-label="Clear all filters"
           >
             Clear Filters
@@ -278,13 +278,13 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
 
       {/* Advanced Filters */}
       {showAdvancedFilters && (
-        <div className="mt-4 pt-4 border-t border-earth-sand/20 dark:border-white/10">
+        <div className="mt-4 pt-4 border-t border-desert/40">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Amount Range */}
             <div className="flex-1">
               <label
                 htmlFor="amount-filter"
-                className="block text-sm font-medium text-midnight dark:text-cream mb-2"
+                className="block text-sm font-medium text-text mb-2"
               >
                 Award Amount
               </label>
@@ -295,7 +295,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                   setSelectedAmountRange(e.target.value)
                   handleFilterChange('amount', e.target.value)
                 }}
-                className="w-full px-4 py-2 border border-earth-sand dark:border-white/30 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay dark:focus:ring-gold bg-white dark:bg-gray-700 text-midnight dark:text-cream"
+                className="w-full px-4 py-2 border border-desert/60 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine bg-white text-text"
                 aria-label="Filter by award amount"
               >
                 {AMOUNT_RANGES.map((range) => (
@@ -310,7 +310,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
             <div className="flex-1">
               <label
                 htmlFor="deadline-filter"
-                className="block text-sm font-medium text-midnight dark:text-cream mb-2"
+                className="block text-sm font-medium text-text mb-2"
               >
                 Deadline
               </label>
@@ -321,7 +321,7 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                   setSelectedDeadlineRange(e.target.value)
                   handleFilterChange('deadline', e.target.value)
                 }}
-                className="w-full px-4 py-2 border border-earth-sand dark:border-white/30 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay dark:focus:ring-gold bg-white dark:bg-gray-700 text-midnight dark:text-cream"
+                className="w-full px-4 py-2 border border-desert/60 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/20 focus:border-pine bg-white text-text"
                 aria-label="Filter by deadline"
               >
                 {DEADLINE_RANGES.map((range) => (
@@ -336,17 +336,17 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
           {/* Active Filters Display */}
           {hasFilters && (
             <div className="mt-4">
-              <div className="text-sm text-midnight/70 dark:text-cream/70 mb-2">Active Filters:</div>
+              <div className="text-sm text-text-secondary mb-2">Active Filters:</div>
               <div className="flex flex-wrap gap-2">
                 {selectedEducationLevel && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-clay/10 dark:bg-gold/10 text-clay dark:text-gold rounded-full text-sm">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-pine/10 text-pine-dark border border-pine/30 rounded-full text-sm font-medium">
                     {EDUCATION_LEVELS.find(l => l.value === selectedEducationLevel)?.label}
                     <button
                       onClick={() => {
                         setSelectedEducationLevel('')
                         handleFilterChange('level', '')
                       }}
-                      className="hover:bg-clay/20 dark:hover:bg-gold/20 rounded-full p-0.5"
+                      className="hover:bg-pine/20 rounded-full p-0.5 transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -355,14 +355,14 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                   </span>
                 )}
                 {selectedAmountRange && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-clay/10 dark:bg-gold/10 text-clay dark:text-gold rounded-full text-sm">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-gold/10 text-gold-dark border border-gold/30 rounded-full text-sm font-medium">
                     {AMOUNT_RANGES.find(r => r.value === selectedAmountRange)?.label}
                     <button
                       onClick={() => {
                         setSelectedAmountRange('')
                         handleFilterChange('amount', '')
                       }}
-                      className="hover:bg-clay/20 dark:hover:bg-gold/20 rounded-full p-0.5"
+                      className="hover:bg-gold/20 rounded-full p-0.5 transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -371,14 +371,14 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                   </span>
                 )}
                 {selectedDeadlineRange && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-clay/10 dark:bg-gold/10 text-clay dark:text-gold rounded-full text-sm">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-clay/10 text-clay-dark border border-clay/30 rounded-full text-sm font-medium">
                     {DEADLINE_RANGES.find(r => r.value === selectedDeadlineRange)?.label}
                     <button
                       onClick={() => {
                         setSelectedDeadlineRange('')
                         handleFilterChange('deadline', '')
                       }}
-                      className="hover:bg-clay/20 dark:hover:bg-gold/20 rounded-full p-0.5"
+                      className="hover:bg-clay/20 rounded-full p-0.5 transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -387,11 +387,11 @@ export function ScholarshipFilterBar({ totalCount }: ScholarshipFilterBarProps) 
                   </span>
                 )}
                 {selectedTags.map(tag => (
-                  <span key={tag} className="inline-flex items-center gap-1 px-3 py-1 bg-clay/10 dark:bg-gold/10 text-clay dark:text-gold rounded-full text-sm">
+                  <span key={tag} className="inline-flex items-center gap-1 px-3 py-1 bg-desert/20 text-text border border-desert/40 rounded-full text-sm font-medium">
                     {tag}
                     <button
                       onClick={() => handleTagToggle(tag)}
-                      className="hover:bg-clay/20 dark:hover:bg-gold/20 rounded-full p-0.5"
+                      className="hover:bg-desert/30 rounded-full p-0.5 transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

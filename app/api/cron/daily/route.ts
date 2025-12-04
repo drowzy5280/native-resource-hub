@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { checkLinks } from '@/lib/ai/linkChecker'
 import { verifyCronSecret } from '@/lib/auth'
+import { notificationService } from '@/lib/email/notifications'
 
 export async function GET(request: NextRequest) {
   // Verify cron secret
@@ -186,6 +187,15 @@ export async function GET(request: NextRequest) {
     // DAILY TASKS - Run every day
     console.log('Running DAILY tasks...')
     results.tasksRun.push('daily')
+
+    // Send scholarship deadline reminders
+    console.log('Sending deadline reminders...')
+    try {
+      await notificationService.sendDeadlineReminders()
+      console.log('Deadline reminders sent successfully')
+    } catch (error) {
+      console.error('Failed to send deadline reminders:', error)
+    }
 
     // Basic health check and stats
     const dailyStats = {

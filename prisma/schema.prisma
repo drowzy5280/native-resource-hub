@@ -46,24 +46,40 @@ model Tribe {
 }
 
 model Resource {
-  id            String           @id @default(uuid())
-  type          ResourceType
-  title         String
-  description   String
-  url           String?          @unique
-  eligibility   String[]
-  tags          String[]
-  state         String?
-  tribeId       String?
-  tribe         Tribe?           @relation(fields: [tribeId], references: [id])
-  saved         SavedResource[]
-  reviews       ResourceReview[]
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  deletedAt     DateTime?
-  source        String?
-  lastVerified  DateTime?
-  verifiedBy    String?
+  id                    String           @id @default(uuid())
+  type                  ResourceType
+  title                 String
+  description           String
+  url                   String?          @unique
+  eligibility           String[]
+  tags                  String[]
+  state                 String?
+  tribeId               String?
+  tribe                 Tribe?           @relation(fields: [tribeId], references: [id])
+  saved                 SavedResource[]
+  reviews               ResourceReview[]
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  deletedAt             DateTime?
+  source                String?
+  lastVerified          DateTime?
+  verifiedBy            String?
+
+  // Enhanced fields for better UX
+  applicationProcess    String?          // Step-by-step guide
+  requiredDocuments     String[]         @default([]) // List of required docs
+  processingTime        String?          // e.g., "2-4 weeks"
+  contactPhone          String?
+  contactEmail          String?
+  officeHours           String?
+  languageSupport       String[]         @default([]) // ["English", "Navajo", etc.]
+  videoUrl              String?          // Tutorial/info video
+  averageAward          String?          // For financial assistance programs
+  recipientsPerYear     Int?             // How many people helped annually
+  renewalRequired       Boolean?         @default(false)
+  renewalDeadline       DateTime?
+  difficulty            Difficulty?      @default(moderate) // Application difficulty
+  featured              Boolean          @default(false) // Featured resources
 
   @@index([state])
   @@index([tribeId])
@@ -72,31 +88,53 @@ model Resource {
   @@index([deletedAt])
   @@index([type, state, deletedAt])
   @@index([lastVerified])
+  @@index([featured])
+  @@index([difficulty])
 }
 
 model Scholarship {
-  id            String                   @id @default(uuid())
-  name          String
-  amount        String?
-  deadline      DateTime?
-  description   String
-  tags          String[]
-  eligibility   String[]
-  url           String?                  @unique
-  source        String?
-  applications  ScholarshipApplication[]
-  reviews       ScholarshipReview[]
-  createdAt     DateTime                 @default(now())
-  updatedAt     DateTime                 @updatedAt
-  deletedAt     DateTime?
-  lastVerified  DateTime?
-  verifiedBy    String?
+  id                    String                   @id @default(uuid())
+  name                  String
+  amount                String?
+  deadline              DateTime?
+  description           String
+  tags                  String[]
+  eligibility           String[]
+  url                   String?                  @unique
+  source                String?
+  applications          ScholarshipApplication[]
+  reviews               ScholarshipReview[]
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+  deletedAt             DateTime?
+  lastVerified          DateTime?
+  verifiedBy            String?
+
+  // Enhanced fields
+  essayRequired         Boolean?                 @default(false)
+  letterOfRecRequired   Int?                     // Number of recommendation letters
+  minGPA                Float?
+  specificMajors        String[]                 @default([]) // Required or preferred majors
+  tribalEnrollmentReq   Boolean?                 @default(false)
+  recipientsPerYear     Int?
+  renewalEligibility    Boolean?                 @default(false)
+  contactEmail          String?
+  contactPhone          String?
+  applicationProcess    String?                  // Step-by-step guide
+  requiredDocuments     String[]                 @default([])
+  videoUrl              String?
+  featured              Boolean                  @default(false)
+  amountMin             Int?                     // For range filtering
+  amountMax             Int?
 
   @@index([deadline])
   @@index([createdAt])
   @@index([deletedAt])
   @@index([deadline, deletedAt])
   @@index([lastVerified])
+  @@index([featured])
+  @@index([minGPA])
+  @@index([amountMin, amountMax])
 }
 
 model SavedResource {
@@ -198,4 +236,98 @@ enum ApplicationStatus {
   accepted
   rejected
   withdrawn
+}
+
+enum Difficulty {
+  simple
+  moderate
+  complex
+}
+
+model ResourceGuide {
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  title         String
+  description   String
+  content       String   // Markdown content
+  category      String   // "benefits", "enrollment", "eligibility", "state-guide"
+  icon          String?  // Icon identifier
+  author        String?
+  readTime      Int?     // Reading time in minutes
+  published     Boolean  @default(false)
+  featured      Boolean  @default(false)
+  viewCount     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+  @@index([featured])
+}
+
+model SuccessStory {
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  name          String   // Person's name or "Anonymous"
+  tribe         String?  // Tribal affiliation
+  location      String?  // State or general location
+  title         String   // Story title
+  excerpt       String   // Short summary
+  content       String   // Full story (markdown)
+  category      String   // "scholarship", "resource", "program", "general"
+  resourceType  String?  // Related resource type
+  imageUrl      String?  // Optional photo
+  testimonial   String?  // Pull quote
+  published     Boolean  @default(false)
+  featured      Boolean  @default(false)
+  viewCount     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+  @@index([featured])
+}
+
+model FAQ {
+  id            String   @id @default(uuid())
+  question      String
+  answer        String   // Markdown content
+  category      String   // "eligibility", "application", "deadlines", "general"
+  order         Int      @default(0) // For manual sorting
+  helpful       Int      @default(0) // Helpful vote count
+  notHelpful    Int      @default(0) // Not helpful vote count
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category])
+  @@index([published])
+  @@index([order])
+}
+
+model BlogPost {
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  title         String
+  excerpt       String
+  content       String   // Markdown content
+  category      String   // "news", "updates", "policy", "deadline", "community"
+  tags          String[]
+  author        String
+  imageUrl      String?  // Featured image
+  published     Boolean  @default(false)
+  featured      Boolean  @default(false)
+  viewCount     Int      @default(0)
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+  @@index([featured])
+  @@index([publishedAt])
 }

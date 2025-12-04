@@ -50,7 +50,14 @@
       "Bash(fi)",
       "Bash(done)",
       "Bash(for file in components/EmptyState.tsx components/SectionHeader.tsx components/FilterBar.tsx components/Pagination.tsx components/Breadcrumb.tsx components/TribeCard.tsx)",
-      "Bash(then sed -i 's/text-gray-900/text-text/g; s/text-gray-700/text-text-secondary/g; s/text-gray-600/text-text-muted/g; s/text-gray-500/text-text-muted/g; s/bg-white dark:bg-gray-800/bg-white/g; s/text-earth-brown dark:text-cream/text-text/g; s/text-earth-brown\\/80 dark:text-cream\\/80/text-text-secondary/g; s/border-earth-sand/border-desert/g; s/card-shadow/shadow-card/g; s/earth-brown/text/g' \"$file\")"
+      "Bash(then sed -i 's/text-gray-900/text-text/g; s/text-gray-700/text-text-secondary/g; s/text-gray-600/text-text-muted/g; s/text-gray-500/text-text-muted/g; s/bg-white dark:bg-gray-800/bg-white/g; s/text-earth-brown dark:text-cream/text-text/g; s/text-earth-brown\\/80 dark:text-cream\\/80/text-text-secondary/g; s/border-earth-sand/border-desert/g; s/card-shadow/shadow-card/g; s/earth-brown/text/g' \"$file\")",
+      "Bash(timeout 120 npm run build:*)",
+      "Bash(timeout 60 npx tsx:*)",
+      "Bash(dir \"C:\\Users\\Lamar\\Projects\\native-resource-hub\" /s /b)",
+      "Bash(xargs ls:*)",
+      "Bash(if [ -f \"C:\\Users\\Lamar\\Projects\\native-resource-hub\\components\\DeadlineTimeline.tsx\" ])",
+      "Bash(then echo \"exists\")",
+      "Bash(else echo \"not found\")"
     ],
     "deny": [],
     "ask": []

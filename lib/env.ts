@@ -22,6 +22,14 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
   FROM_EMAIL: z.string().email().optional(),
 
+  // Upstash Redis (optional - for serverless rate limiting)
+  UPSTASH_REDIS_REST_URL: z.string().url().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
+
+  // Logging (optional - for production logging)
+  AXIOM_DATASET: z.string().min(1).optional(),
+  AXIOM_TOKEN: z.string().min(1).optional(),
+
   // Node Environment
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 })

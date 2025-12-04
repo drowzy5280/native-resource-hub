@@ -1,10 +1,10 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
-import { FilterBar } from '@/components/FilterBar'
+import { AdvancedFilterBar } from '@/components/AdvancedFilterBar'
 import { Pagination } from '@/components/Pagination'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
-import type { Prisma } from '@prisma/client'
+import type { Prisma, ResourceType } from '@prisma/client'
 import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -44,7 +44,14 @@ export const metadata: Metadata = {
 export default async function ResourcesPage({
   searchParams,
 }: {
-  searchParams: { tags?: string; type?: string; state?: string; page?: string; sort?: string }
+  searchParams: {
+    tags?: string
+    type?: string
+    state?: string
+    page?: string
+    sort?: string
+    difficulty?: string
+  }
 }) {
   const currentPage = parseInt(searchParams.page || '1', 10)
   const skip = (currentPage - 1) * ITEMS_PER_PAGE
@@ -54,6 +61,7 @@ export default async function ResourcesPage({
     deletedAt: null,
   }
 
+  // Handle multiple tags
   if (searchParams.tags) {
     const tagArray = searchParams.tags.split(',').filter(Boolean)
     if (tagArray.length > 0) {
@@ -63,15 +71,35 @@ export default async function ResourcesPage({
     }
   }
 
+  // Handle multiple types
   if (searchParams.type) {
-    where.type = searchParams.type as any
+    const typeArray = searchParams.type.split(',').filter(Boolean)
+    if (typeArray.length > 0) {
+      where.type = {
+        in: typeArray as ResourceType[],
+      }
+    }
   }
 
+  // Handle multiple states
   if (searchParams.state) {
-    where.OR = [
-      { state: searchParams.state },
-      { state: null },
-    ]
+    const stateArray = searchParams.state.split(',').filter(Boolean)
+    if (stateArray.length > 0) {
+      where.OR = [
+        { state: { in: stateArray } },
+        { state: null }, // Include national resources
+      ]
+    }
+  }
+
+  // Handle difficulty filter
+  if (searchParams.difficulty) {
+    const difficultyArray = searchParams.difficulty.split(',').filter(Boolean)
+    if (difficultyArray.length > 0) {
+      where.difficulty = {
+        in: difficultyArray as any[],
+      }
+    }
   }
 
   // Determine sort order
@@ -131,10 +159,12 @@ export default async function ResourcesPage({
         </div>
       )}
 
-      {/* Filter Bar */}
-      <FilterBar
+      {/* Advanced Filter Bar */}
+      <AdvancedFilterBar
         showTypeFilter={true}
         showStateFilter={true}
+        showTagFilter={true}
+        showDifficultyFilter={true}
         showSortFilter={true}
         sortOptions={[
           { value: 'newest', label: 'Newest First' },

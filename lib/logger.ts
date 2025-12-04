@@ -56,13 +56,17 @@ class Logger {
     return entry
   }
 
-  private log(level: LogLevel, message: string, context?: LogContext, error?: Error) {
+  private async log(level: LogLevel, message: string, context?: LogContext, error?: Error) {
     const entry = this.formatLog(level, message, context, error)
 
-    // In production, send to external logging service (e.g., Datadog, LogTail)
+    // In production, send to external logging service (Axiom)
     if (this.environment === 'production') {
-      // TODO: Send to external logging service
-      // await sendToLoggingService(entry)
+      try {
+        await this.sendToLoggingService(entry)
+      } catch (err) {
+        // Fallback to console if logging service fails
+        console.error('Failed to send log to external service:', err)
+      }
     }
 
     // Console output for development and as fallback
@@ -81,6 +85,41 @@ class Logger {
       case LogLevel.ERROR:
         console.error(logString)
         break
+    }
+  }
+
+  private async sendToLoggingService(entry: LogEntry): Promise<void> {
+    // Check if Axiom is configured
+    const axiomDataset = process.env.AXIOM_DATASET
+    const axiomToken = process.env.AXIOM_TOKEN
+
+    if (!axiomDataset || !axiomToken) {
+      return // Silently skip if not configured
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.axiom.co/v1/datasets/${axiomDataset}/ingest`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${axiomToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([{
+            ...entry,
+            service: this.serviceName,
+            environment: this.environment,
+          }]),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Axiom API error: ${response.statusText}`)
+      }
+    } catch (error) {
+      // Don't let logging failures crash the application
+      console.error('Failed to send log to Axiom:', error)
     }
   }
 

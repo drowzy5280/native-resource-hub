@@ -28,6 +28,8 @@
     "@prisma/client": "^6.19.0",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.45.4",
+    "@upstash/ratelimit": "^2.0.7",
+    "@upstash/redis": "^1.35.7",
     "@vercel/analytics": "^1.5.0",
     "csv-parse": "^6.1.0",
     "csv-stringify": "^6.6.0",
@@ -35,6 +37,8 @@
     "papaparse": "^5.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.5.1",
     "resend": "^6.5.2",
     "zod": "^3.23.8"
   },

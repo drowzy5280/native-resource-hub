@@ -231,3 +231,76 @@
     page-break-inside: avoid;
   }
 }
+
+/* Accessibility - Text Size Controls */
+html.text-small {
+  font-size: 14px;
+}
+
+html.text-medium {
+  font-size: 16px; /* default */
+}
+
+html.text-large {
+  font-size: 18px;
+}
+
+html.text-extra-large {
+  font-size: 20px;
+}
+
+/* High Contrast Mode */
+html.high-contrast {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #000000;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #FFFFFF;
+  --color-text-tertiary: #FFFFFF;
+  --color-accent: #FFD700;
+  --color-accent-hover: #FFC700;
+}
+
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+html.high-contrast .bg-white {
+  background-color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+html.high-contrast .bg-cream,
+html.high-contrast .bg-desert {
+  background-color: #1a1a1a !important;
+}
+
+html.high-contrast .text-text,
+html.high-contrast .text-text-secondary,
+html.high-contrast .text-text-muted,
+html.high-contrast .text-gray-700,
+html.high-contrast .text-gray-600,
+html.high-contrast .text-gray-900 {
+  color: #FFFFFF !important;
+}
+
+html.high-contrast a {
+  color: #FFD700 !important;
+  text-decoration: underline;
+}
+
+html.high-contrast button {
+  border: 2px solid #FFFFFF !important;
+}
+
+html.high-contrast .border-desert,
+html.high-contrast .border-desert\/20,
+html.high-contrast .border-desert\/30,
+html.high-contrast .border-desert\/40 {
+  border-color: #FFFFFF !important;
+}
+
+/* Safe area for mobile devices with notch */
+.h-safe-area-inset-bottom {
+  height: env(safe-area-inset-bottom);
+}

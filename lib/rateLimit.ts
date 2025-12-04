@@ -1,7 +1,44 @@
 import { NextRequest } from 'next/server'
+import { env } from './env'
 
-// Simple in-memory rate limiter
-// For production with multiple instances, consider using Redis with @upstash/ratelimit
+// Upstash Redis rate limiter (for production/serverless)
+let upstashRateLimiter: any = null
+
+// Check if Upstash is configured
+const hasUpstashConfig = env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN
+
+if (hasUpstashConfig) {
+  // Dynamically import Upstash packages only if configured
+  import('@upstash/ratelimit').then(({ Ratelimit }) => {
+    import('@upstash/redis').then(({ Redis }) => {
+      const redis = new Redis({
+        url: env.UPSTASH_REDIS_REST_URL!,
+        token: env.UPSTASH_REDIS_REST_TOKEN!,
+      })
+
+      // Create configured rate limiters
+      upstashRateLimiter = {
+        api: new Ratelimit({
+          redis,
+          limiter: Ratelimit.slidingWindow(60, '1 m'), // 60 requests per minute
+          analytics: true,
+        }),
+        strict: new Ratelimit({
+          redis,
+          limiter: Ratelimit.slidingWindow(10, '1 m'), // 10 requests per minute
+          analytics: true,
+        }),
+        admin: new Ratelimit({
+          redis,
+          limiter: Ratelimit.slidingWindow(30, '1 m'), // 30 requests per minute
+          analytics: true,
+        }),
+      }
+    })
+  })
+}
+
+// ===== IN-MEMORY RATE LIMITER (Fallback for development) =====
 
 interface RateLimitStore {
   [key: string]: {
@@ -27,7 +64,7 @@ interface RateLimitOptions {
   uniqueTokenPerInterval: number // Max requests per interval
 }
 
-export class RateLimiter {
+class InMemoryRateLimiter {
   private interval: number
   private uniqueTokenPerInterval: number
 
@@ -98,21 +135,64 @@ export class RateLimiter {
   }
 }
 
+// ===== UNIFIED RATE LIMITER CLASS =====
+
+export class RateLimiter {
+  private inMemoryLimiter: InMemoryRateLimiter
+  private upstashKey: 'api' | 'strict' | 'admin'
+
+  constructor(options: RateLimitOptions, upstashKey: 'api' | 'strict' | 'admin' = 'api') {
+    this.inMemoryLimiter = new InMemoryRateLimiter(options)
+    this.upstashKey = upstashKey
+  }
+
+  async check(request: NextRequest, limit?: number): Promise<{ success: boolean; remaining: number; reset: number }> {
+    // Use Upstash if configured, otherwise fall back to in-memory
+    if (hasUpstashConfig && upstashRateLimiter) {
+      const identifier = this.getIdentifier(request)
+      const result = await upstashRateLimiter[this.upstashKey].limit(identifier)
+
+      return {
+        success: result.success,
+        remaining: result.remaining,
+        reset: result.reset,
+      }
+    }
+
+    // Fallback to in-memory rate limiter
+    return this.inMemoryLimiter.check(request, limit)
+  }
+
+  private getIdentifier(request: NextRequest): string {
+    // Try to get IP from various headers
+    const forwarded = request.headers.get('x-forwarded-for')
+    const realIp = request.headers.get('x-real-ip')
+    const cfConnectingIp = request.headers.get('cf-connecting-ip')
+
+    const ip = forwarded?.split(',')[0] || realIp || cfConnectingIp || 'unknown'
+
+    // Add user agent to make identifier more unique
+    const userAgent = request.headers.get('user-agent') || 'unknown'
+
+    return `${ip}-${userAgent}`
+  }
+}
+
 // Pre-configured rate limiters
 export const apiRateLimiter = new RateLimiter({
   interval: 60 * 1000, // 1 minute
   uniqueTokenPerInterval: 60, // 60 requests per minute
-})
+}, 'api')
 
 export const strictRateLimiter = new RateLimiter({
   interval: 60 * 1000, // 1 minute
   uniqueTokenPerInterval: 10, // 10 requests per minute (for sensitive endpoints)
-})
+}, 'strict')
 
 export const adminRateLimiter = new RateLimiter({
   interval: 60 * 1000, // 1 minute
   uniqueTokenPerInterval: 30, // 30 requests per minute for admin
-})
+}, 'admin')
 
 // Helper function to add rate limit headers to response
 export function addRateLimitHeaders(

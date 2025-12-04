@@ -32,40 +32,88 @@ const ParsedResourceSchema = z.object({
 export async function parseSource(
   html: string,
   sourceUrl: string,
-  type: 'resource' | 'scholarship' | 'tribal'
+  type: 'resource' | 'scholarship' | 'tribal',
+  retryCount = 0
 ): Promise<ParsedResource> {
-  const prompt = buildPrompt(type)
-
-  const message = await client.messages.create({
-    model: AI_MODEL,
-    max_tokens: AI_MAX_TOKENS,
-    messages: [
-      {
-        role: 'user',
-        content: `${prompt}\n\nSource URL: ${sourceUrl}\n\nHTML Content:\n${html.slice(0, MAX_HTML_LENGTH)}`,
-      },
-    ],
-  })
-
-  const content = message.content[0]
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude')
-  }
+  const maxRetries = 2
 
   try {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) {
-      throw new Error('No JSON found in response')
+    const prompt = buildPrompt(type)
+
+    const message = await client.messages.create({
+      model: AI_MODEL,
+      max_tokens: AI_MAX_TOKENS,
+      messages: [
+        {
+          role: 'user',
+          content: `${prompt}\n\nSource URL: ${sourceUrl}\n\nHTML Content:\n${html.slice(0, MAX_HTML_LENGTH)}`,
+        },
+      ],
+    })
+
+    const content = message.content[0]
+    if (content.type !== 'text') {
+      throw new Error('Unexpected response type from Claude')
     }
 
-    const parsed = JSON.parse(jsonMatch[0])
-    const validated = ParsedResourceSchema.parse(parsed)
+    return extractAndValidateJSON(content.text, ParsedResourceSchema)
+  } catch (error: any) {
+    // Handle rate limiting with exponential backoff
+    if (error?.status === 429 && retryCount < maxRetries) {
+      const delayMs = Math.pow(2, retryCount) * 1000 // 1s, 2s, 4s
+      console.log(`Rate limited, retrying in ${delayMs}ms (attempt ${retryCount + 1}/${maxRetries})`)
+      await new Promise(resolve => setTimeout(resolve, delayMs))
+      return parseSource(html, sourceUrl, type, retryCount + 1)
+    }
 
-    return validated
-  } catch (error) {
     console.error('Failed to parse AI response:', error)
-    throw new Error('Failed to parse resource from HTML')
+    throw new Error(`Failed to parse resource from HTML: ${error?.message || 'Unknown error'}`)
   }
+}
+
+/**
+ * Extracts and validates JSON from Claude's response text
+ * Tries multiple strategies to find valid JSON
+ */
+function extractAndValidateJSON<T>(text: string, schema: z.ZodSchema<T>): T {
+  // Strategy 1: Try to find JSON between code blocks
+  const codeBlockMatch = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/)
+  if (codeBlockMatch) {
+    try {
+      const parsed = JSON.parse(codeBlockMatch[1])
+      return schema.parse(parsed)
+    } catch (e) {
+      // Continue to next strategy
+    }
+  }
+
+  // Strategy 2: Try to find JSON object in text
+  const jsonMatch = text.match(/\{[\s\S]*\}/)
+  if (jsonMatch) {
+    try {
+      const parsed = JSON.parse(jsonMatch[0])
+      return schema.parse(parsed)
+    } catch (e) {
+      // Continue to next strategy
+    }
+  }
+
+  // Strategy 3: Try to find JSON array
+  const arrayMatch = text.match(/\[[\s\S]*\]/)
+  if (arrayMatch) {
+    try {
+      const parsed = JSON.parse(arrayMatch[0])
+      // If it's an array, try to use the first element
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return schema.parse(parsed[0])
+      }
+    } catch (e) {
+      // Continue to error
+    }
+  }
+
+  // If all strategies fail, throw a detailed error
+  throw new Error(`No valid JSON found in response. Text preview: ${text.slice(0, 200)}...`)
 }
 
 function buildPrompt(type: 'resource' | 'scholarship' | 'tribal'): string {
@@ -112,38 +160,81 @@ Include tribal enrollment requirements if mentioned.`
 }
 
 export async function batchParseResources(
-  sources: Array<{ html: string; url: string; type: 'resource' | 'scholarship' | 'tribal' }>
+  sources: Array<{ html: string; url: string; type: 'resource' | 'scholarship' | 'tribal' }>,
+  options: { parallel?: boolean; batchSize?: number } = {}
 ): Promise<ParsedResource[]> {
+  const { parallel = true, batchSize = 5 } = options
+
+  // Sequential processing (old behavior, kept for backward compatibility)
+  if (!parallel) {
+    const results: ParsedResource[] = []
+    for (const source of sources) {
+      try {
+        const parsed = await parseSource(source.html, source.url, source.type)
+        results.push(parsed)
+        await new Promise(resolve => setTimeout(resolve, AI_BATCH_DELAY_MS))
+      } catch (error) {
+        console.error(`Failed to parse source ${source.url}:`, error)
+      }
+    }
+    return results
+  }
+
+  // Parallel processing with controlled concurrency
   const results: ParsedResource[] = []
 
-  for (const source of sources) {
-    try {
-      const parsed = await parseSource(source.html, source.url, source.type)
-      results.push(parsed)
+  // Process in batches to avoid overwhelming the API
+  for (let i = 0; i < sources.length; i += batchSize) {
+    const batch = sources.slice(i, i + batchSize)
 
-      // Rate limiting: wait between requests to avoid rate limiting
+    const batchPromises = batch.map(async (source, index) => {
+      try {
+        // Stagger requests slightly to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, index * 200))
+        return await parseSource(source.html, source.url, source.type)
+      } catch (error) {
+        console.error(`Failed to parse source ${source.url}:`, error)
+        return null
+      }
+    })
+
+    const batchResults = await Promise.allSettled(batchPromises)
+
+    // Collect successful results
+    batchResults.forEach((result) => {
+      if (result.status === 'fulfilled' && result.value !== null) {
+        results.push(result.value)
+      }
+    })
+
+    // Wait between batches to avoid rate limiting
+    if (i + batchSize < sources.length) {
       await new Promise(resolve => setTimeout(resolve, AI_BATCH_DELAY_MS))
-    } catch (error) {
-      console.error(`Failed to parse source ${source.url}:`, error)
-      // Continue with next source
     }
   }
 
   return results
 }
 
+const ValidationSchema = z.object({
+  isValid: z.boolean(),
+  confidence: z.number().min(0).max(1),
+  reason: z.string(),
+})
+
 export async function validateResourceUpdate(
   original: string,
   updated: string,
   context: string
 ): Promise<{ isValid: boolean; confidence: number; reason: string }> {
-  const message = await client.messages.create({
-    model: AI_MODEL,
-    max_tokens: 500,
-    messages: [
-      {
-        role: 'user',
-        content: `Compare these two versions and determine if the update is valid and accurate.
+  try {
+    const message = await client.messages.create({
+      model: AI_MODEL,
+      max_tokens: 500,
+      messages: [
+        {
+          role: 'user',
+          content: `Compare these two versions and determine if the update is valid and accurate.
 
 Context: ${context}
 
@@ -156,19 +247,23 @@ Respond with JSON only:
   "confidence": 0.0-1.0,
   "reason": "brief explanation"
 }`,
-      },
-    ],
-  })
+        },
+      ],
+    })
 
-  const content = message.content[0]
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type')
+    const content = message.content[0]
+    if (content.type !== 'text') {
+      throw new Error('Unexpected response type')
+    }
+
+    return extractAndValidateJSON(content.text, ValidationSchema)
+  } catch (error: any) {
+    console.error('Failed to validate resource update:', error)
+    // Return a safe fallback instead of crashing
+    return {
+      isValid: false,
+      confidence: 0,
+      reason: `Validation failed: ${error?.message || 'Unknown error'}`,
+    }
   }
-
-  const jsonMatch = content.text.match(/\{[\s\S]*\}/)
-  if (!jsonMatch) {
-    throw new Error('No JSON in validation response')
-  }
-
-  return JSON.parse(jsonMatch[0])
 }

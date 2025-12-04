@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { checkLinks } from '@/lib/ai/linkChecker'
 import { verifyCronSecret } from '@/lib/auth'
+import { notificationService } from '@/lib/email/notifications'
 
 export async function GET(request: NextRequest) {
   // Verify cron secret
@@ -11,6 +12,15 @@ export async function GET(request: NextRequest) {
 
   try {
     console.log('Starting weekly cron job...')
+
+    // Send weekly digest emails
+    console.log('Sending weekly digest emails...')
+    try {
+      await notificationService.sendWeeklyDigests()
+      console.log('Weekly digests sent successfully')
+    } catch (error) {
+      console.error('Failed to send weekly digests:', error)
+    }
 
     // 1. Check all resource links
     const resources = await prisma.resource.findMany({

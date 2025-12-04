@@ -45,6 +45,45 @@ const config: Config = {
           secondary: '#5A5550', // Medium warm gray for secondary text
           muted: '#8A837C', // Light warm gray for muted text
         },
+        // Status colors (earth-tone palette)
+        status: {
+          interested: '#D9A566', // Gold
+          researching: '#C67B5C', // Clay
+          preparing: '#B88642', // Dark gold
+          submitted: '#6B9270', // Pine
+          accepted: '#4A6F4F', // Dark pine/success
+          rejected: '#A05739', // Dark clay
+          withdrawn: '#8A837C', // Stone light
+        },
+        // Alert colors (maintaining earth-tone aesthetic)
+        alert: {
+          urgent: '#A33F2D', // Rust/urgent red-brown
+          warning: '#D9A566', // Warm gold
+          info: '#6B9270', // Pine
+          success: '#4A6F4F', // Dark pine
+          error: '#A05739', // Dark clay
+        },
+        // Semantic colors for various states
+        success: {
+          DEFAULT: '#4A6F4F', // Dark pine
+          light: '#A5C4A8',
+          dark: '#3A5A3F',
+        },
+        warning: {
+          DEFAULT: '#D9A566', // Warm gold
+          light: '#F0D4A6',
+          dark: '#B88642',
+        },
+        error: {
+          DEFAULT: '#A05739', // Dark clay
+          light: '#C67B5C',
+          dark: '#8B4529',
+        },
+        info: {
+          DEFAULT: '#6B9270', // Pine
+          light: '#A5C4A8',
+          dark: '#4A6F4F',
+        },
       },
       fontFamily: {
         heading: ['Work Sans', 'system-ui', 'sans-serif'],
