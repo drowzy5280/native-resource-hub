@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAuth } from '@/lib/auth'
+import { requireCSRFToken } from '@/lib/csrf'
 import { z } from 'zod'
 
 const SaveResourceSchema = z.object({
@@ -63,6 +64,12 @@ export async function GET(request: NextRequest) {
 // Save a resource for the current user
 export async function POST(request: NextRequest) {
   try {
+    // Verify CSRF token
+    const csrfCheck = requireCSRFToken(request)
+    if (!csrfCheck.valid) {
+      return NextResponse.json({ error: csrfCheck.error }, { status: 403 })
+    }
+
     const user = await requireAuth(request)
     const body = await request.json()
 

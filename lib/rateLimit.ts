@@ -91,16 +91,17 @@ class InMemoryRateLimiter {
       }
     }
 
-    // Existing window
-    store[identifier].count++
-
-    if (store[identifier].count > maxRequests) {
+    // Existing window - check BEFORE incrementing to prevent race condition
+    if (store[identifier].count >= maxRequests) {
       return {
         success: false,
         remaining: 0,
         reset: store[identifier].resetTime,
       }
     }
+
+    // Only increment if under limit
+    store[identifier].count++
 
     return {
       success: true,

@@ -26,6 +26,9 @@ model User {
   deletedAt              DateTime?
 
   @@index([email])
+  @@index([state])
+  @@index([tribeId])
+  @@index([deletedAt])
 }
 
 model Tribe {
@@ -146,6 +149,8 @@ model SavedResource {
   createdAt   DateTime @default(now())
 
   @@unique([userId, resourceId])
+  @@index([userId])
+  @@index([resourceId])
 }
 
 model ChangeLog {
@@ -157,6 +162,10 @@ model ChangeLog {
   aiConfidence   Float?
   approved       Boolean  @default(false)
   createdAt      DateTime @default(now())
+
+  @@index([approved])
+  @@index([createdAt])
+  @@index([approved, createdAt])
 }
 
 model ScholarshipApplication {

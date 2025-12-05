@@ -63,7 +63,36 @@ export async function requireAdmin(request: NextRequest) {
   return user
 }
 
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * @param a - First string
+ * @param b - Second string
+ * @returns True if strings are equal
+ */
+function constantTimeCompare(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    return false
+  }
+
+  let result = 0
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+
+  return result === 0
+}
+
+/**
+ * Verifies the cron secret using constant-time comparison to prevent timing attacks
+ * @param request - The incoming request
+ * @returns True if the secret is valid
+ */
 export function verifyCronSecret(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization')
-  return authHeader === `Bearer ${env.CRON_SECRET}`
+  if (!authHeader) {
+    return false
+  }
+
+  const expectedHeader = `Bearer ${env.CRON_SECRET}`
+  return constantTimeCompare(authHeader, expectedHeader)
 }

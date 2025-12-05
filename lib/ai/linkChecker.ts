@@ -1,3 +1,10 @@
+import {
+  LINK_CHECK_TIMEOUT_MS,
+  LINK_CHECK_BATCH_SIZE,
+  LINK_CHECK_BATCH_DELAY_MS,
+  LINK_CHECK_REQUEST_DELAY_MS,
+} from '@/lib/constants'
+
 export interface LinkCheckResult {
   url: string
   isValid: boolean
@@ -7,7 +14,7 @@ export interface LinkCheckResult {
 }
 
 export interface LinkCheckOptions {
-  timeout?: number // Timeout in milliseconds (default: 5000)
+  timeout?: number // Timeout in milliseconds (default: from constants)
   method?: 'HEAD' | 'GET' // HTTP method (default: HEAD)
 }
 
@@ -15,7 +22,7 @@ export async function checkLink(
   url: string,
   options: LinkCheckOptions = {}
 ): Promise<LinkCheckResult> {
-  const { timeout = 5000, method = 'HEAD' } = options
+  const { timeout = LINK_CHECK_TIMEOUT_MS, method = 'HEAD' } = options
 
   try {
     const controller = new AbortController()
@@ -48,11 +55,17 @@ export async function checkLink(
   }
 }
 
+/**
+ * Checks multiple links with intelligent batching and rate limiting
+ * @param urls - Array of URLs to check
+ * @param options - Check options with parallel processing and batch configuration
+ * @returns Array of link check results
+ */
 export async function checkLinks(
   urls: string[],
   options: LinkCheckOptions & { parallel?: boolean; batchSize?: number } = {}
 ): Promise<LinkCheckResult[]> {
-  const { parallel = true, batchSize = 10, ...checkOptions } = options
+  const { parallel = true, batchSize = LINK_CHECK_BATCH_SIZE, ...checkOptions } = options
 
   // Sequential processing (old behavior)
   if (!parallel) {
@@ -60,7 +73,7 @@ export async function checkLinks(
     for (const url of urls) {
       const result = await checkLink(url, checkOptions)
       results.push(result)
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, LINK_CHECK_BATCH_DELAY_MS))
     }
     return results
   }
@@ -76,7 +89,7 @@ export async function checkLinks(
       new Promise<LinkCheckResult>((resolve) =>
         setTimeout(
           () => resolve(checkLink(url, checkOptions)),
-          index * 100 // 100ms stagger
+          index * LINK_CHECK_REQUEST_DELAY_MS
         )
       )
     )
@@ -91,7 +104,7 @@ export async function checkLinks(
 
     // Wait between batches
     if (i + batchSize < urls.length) {
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, LINK_CHECK_BATCH_DELAY_MS))
     }
   }
 

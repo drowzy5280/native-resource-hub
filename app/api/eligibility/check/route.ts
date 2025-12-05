@@ -3,6 +3,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'
 import { env } from '@/lib/env'
 import { apiRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
+import { RATE_LIMIT_AI, AI_MODEL, AI_MAX_TOKENS_ELIGIBILITY } from '@/lib/constants'
 
 const client = new Anthropic({
   apiKey: env.ANTHROPIC_API_KEY,
@@ -30,7 +31,7 @@ const EligibilityResultSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Rate limiting
-    const rateLimitResult = await apiRateLimiter.check(request, 10)
+    const rateLimitResult = await apiRateLimiter.check(request, RATE_LIMIT_AI)
     if (!rateLimitResult.success) {
       const headers = new Headers()
       addRateLimitHeaders(headers, rateLimitResult)
@@ -47,8 +48,8 @@ export async function POST(request: NextRequest) {
     const prompt = buildEligibilityPrompt(answers)
 
     const message = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2000,
+      model: AI_MODEL,
+      max_tokens: AI_MAX_TOKENS_ELIGIBILITY,
       messages: [
         {
           role: 'user',
@@ -68,7 +69,14 @@ export async function POST(request: NextRequest) {
       throw new Error('No JSON found in response')
     }
 
-    const results = JSON.parse(jsonMatch[0])
+    let results
+    try {
+      results = JSON.parse(jsonMatch[0])
+    } catch (error) {
+      console.error('Failed to parse AI JSON response:', error)
+      throw new Error('Invalid JSON response from AI')
+    }
+
     const validated = z.array(EligibilityResultSchema).parse(results)
 
     const headers = new Headers()

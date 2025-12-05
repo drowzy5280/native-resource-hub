@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { requireAuth } from '@/lib/auth'
+import { requireCSRFToken } from '@/lib/csrf'
 
 // Remove a saved resource
 export async function DELETE(
@@ -8,6 +9,12 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    // Verify CSRF token
+    const csrfCheck = requireCSRFToken(request)
+    if (!csrfCheck.valid) {
+      return NextResponse.json({ error: csrfCheck.error }, { status: 403 })
+    }
+
     const user = await requireAuth(request)
 
     // Check if saved resource exists and belongs to the user

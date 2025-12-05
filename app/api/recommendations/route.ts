@@ -5,6 +5,15 @@ import { env } from '@/lib/env'
 import { prisma } from '@/lib/prisma'
 import { apiRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 import { requireAuth } from '@/lib/auth'
+import {
+  RATE_LIMIT_AI,
+  AI_MODEL,
+  AI_MAX_TOKENS_RECOMMENDATIONS,
+  MAX_RESOURCES_FOR_RECOMMENDATIONS,
+  MAX_SCHOLARSHIPS_FOR_RECOMMENDATIONS,
+  MAX_SAVED_RESOURCES_ANALYZED,
+  TOP_RECOMMENDATIONS_COUNT,
+} from '@/lib/constants'
 
 const client = new Anthropic({
   apiKey: env.ANTHROPIC_API_KEY,
@@ -21,10 +30,50 @@ const RecommendationSchema = z.object({
   actionItems: z.array(z.string()).optional(),
 })
 
+// Type definitions for better type safety
+interface SavedResourceAnalysis {
+  id: string
+  createdAt: Date
+  resource: {
+    type: string
+    tags: string[]
+  }
+}
+
+interface UserProfileData {
+  tribeId: string | null
+  state: string | null
+  birthYear: number | null
+  tags: string[]
+  saved: SavedResourceAnalysis[]
+}
+
+interface ResourceForRecommendation {
+  id: string
+  type: string
+  title: string
+  description: string
+  eligibility: string[]
+  tags: string[]
+  state: string | null
+  tribeId: string | null
+  url: string | null
+}
+
+interface ScholarshipForRecommendation {
+  id: string
+  name: string
+  description: string
+  eligibility: string[]
+  amount: string | null
+  deadline: Date | null
+  tags: string[]
+}
+
 export async function GET(request: NextRequest) {
   try {
     // Rate limiting
-    const rateLimitResult = await apiRateLimiter.check(request, 10)
+    const rateLimitResult = await apiRateLimiter.check(request, RATE_LIMIT_AI)
     if (!rateLimitResult.success) {
       const headers = new Headers()
       addRateLimitHeaders(headers, rateLimitResult)
@@ -61,7 +110,7 @@ export async function GET(request: NextRequest) {
                 },
               },
             },
-            take: 20,
+            take: MAX_SAVED_RESOURCES_ANALYZED,
           },
         },
       })
@@ -74,7 +123,7 @@ export async function GET(request: NextRequest) {
           deletedAt: null,
           ...(user && userProfile?.state ? { state: userProfile.state } : {}),
         },
-        take: 50,
+        take: MAX_RESOURCES_FOR_RECOMMENDATIONS,
         orderBy: { createdAt: 'desc' },
         select: {
           id: true,
@@ -93,7 +142,7 @@ export async function GET(request: NextRequest) {
           deletedAt: null,
           deadline: { gte: new Date() },
         },
-        take: 30,
+        take: MAX_SCHOLARSHIPS_FOR_RECOMMENDATIONS,
         orderBy: { deadline: 'asc' },
         select: {
           id: true,
@@ -133,7 +182,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function buildUserContext(userProfile: any): string {
+/**
+ * Builds a context string from user profile data for AI analysis
+ * @param userProfile - User profile data or null for unauthenticated users
+ * @returns Formatted context string describing the user
+ */
+function buildUserContext(userProfile: UserProfileData | null): string {
   if (!userProfile) {
     return 'User is not authenticated. Provide general recommendations for Native American individuals.'
   }
@@ -158,7 +212,7 @@ function buildUserContext(userProfile: any): string {
   }
 
   if (userProfile.saved && userProfile.saved.length > 0) {
-    const savedTypes = userProfile.saved.map((s: any) => s.resource.type)
+    const savedTypes = userProfile.saved.map((s) => s.resource.type)
     const uniqueTypes = Array.from(new Set(savedTypes))
     parts.push(`User has previously saved ${uniqueTypes.join(', ')} resources`)
   }
@@ -166,12 +220,18 @@ function buildUserContext(userProfile: any): string {
   return parts.join('. ') + '.'
 }
 
-function buildOptionsContext(resources: any[], scholarships: any[]): string {
-  const resourceList = resources.slice(0, 20).map((r, i) => {
+/**
+ * Builds a formatted context string of available resources and scholarships for AI analysis
+ * @param resources - Array of resources to consider
+ * @param scholarships - Array of scholarships to consider
+ * @returns Formatted string listing all options
+ */
+function buildOptionsContext(resources: ResourceForRecommendation[], scholarships: ScholarshipForRecommendation[]): string {
+  const resourceList = resources.slice(0, MAX_RESOURCES_FOR_RECOMMENDATIONS).map((r, i) => {
     return `${i + 1}. [RESOURCE-${r.id}] ${r.title} - ${r.type} - ${r.description.substring(0, 100)}`
   }).join('\n')
 
-  const scholarshipList = scholarships.slice(0, 15).map((s, i) => {
+  const scholarshipList = scholarships.slice(0, MAX_SCHOLARSHIPS_FOR_RECOMMENDATIONS).map((s, i) => {
     return `${i + 1}. [SCHOLARSHIP-${s.id}] ${s.name} - ${s.amount || 'Amount varies'} - ${s.description.substring(0, 100)}`
   }).join('\n')
 
@@ -184,10 +244,16 @@ ${scholarshipList}
 `
 }
 
+/**
+ * Generates personalized recommendations using Claude AI
+ * @param userContext - Formatted user context string
+ * @param availableOptions - Formatted options string
+ * @returns Array of recommendation objects
+ */
 async function generateRecommendations(
   userContext: string,
   availableOptions: string
-): Promise<any[]> {
+): Promise<z.infer<typeof RecommendationSchema>[]> {
   const prompt = `You are an expert advisor for Native American resources and benefits.
 
 USER CONTEXT:
@@ -195,7 +261,7 @@ ${userContext}
 
 ${availableOptions}
 
-Based on the user's profile and the available options above, recommend the TOP 5 MOST RELEVANT items.
+Based on the user's profile and the available options above, recommend the TOP ${TOP_RECOMMENDATIONS_COUNT} MOST RELEVANT items.
 Return ONLY a valid JSON array with this exact structure:
 
 [
@@ -226,8 +292,8 @@ IMPORTANT:
 - Return ONLY valid JSON, no other text`
 
   const message = await client.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
-    max_tokens: 3000,
+    model: AI_MODEL,
+    max_tokens: AI_MAX_TOKENS_RECOMMENDATIONS,
     messages: [
       {
         role: 'user',
@@ -247,10 +313,16 @@ IMPORTANT:
     throw new Error('No JSON found in response')
   }
 
-  const recommendations = JSON.parse(jsonMatch[0])
+  let recommendations
+  try {
+    recommendations = JSON.parse(jsonMatch[0])
+  } catch (error) {
+    console.error('Failed to parse AI JSON response:', error)
+    throw new Error('Invalid JSON response from AI')
+  }
 
   // Validate and transform IDs to actual resource IDs
-  return recommendations.map((rec: any) => {
+  return recommendations.map((rec: z.infer<typeof RecommendationSchema>) => {
     const actualId = rec.id.replace('RESOURCE-', '').replace('SCHOLARSHIP-', '')
     const isScholarship = rec.id.startsWith('SCHOLARSHIP-')
 

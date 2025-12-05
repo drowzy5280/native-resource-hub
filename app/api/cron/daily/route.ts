@@ -168,12 +168,19 @@ export async function GET(request: NextRequest) {
 
       console.log(`Deleted ${deletedLogs.count} old changelog entries`)
 
-      // 4. Database stats
+      // 4. Database stats - parallelized for better performance
+      const [totalResources, totalScholarships, totalTribes, totalChangeLogs] = await Promise.all([
+        prisma.resource.count({ where: { deletedAt: null } }),
+        prisma.scholarship.count({ where: { deletedAt: null } }),
+        prisma.tribe.count(),
+        prisma.changeLog.count(),
+      ])
+
       const stats = {
-        totalResources: await prisma.resource.count({ where: { deletedAt: null } }),
-        totalScholarships: await prisma.scholarship.count({ where: { deletedAt: null } }),
-        totalTribes: await prisma.tribe.count(),
-        totalChangeLogs: await prisma.changeLog.count(),
+        totalResources,
+        totalScholarships,
+        totalTribes,
+        totalChangeLogs,
       }
 
       results.monthly = {
@@ -197,11 +204,17 @@ export async function GET(request: NextRequest) {
       console.error('Failed to send deadline reminders:', error)
     }
 
-    // Basic health check and stats
+    // Basic health check and stats - parallelized for better performance
+    const [activeResources, activeScholarships, pendingChangelogs] = await Promise.all([
+      prisma.resource.count({ where: { deletedAt: null } }),
+      prisma.scholarship.count({ where: { deletedAt: null } }),
+      prisma.changeLog.count({ where: { approved: false } }),
+    ])
+
     const dailyStats = {
-      activeResources: await prisma.resource.count({ where: { deletedAt: null } }),
-      activeScholarships: await prisma.scholarship.count({ where: { deletedAt: null } }),
-      pendingChangelogs: await prisma.changeLog.count({ where: { approved: false } }),
+      activeResources,
+      activeScholarships,
+      pendingChangelogs,
     }
 
     results.daily = dailyStats

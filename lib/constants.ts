@@ -3,6 +3,8 @@ export const MAX_HTML_LENGTH = 50000 // Maximum HTML characters to send to Claud
 export const AI_BATCH_DELAY_MS = 1000 // Delay between AI requests to avoid rate limiting
 export const AI_MODEL = 'claude-3-5-sonnet-20241022' // Claude model for parsing
 export const AI_MAX_TOKENS = 2048 // Maximum tokens in AI response
+export const AI_MAX_TOKENS_RECOMMENDATIONS = 3000 // Max tokens for recommendations
+export const AI_MAX_TOKENS_ELIGIBILITY = 2000 // Max tokens for eligibility checking
 
 // Pagination Constants
 export const DEFAULT_PAGE_SIZE = 20
@@ -19,3 +21,20 @@ export const RATE_LIMIT_AI = 10
 export const CACHE_TTL_SHORT = 60 // 1 minute
 export const CACHE_TTL_MEDIUM = 300 // 5 minutes
 export const CACHE_TTL_LONG = 3600 // 1 hour
+
+// Resource/Scholarship Query Limits
+export const MAX_RESOURCES_FOR_RECOMMENDATIONS = 50
+export const MAX_SCHOLARSHIPS_FOR_RECOMMENDATIONS = 30
+export const MAX_SAVED_RESOURCES_ANALYZED = 20
+export const TOP_RECOMMENDATIONS_COUNT = 5
+
+// Link Checking
+export const LINK_CHECK_BATCH_SIZE = 10
+export const LINK_CHECK_BATCH_DELAY_MS = 500
+export const LINK_CHECK_REQUEST_DELAY_MS = 100
+export const LINK_CHECK_TIMEOUT_MS = 5000
+
+// Data Retention (in years/months)
+export const RESOURCE_OUTDATED_YEARS = 2
+export const SCHOLARSHIP_EXPIRED_YEARS = 1
+export const CHANGELOG_RETENTION_MONTHS = 6

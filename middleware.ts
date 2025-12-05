@@ -47,6 +47,23 @@ export async function middleware(request: NextRequest) {
   response.headers.set('X-XSS-Protection', '1; mode=block')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
 
+  // Content Security Policy
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://vercel.com https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' blob: data: https: http:;
+    font-src 'self' data: https://fonts.gstatic.com;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+    connect-src 'self' https://vercel.live https://*.supabase.co https://www.google-analytics.com https://pagead2.googlesyndication.com;
+  `.replace(/\s{2,}/g, ' ').trim()
+
+  response.headers.set('Content-Security-Policy', cspHeader)
+
   // Add request ID for tracing
   response.headers.set('X-Request-ID', requestId)
 
