@@ -26,7 +26,8 @@ import {
   LanguageIcon,
 } from '@/components/CategoryIcons'
 
-// Revalidate home page every 10 minutes (600 seconds)
+// Force dynamic rendering to avoid build-time database timeouts
+export const dynamic = 'force-dynamic'
 export const revalidate = 600
 
 export const metadata: Metadata = {
