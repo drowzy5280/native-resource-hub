@@ -52,31 +52,43 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8">
+    <nav
+      className="flex flex-wrap items-center justify-center gap-2 mt-8"
+      role="navigation"
+      aria-label="Pagination"
+    >
       {/* Previous button */}
       {currentPage > 1 ? (
         <Link
           href={createPageUrl(currentPage - 1)}
-          className="px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors flex items-center justify-center gap-1"
+          aria-label="Go to previous page"
         >
-          Previous
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="hidden sm:inline">Previous</span>
         </Link>
       ) : (
         <button
           disabled
-          className="px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed flex items-center justify-center gap-1"
+          aria-label="No previous page"
         >
-          Previous
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="hidden sm:inline">Previous</span>
         </button>
       )}
 
       {/* Page numbers */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
         {pages.map((page, index) => {
           if (page < 0) {
             // Render ellipsis
             return (
-              <span key={`ellipsis-${index}`} className="px-4 py-2">
+              <span key={`ellipsis-${index}`} className="min-w-[44px] min-h-[44px] px-2 sm:px-4 py-2 flex items-center justify-center" aria-hidden="true">
                 ...
               </span>
             )
@@ -89,13 +101,15 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
               key={page}
               href={createPageUrl(page)}
               className={`
-                px-4 py-2 rounded-earth border transition-colors
+                min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border transition-colors flex items-center justify-center
                 ${
                   isActive
                     ? 'bg-text text-earth-cream border-text'
                     : 'border-desert hover:bg-earth-sand/10'
                 }
               `}
+              aria-label={`Page ${page}`}
+              aria-current={isActive ? 'page' : undefined}
             >
               {page}
             </Link>
@@ -107,18 +121,26 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       {currentPage < totalPages ? (
         <Link
           href={createPageUrl(currentPage + 1)}
-          className="px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors flex items-center justify-center gap-1"
+          aria-label="Go to next page"
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
         </Link>
       ) : (
         <button
           disabled
-          className="px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed flex items-center justify-center gap-1"
+          aria-label="No next page"
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
         </button>
       )}
-    </div>
+    </nav>
   )
 }
