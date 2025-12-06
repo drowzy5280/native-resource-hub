@@ -9,7 +9,7 @@ export async function fetcher<T>(url: string): Promise<T> {
   return res.json()
 }
 
-export async function postFetcher<T>(url: string, data: any): Promise<T> {
+export async function postFetcher<T, D = Record<string, unknown>>(url: string, data: D): Promise<T> {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -26,7 +26,7 @@ export async function postFetcher<T>(url: string, data: any): Promise<T> {
   return res.json()
 }
 
-export function buildQueryString(params: Record<string, any>): string {
+export function buildQueryString(params: Record<string, string | number | boolean | string[] | undefined | null>): string {
   const query = new URLSearchParams()
 
   Object.entries(params).forEach(([key, value]) => {

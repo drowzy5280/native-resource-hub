@@ -7,10 +7,17 @@ let upstashRateLimiter: any = null
 // Check if Upstash is configured
 const hasUpstashConfig = env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN
 
+// Track initialization state for Upstash
+let upstashInitialized = false
+let upstashInitError: Error | null = null
+
 if (hasUpstashConfig) {
   // Dynamically import Upstash packages only if configured
-  import('@upstash/ratelimit').then(({ Ratelimit }) => {
-    import('@upstash/redis').then(({ Redis }) => {
+  Promise.all([
+    import('@upstash/ratelimit'),
+    import('@upstash/redis'),
+  ])
+    .then(([{ Ratelimit }, { Redis }]) => {
       const redis = new Redis({
         url: env.UPSTASH_REDIS_REST_URL!,
         token: env.UPSTASH_REDIS_REST_TOKEN!,
@@ -34,8 +41,14 @@ if (hasUpstashConfig) {
           analytics: true,
         }),
       }
+      upstashInitialized = true
     })
-  })
+    .catch((error) => {
+      // Log error but continue with in-memory fallback
+      console.error('Failed to initialize Upstash rate limiter, falling back to in-memory:', error)
+      upstashInitError = error instanceof Error ? error : new Error(String(error))
+      upstashInitialized = false
+    })
 }
 
 // ===== IN-MEMORY RATE LIMITER (Fallback for development) =====
@@ -79,7 +92,7 @@ class InMemoryRateLimiter {
     const maxRequests = limit || this.uniqueTokenPerInterval
 
     if (!store[identifier] || store[identifier].resetTime < now) {
-      // New window
+      // New window - atomically initialize with count of 1
       store[identifier] = {
         count: 1,
         resetTime: now + this.interval,
@@ -91,8 +104,13 @@ class InMemoryRateLimiter {
       }
     }
 
-    // Existing window - check BEFORE incrementing to prevent race condition
-    if (store[identifier].count >= maxRequests) {
+    // Existing window - increment FIRST then check (atomic increment-then-check pattern)
+    // This prevents race conditions where two requests both pass the check before incrementing
+    const newCount = ++store[identifier].count
+
+    if (newCount > maxRequests) {
+      // Over limit - but count is already incremented, which is fine
+      // because subsequent requests will also see they're over limit
       return {
         success: false,
         remaining: 0,
@@ -100,12 +118,9 @@ class InMemoryRateLimiter {
       }
     }
 
-    // Only increment if under limit
-    store[identifier].count++
-
     return {
       success: true,
-      remaining: maxRequests - store[identifier].count,
+      remaining: maxRequests - newCount,
       reset: store[identifier].resetTime,
     }
   }

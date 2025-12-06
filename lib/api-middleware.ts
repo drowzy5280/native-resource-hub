@@ -113,8 +113,8 @@ export function withApiMiddleware<TBody = any, TQuery = any>(
         }
       }
 
-      // 2. CSRF Token Validation
-      if (options.csrf && (request.method === 'POST' || request.method === 'PUT' || request.method === 'DELETE')) {
+      // 2. CSRF Token Validation (for all state-changing methods)
+      if (options.csrf && (request.method === 'POST' || request.method === 'PUT' || request.method === 'PATCH' || request.method === 'DELETE')) {
         const csrfCheck = requireCSRFToken(request)
         if (!csrfCheck.valid) {
           return NextResponse.json({ error: csrfCheck.error }, { status: 403 })

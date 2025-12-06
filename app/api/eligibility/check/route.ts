@@ -58,9 +58,10 @@ export async function POST(request: NextRequest) {
       ],
     })
 
+    // Safely access content with null check
     const content = message.content[0]
-    if (content.type !== 'text') {
-      throw new Error('Unexpected response type from Claude')
+    if (!content || content.type !== 'text') {
+      throw new Error('Unexpected or missing response from Claude')
     }
 
     // Extract JSON from response
@@ -69,12 +70,17 @@ export async function POST(request: NextRequest) {
       throw new Error('No JSON found in response')
     }
 
-    let results
+    let results: unknown
     try {
       results = JSON.parse(jsonMatch[0])
-    } catch (error) {
-      console.error('Failed to parse AI JSON response:', error)
+    } catch (parseError) {
+      console.error('Failed to parse AI JSON response:', parseError)
       throw new Error('Invalid JSON response from AI')
+    }
+
+    // Validate results is an array before passing to Zod
+    if (!Array.isArray(results)) {
+      throw new Error('AI response is not an array')
     }
 
     const validated = z.array(EligibilityResultSchema).parse(results)

@@ -302,9 +302,10 @@ IMPORTANT:
     ],
   })
 
+  // Safely access content with null check
   const content = message.content[0]
-  if (content.type !== 'text') {
-    throw new Error('Unexpected response type from Claude')
+  if (!content || content.type !== 'text') {
+    throw new Error('Unexpected or missing response from Claude')
   }
 
   // Extract JSON from response
@@ -313,12 +314,17 @@ IMPORTANT:
     throw new Error('No JSON found in response')
   }
 
-  let recommendations
+  let recommendations: unknown
   try {
     recommendations = JSON.parse(jsonMatch[0])
-  } catch (error) {
-    console.error('Failed to parse AI JSON response:', error)
+  } catch (parseError) {
+    console.error('Failed to parse AI JSON response:', parseError)
     throw new Error('Invalid JSON response from AI')
+  }
+
+  // Validate recommendations is an array before processing
+  if (!Array.isArray(recommendations)) {
+    throw new Error('AI response is not an array')
   }
 
   // Validate and transform IDs to actual resource IDs

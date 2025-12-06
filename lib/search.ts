@@ -5,6 +5,30 @@
 import { prisma } from './prisma'
 import { Prisma } from '@prisma/client'
 
+// Maximum allowed limit to prevent abuse
+const MAX_SEARCH_LIMIT = 100
+const DEFAULT_SEARCH_LIMIT = 20
+
+/**
+ * Validates and clamps the limit parameter to prevent abuse
+ */
+function validateLimit(limit: number | undefined, defaultLimit: number = DEFAULT_SEARCH_LIMIT): number {
+  if (limit === undefined || limit <= 0) {
+    return defaultLimit
+  }
+  return Math.min(limit, MAX_SEARCH_LIMIT)
+}
+
+/**
+ * Validates the offset parameter
+ */
+function validateOffset(offset: number | undefined): number {
+  if (offset === undefined || offset < 0) {
+    return 0
+  }
+  return offset
+}
+
 export interface SearchOptions {
   limit?: number
   offset?: number
@@ -26,11 +50,15 @@ export async function searchResources(
   options: SearchOptions = {}
 ) {
   const {
-    limit = 20,
-    offset = 0,
+    limit: rawLimit,
+    offset: rawOffset,
     minSimilarity = 0.3,
     useFullTextSearch = true,
   } = options
+
+  // Validate and clamp limit/offset to prevent abuse
+  const limit = validateLimit(rawLimit)
+  const offset = validateOffset(rawOffset)
 
   const searchTerm = query.trim()
 
@@ -120,11 +148,15 @@ export async function searchScholarships(
   options: SearchOptions = {}
 ) {
   const {
-    limit = 20,
-    offset = 0,
+    limit: rawLimit,
+    offset: rawOffset,
     minSimilarity = 0.3,
     useFullTextSearch = true,
   } = options
+
+  // Validate and clamp limit/offset to prevent abuse
+  const limit = validateLimit(rawLimit)
+  const offset = validateOffset(rawOffset)
 
   const searchTerm = query.trim()
 
@@ -206,7 +238,11 @@ export async function searchScholarships(
  * Search tribes using trigram similarity
  */
 export async function searchTribes(query: string, options: SearchOptions = {}) {
-  const { limit = 10, offset = 0, minSimilarity = 0.3 } = options
+  const { limit: rawLimit, offset: rawOffset, minSimilarity = 0.3 } = options
+
+  // Validate and clamp limit/offset to prevent abuse
+  const limit = validateLimit(rawLimit, 10)
+  const offset = validateOffset(rawOffset)
 
   const searchTerm = query.trim()
 
@@ -279,8 +315,10 @@ export async function universalSearch(
  */
 export async function getSearchSuggestions(
   query: string,
-  limit: number = 8
+  rawLimit: number = 8
 ): Promise<Array<{ text: string; type: 'resource' | 'scholarship' | 'tag' }>> {
+  // Validate limit to prevent abuse
+  const limit = validateLimit(rawLimit, 8)
   const searchTerm = query.trim().toLowerCase()
 
   if (searchTerm.length < 2) {

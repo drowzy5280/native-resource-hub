@@ -6,8 +6,14 @@ import { ResourceCard } from '@/components/ResourceCard'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import Link from 'next/link'
+import type { Resource, Scholarship, Tribe } from '@prisma/client'
 
 export const dynamic = 'force-dynamic'
+
+// Types for search results with relations
+type ResourceWithTribe = Resource & {
+  tribe: { id: string; name: string } | null
+}
 
 interface SearchResultsProps {
   searchParams: { q?: string }
@@ -27,9 +33,9 @@ async function SearchResults({ query }: { query: string }) {
   const searchTerm = query.trim()
 
   // Use full-text search with fallback to basic search
-  let resources: any[] = []
-  let scholarships: any[] = []
-  let tribes: any[] = []
+  let resources: ResourceWithTribe[] = []
+  let scholarships: Scholarship[] = []
+  let tribes: Tribe[] = []
 
   try {
     // Try using full-text search

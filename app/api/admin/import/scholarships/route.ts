@@ -24,7 +24,19 @@ export async function POST(request: NextRequest) {
     let failed = 0
     const errors: string[] = []
 
-    for (const record of records as any[]) {
+    // Type for CSV records
+    interface ScholarshipCSVRecord {
+      name?: string
+      description?: string
+      amount?: string
+      deadline?: string
+      tags?: string
+      eligibility?: string
+      url?: string
+      source?: string
+    }
+
+    for (const record of records as ScholarshipCSVRecord[]) {
       try {
         // Required fields
         if (!record.name || !record.description) {
@@ -37,8 +49,17 @@ export async function POST(request: NextRequest) {
         const tags = record.tags ? record.tags.split(';').map((t: string) => t.trim()).filter(Boolean) : []
         const eligibility = record.eligibility ? record.eligibility.split(';').map((e: string) => e.trim()).filter(Boolean) : []
 
-        // Parse deadline
-        const deadline = record.deadline ? new Date(record.deadline) : null
+        // Parse and validate deadline
+        let deadline: Date | null = null
+        if (record.deadline) {
+          const parsedDate = new Date(record.deadline)
+          // Check if date is valid (Invalid Date has NaN time value)
+          if (!isNaN(parsedDate.getTime())) {
+            deadline = parsedDate
+          } else {
+            console.warn(`Invalid deadline format for ${record.name}: ${record.deadline}`)
+          }
+        }
 
         // Create or update scholarship
         await prisma.scholarship.upsert({
@@ -65,9 +86,10 @@ export async function POST(request: NextRequest) {
         })
 
         imported++
-      } catch (error: any) {
+      } catch (error) {
         failed++
-        errors.push(`Error importing ${record.name}: ${error.message}`)
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        errors.push(`Error importing ${record.name}: ${errorMessage}`)
       }
     }
 
@@ -77,15 +99,17 @@ export async function POST(request: NextRequest) {
       failed,
       errors: errors.length > 0 ? errors.slice(0, 10) : undefined,
     })
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     if (error instanceof Error && error.message.includes('Forbidden')) {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
+    // Sanitize error message to avoid leaking internal details
+    console.error('Import failed:', error)
     return NextResponse.json(
-      { error: `Import failed: ${error.message}` },
+      { error: 'Import failed. Please check your CSV format and try again.' },
       { status: 500 }
     )
   }

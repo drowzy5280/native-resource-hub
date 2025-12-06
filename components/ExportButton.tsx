@@ -2,8 +2,41 @@
 
 import { useState } from 'react'
 
+// Define proper types for exportable data
+interface ExportableScholarship {
+  name?: string
+  amount?: string
+  deadline?: string | Date
+  description?: string
+  eligibility?: string[]
+  tags?: string[]
+  url?: string
+  source?: string
+}
+
+interface ExportableResource {
+  title?: string
+  type?: string
+  description?: string
+  state?: string
+  eligibility?: string[]
+  tags?: string[]
+  url?: string
+  source?: string
+}
+
+interface ExportableTribe {
+  name?: string
+  federalRecognitionStatus?: string
+  region?: string
+  website?: string
+  enrollmentOffice?: string
+}
+
+type ExportableData = ExportableScholarship | ExportableResource | ExportableTribe
+
 interface ExportButtonProps {
-  data: any[]
+  data: ExportableData[]
   filename: string
   type: 'scholarships' | 'resources' | 'tribes'
   variant?: 'primary' | 'secondary'
@@ -28,7 +61,7 @@ export function ExportButton({
 
       if (type === 'scholarships') {
         headers = ['Name', 'Amount', 'Deadline', 'Description', 'Eligibility', 'Tags', 'URL', 'Source']
-        rows = data.map(item => [
+        rows = (data as ExportableScholarship[]).map(item => [
           item.name || '',
           item.amount || '',
           item.deadline ? new Date(item.deadline).toLocaleDateString() : 'Rolling',
@@ -40,7 +73,7 @@ export function ExportButton({
         ])
       } else if (type === 'resources') {
         headers = ['Title', 'Type', 'Description', 'State', 'Eligibility', 'Tags', 'URL', 'Source']
-        rows = data.map(item => [
+        rows = (data as ExportableResource[]).map(item => [
           item.title || '',
           item.type || '',
           item.description || '',
@@ -52,7 +85,7 @@ export function ExportButton({
         ])
       } else if (type === 'tribes') {
         headers = ['Name', 'Recognition Status', 'Region', 'Website', 'Enrollment Office']
-        rows = data.map(item => [
+        rows = (data as ExportableTribe[]).map(item => [
           item.name || '',
           item.federalRecognitionStatus || '',
           item.region || '',

@@ -3,7 +3,7 @@
  * Implements token-based CSRF protection for mutation endpoints
  */
 
-import { randomBytes, createHmac } from 'crypto'
+import { randomBytes, createHmac, timingSafeEqual } from 'crypto'
 import { env } from './env'
 
 const CSRF_SECRET = env.CSRF_SECRET
@@ -46,12 +46,21 @@ export function verifyCSRFToken(token: string): boolean {
       return false
     }
 
-    // Verify signature
+    // Verify signature using constant-time comparison to prevent timing attacks
     const expectedSignature = createHmac('sha256', CSRF_SECRET)
       .update(`${value}:${timestamp}`)
       .digest('hex')
 
-    return signature === expectedSignature
+    // Convert to buffers for timing-safe comparison
+    const signatureBuffer = Buffer.from(signature, 'utf-8')
+    const expectedBuffer = Buffer.from(expectedSignature, 'utf-8')
+
+    // Ensure same length before comparison (timingSafeEqual requires equal length)
+    if (signatureBuffer.length !== expectedBuffer.length) {
+      return false
+    }
+
+    return timingSafeEqual(signatureBuffer, expectedBuffer)
   } catch (error) {
     return false
   }
