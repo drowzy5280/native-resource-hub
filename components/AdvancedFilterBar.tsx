@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-
-interface FilterOption {
-  value: string
-  label: string
-  count?: number
-}
+import {
+  FilterOption,
+  RESOURCE_TYPES,
+  DIFFICULTIES,
+  POPULAR_TAGS,
+  AMOUNT_RANGES,
+  US_STATES,
+} from '@/lib/constants'
 
 interface AdvancedFilterBarProps {
   showTypeFilter?: boolean
@@ -18,47 +20,6 @@ interface AdvancedFilterBarProps {
   showSortFilter?: boolean
   sortOptions?: FilterOption[]
 }
-
-const RESOURCE_TYPES: FilterOption[] = [
-  { value: 'federal', label: 'Federal' },
-  { value: 'state', label: 'State' },
-  { value: 'tribal', label: 'Tribal' },
-  { value: 'emergency', label: 'Emergency' },
-]
-
-const DIFFICULTIES: FilterOption[] = [
-  { value: 'simple', label: 'Simple' },
-  { value: 'moderate', label: 'Moderate' },
-  { value: 'complex', label: 'Complex' },
-]
-
-const POPULAR_TAGS: FilterOption[] = [
-  { value: 'education', label: 'Education' },
-  { value: 'health', label: 'Health' },
-  { value: 'housing', label: 'Housing' },
-  { value: 'emergency', label: 'Emergency' },
-  { value: 'youth', label: 'Youth' },
-  { value: 'elders', label: 'Elders' },
-  { value: 'business', label: 'Business' },
-  { value: 'language', label: 'Language' },
-  { value: 'legal', label: 'Legal' },
-  { value: 'cultural', label: 'Cultural' },
-]
-
-const AMOUNT_RANGES: FilterOption[] = [
-  { value: '0-1000', label: 'Under $1,000' },
-  { value: '1000-5000', label: '$1,000 - $5,000' },
-  { value: '5000-10000', label: '$5,000 - $10,000' },
-  { value: '10000-50000', label: '$10,000+' },
-]
-
-const US_STATES = [
-  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
-]
 
 export function AdvancedFilterBar({
   showTypeFilter,

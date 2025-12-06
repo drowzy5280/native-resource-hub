@@ -128,11 +128,32 @@ export class NotificationService {
       const twoWeeksFromNow = new Date()
       twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14)
 
+      // Fetch scholarships with upcoming deadlines
+      const upcomingScholarships = await prisma.scholarship.findMany({
+        where: {
+          deletedAt: null,
+          deadline: {
+            gte: new Date(),
+            lte: twoWeeksFromNow,
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          amount: true,
+          deadline: true,
+        },
+        orderBy: { deadline: 'asc' },
+        take: 10,
+      })
+
       // Get users who want weekly digests
       const users = await prisma.user.findMany({
         where: {
+          deletedAt: null,
           // Add preference field in schema: weeklyDigest: true
-          // For now, send to all users
+          // For now, send to all users with email
+          NOT: { email: '' },
         },
         select: {
           id: true,
@@ -154,8 +175,16 @@ export class NotificationService {
       for (const user of users) {
         if (!user.email) continue
 
-        // TODO: Implement upcoming deadlines when scholarship saving is added to schema
-        const upcomingDeadlines: any[] = []
+        // Format upcoming deadlines for the email template
+        // Filter out any without deadlines and ensure proper types
+        const upcomingDeadlines = upcomingScholarships
+          .filter((s): s is typeof s & { deadline: Date } => s.deadline !== null)
+          .map((s) => ({
+            id: s.id,
+            name: s.name,
+            deadline: s.deadline,
+            daysUntil: Math.ceil((s.deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
+          }))
 
         const emailContent = generateWeeklyDigestEmail({
           userName: user.email.split('@')[0],

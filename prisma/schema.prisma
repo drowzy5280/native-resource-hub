@@ -340,3 +340,27 @@ model BlogPost {
   @@index([featured])
   @@index([publishedAt])
 }
+
+model ResourceReport {
+  id            String        @id @default(uuid())
+  resourceId    String
+  resourceTitle String
+  reason        String
+  status        ReportStatus  @default(pending)
+  reviewedBy    String?       // Admin who reviewed the report
+  reviewedAt    DateTime?
+  notes         String?       // Admin notes
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([resourceId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum ReportStatus {
+  pending
+  reviewed
+  resolved
+  dismissed
+}

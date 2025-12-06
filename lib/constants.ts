@@ -38,3 +38,75 @@ export const LINK_CHECK_TIMEOUT_MS = 5000
 export const RESOURCE_OUTDATED_YEARS = 2
 export const SCHOLARSHIP_EXPIRED_YEARS = 1
 export const CHANGELOG_RETENTION_MONTHS = 6
+
+// ============================================
+// Filter Options (shared across components)
+// ============================================
+
+export interface FilterOption {
+  value: string
+  label: string
+  count?: number
+}
+
+export const RESOURCE_TYPES: FilterOption[] = [
+  { value: 'federal', label: 'Federal' },
+  { value: 'state', label: 'State' },
+  { value: 'tribal', label: 'Tribal' },
+  { value: 'emergency', label: 'Emergency' },
+]
+
+export const DIFFICULTIES: FilterOption[] = [
+  { value: 'simple', label: 'Simple' },
+  { value: 'moderate', label: 'Moderate' },
+  { value: 'complex', label: 'Complex' },
+]
+
+export const POPULAR_TAGS: FilterOption[] = [
+  { value: 'education', label: 'Education' },
+  { value: 'health', label: 'Health' },
+  { value: 'housing', label: 'Housing' },
+  { value: 'emergency', label: 'Emergency' },
+  { value: 'youth', label: 'Youth' },
+  { value: 'elders', label: 'Elders' },
+  { value: 'business', label: 'Business' },
+  { value: 'language', label: 'Language' },
+  { value: 'legal', label: 'Legal' },
+  { value: 'cultural', label: 'Cultural' },
+]
+
+export const AMOUNT_RANGES: FilterOption[] = [
+  { value: '0-1000', label: 'Under $1,000' },
+  { value: '1000-5000', label: '$1,000 - $5,000' },
+  { value: '5000-10000', label: '$5,000 - $10,000' },
+  { value: '10000-50000', label: '$10,000+' },
+]
+
+export const US_STATES = [
+  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
+] as const
+
+export type USState = typeof US_STATES[number]
+
+// ============================================
+// Ad Configuration
+// ============================================
+
+export const AD_SLOTS = {
+  horizontal: '9740169936',
+  sidebar: '9740169936',
+  inArticle: '9740169936',
+} as const
+
+// ============================================
+// Scholarship Deadline Thresholds (days)
+// ============================================
+
+export const DEADLINE_REMINDER_DAYS = [1, 3, 7] as const
+export const DEADLINE_URGENT_DAYS = 7
+export const DEADLINE_WARNING_DAYS = 14
+export const DEADLINE_UPCOMING_DAYS = 30

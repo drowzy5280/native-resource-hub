@@ -77,17 +77,28 @@ export function ScholarshipCard({
   const progressInfo = getProgressInfo()
 
   return (
-    <div className="bg-white rounded-earth-lg shadow-card p-6 border border-desert/40 hover:border-gold/40 hover:shadow-soft transition-all group">
+    <article
+      className="bg-white rounded-earth-lg shadow-card p-6 border border-desert/40 hover:border-gold/40 hover:shadow-soft transition-all group"
+      aria-labelledby={`scholarship-title-${id}`}
+    >
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-2 flex-1">
+          <div className="flex items-center gap-2 flex-1" role="list" aria-label="Scholarship details">
             {amount && (
-              <span className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gold/20 text-gold-dark border border-gold/40">
+              <span
+                className="px-4 py-1.5 text-sm font-heading font-semibold rounded-earth bg-gold/20 text-gold-dark border border-gold/40"
+                role="listitem"
+                aria-label={`Award amount: ${amount}`}
+              >
                 {amount}
               </span>
             )}
             {isClosingSoon && (
-              <span className="px-3 py-1 text-xs font-medium rounded-earth bg-clay/15 text-clay-dark border border-clay/30 animate-pulse">
+              <span
+                className="px-3 py-1 text-xs font-medium rounded-earth bg-clay/15 text-clay-dark border border-clay/30 animate-pulse"
+                role="listitem"
+                aria-label="Deadline closing soon"
+              >
                 Closing Soon
               </span>
             )}
@@ -97,7 +108,10 @@ export function ScholarshipCard({
             <SaveButton id={id} type="scholarship" title={name} variant="icon" />
           </div>
         </div>
-        <h3 className="text-xl font-heading font-semibold text-text mb-2 group-hover:text-gold-dark transition-colors line-clamp-2">
+        <h3
+          id={`scholarship-title-${id}`}
+          className="text-xl font-heading font-semibold text-text mb-2 group-hover:text-gold-dark transition-colors line-clamp-2"
+        >
           {name}
         </h3>
       </div>
@@ -107,13 +121,17 @@ export function ScholarshipCard({
       </p>
 
       {deadlineInfo && !deadlineInfo.isPast && (
-        <div className="mb-5 p-4 bg-desert/20 rounded-earth border border-desert/40">
+        <div
+          className="mb-5 p-4 bg-desert/20 rounded-earth border border-desert/40"
+          role="region"
+          aria-label="Application deadline information"
+        >
           <div className="flex items-center gap-2 mb-2">
-            <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <p className="text-sm font-medium text-text">
-              Deadline: {deadlineInfo.formatted}
+              Deadline: <time dateTime={deadline instanceof Date ? deadline.toISOString() : deadline?.toString()}>{deadlineInfo.formatted}</time>
             </p>
           </div>
           <p className="text-xs text-text-secondary ml-6 mb-2">
@@ -121,13 +139,20 @@ export function ScholarshipCard({
           </p>
           {progressInfo && (
             <div className="ml-6">
-              <div className="w-full bg-desert/40 rounded-full h-2 overflow-hidden">
+              <div
+                className="w-full bg-desert/40 rounded-full h-2 overflow-hidden"
+                role="progressbar"
+                aria-valuenow={Math.round(progressInfo.width)}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`${deadlineInfo.daysUntil} days remaining until deadline`}
+              >
                 <div
                   className={`h-full ${progressInfo.color} transition-all duration-300 rounded-full`}
                   style={{ width: `${progressInfo.width}%` }}
-                  aria-label={`${Math.round(progressInfo.width)}% of time remaining`}
                 />
               </div>
+              <span className="sr-only">{deadlineInfo.daysUntil} days until deadline</span>
             </div>
           )}
         </div>
@@ -144,14 +169,15 @@ export function ScholarshipCard({
         )}
       </div>
 
-      <div className="space-y-3 pt-4 border-t border-desert/40">
+      <div className="space-y-3 pt-4 border-t border-desert/40" role="group" aria-label="Scholarship actions">
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href={`/scholarships/${id}`}
             className="flex-1 px-4 py-2.5 text-sm font-semibold text-pine bg-pine/10 hover:bg-pine/15 border border-pine/30 hover:border-pine/50 rounded-earth transition-all flex items-center justify-center gap-2"
+            aria-label={`View details for ${name}`}
           >
             View Details
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -161,9 +187,10 @@ export function ScholarshipCard({
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-gold hover:bg-gold-dark border border-gold rounded-earth transition-all flex items-center justify-center gap-2"
+              aria-label={`Apply now for ${name} (opens in new tab)`}
             >
               Apply Now
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
@@ -171,6 +198,6 @@ export function ScholarshipCard({
         </div>
         <ShareButton url={`/scholarships/${id}`} title={name} description={description} />
       </div>
-    </div>
+    </article>
   )
 }

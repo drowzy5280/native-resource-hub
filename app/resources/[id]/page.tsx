@@ -1,28 +1,34 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { cache } from 'react'
 import { Tag } from '@/components/Tag'
 import { AdUnit } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/formatting'
+import { AD_SLOTS } from '@/lib/constants'
 import { Metadata } from 'next'
 import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { VerificationBadge } from '@/components/VerificationBadge'
 import { ReportOutdatedButton } from '@/components/ReportOutdatedButton'
 
+// Cache the resource query to avoid duplicate database calls
+// React's cache() dedupes requests within the same render
+const getResource = cache(async (id: string) => {
+  return prisma.resource.findUnique({
+    where: { id },
+    include: {
+      tribe: true,
+    },
+  })
+})
+
 export async function generateMetadata({
   params,
 }: {
   params: { id: string }
 }): Promise<Metadata> {
-  const resource = await prisma.resource.findUnique({
-    where: { id: params.id },
-    include: {
-      tribe: {
-        select: { name: true },
-      },
-    },
-  })
+  const resource = await getResource(params.id)
 
   if (!resource || resource.deletedAt) {
     return {
@@ -84,12 +90,8 @@ export default async function ResourceDetailPage({
 }: {
   params: { id: string }
 }) {
-  const resource = await prisma.resource.findUnique({
-    where: { id: params.id },
-    include: {
-      tribe: true,
-    },
-  })
+  // Uses cached query - same request as generateMetadata, no duplicate DB call
+  const resource = await getResource(params.id)
 
   if (!resource || resource.deletedAt) {
     notFound()
@@ -126,7 +128,7 @@ export default async function ResourceDetailPage({
 
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <AdUnit adSlot={AD_SLOTS.horizontal} adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
 
       <div className="bg-white rounded-earth-lg shadow-card p-8 border border-desert/40">
@@ -389,7 +391,7 @@ export default async function ResourceDetailPage({
 
       {/* Ad Unit */}
       <div className="mt-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <AdUnit adSlot={AD_SLOTS.horizontal} adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
       </div>
     </div>
   )
