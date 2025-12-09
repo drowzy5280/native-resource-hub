@@ -3,7 +3,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import {
   getCachedFeaturedResources,
   getCachedFeaturedNonprofits,
@@ -429,9 +429,7 @@ export default async function Home() {
         )}
 
         {/* Ad Unit */}
-        <div className="mb-16 flex justify-center">
-          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-        </div>
+        <BannerAd className="mb-16" />
 
         {/* Recent Resources */}
         <section className="mb-16">
@@ -459,9 +457,7 @@ export default async function Home() {
         </section>
 
         {/* Ad Unit */}
-        <div className="mb-16 flex justify-center">
-          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-        </div>
+        <BannerAd className="mb-16" />
 
         {/* Featured Nonprofits */}
         <section className="mb-16">
@@ -489,9 +485,7 @@ export default async function Home() {
         </section>
 
         {/* Ad Unit */}
-        <div className="mb-16 flex justify-center">
-          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-        </div>
+        <BannerAd className="mb-16" />
 
         {/* Upcoming Scholarships */}
         <section className="mb-16">
@@ -518,9 +512,7 @@ export default async function Home() {
         </section>
 
         {/* Ad Unit */}
-        <div className="mb-16 flex justify-center">
-          <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
-        </div>
+        <BannerAd className="mb-16" />
       </div>
     </div>
   )

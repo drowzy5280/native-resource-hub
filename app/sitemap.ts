@@ -4,8 +4,8 @@ import { prisma } from '@/lib/prisma'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
 
-  // Fetch all resources, scholarships, and tribes
-  const [resources, scholarships, tribes] = await Promise.all([
+  // Fetch all dynamic content in parallel
+  const [resources, scholarships, tribes, guides, blogPosts, stories] = await Promise.all([
     prisma.resource.findMany({
       where: { deletedAt: null },
       select: { id: true, updatedAt: true },
@@ -17,6 +17,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     prisma.tribe.findMany({
       where: { deletedAt: null },
       select: { id: true, lastUpdated: true },
+    }),
+    prisma.resourceGuide.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true },
+    }),
+    prisma.blogPost.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true },
+    }),
+    prisma.successStory.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true },
     }),
   ])
 
@@ -47,6 +59,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/nonprofits`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/eligibility-checker`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/guides`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/stories`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/faq`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/saved`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -64,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const resourcePages: MetadataRoute.Sitemap = resources.map((resource) => ({
     url: `${baseUrl}/resources/${resource.id}`,
     lastModified: resource.updatedAt,
-    changeFrequency: 'monthly' as const,
+    changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
 
@@ -84,5 +132,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...staticPages, ...resourcePages, ...scholarshipPages, ...tribePages]
+  // Dynamic guide pages
+  const guidePages: MetadataRoute.Sitemap = guides.map((guide) => ({
+    url: `${baseUrl}/guides/${guide.slug}`,
+    lastModified: guide.updatedAt,
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  // Dynamic blog pages
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.updatedAt,
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }))
+
+  // Dynamic story pages
+  const storyPages: MetadataRoute.Sitemap = stories.map((story) => ({
+    url: `${baseUrl}/stories/${story.slug}`,
+    lastModified: story.updatedAt,
+    changeFrequency: 'monthly' as const,
+    priority: 0.5,
+  }))
+
+  return [
+    ...staticPages,
+    ...resourcePages,
+    ...scholarshipPages,
+    ...tribePages,
+    ...guidePages,
+    ...blogPages,
+    ...storyPages,
+  ]
 }

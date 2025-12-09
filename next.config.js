@@ -89,6 +89,56 @@ const nextConfig = {
           },
         ],
       },
+      // Static assets - long cache with immutable
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Images - cache with revalidation
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      // API routes - short cache with stale-while-revalidate
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=60, stale-while-revalidate=300',
+          },
+        ],
+      },
+      // Pages - medium cache with stale-while-revalidate
+      {
+        source: '/(resources|scholarships|tribes|nonprofits)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=300, stale-while-revalidate=600',
+          },
+        ],
+      },
+      // Detail pages - shorter cache
+      {
+        source: '/(resources|scholarships|tribes)/:id',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=180, stale-while-revalidate=300',
+          },
+        ],
+      },
     ]
   },
 

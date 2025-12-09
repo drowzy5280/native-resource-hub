@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
 import { Tag } from '@/components/Tag'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { formatDeadline, formatDate } from '@/lib/formatting'
-import { AD_SLOTS } from '@/lib/constants'
 import { Metadata } from 'next'
 import { ScholarshipSchema, BreadcrumbSchema } from '@/components/StructuredData'
 import { Breadcrumb } from '@/components/Breadcrumb'
@@ -127,7 +126,7 @@ export default async function ScholarshipDetailPage({
 
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
-        <AdUnit adSlot={AD_SLOTS.horizontal} adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <BannerAd />
       </div>
 
       <div className="bg-white rounded-earth-lg shadow-card p-8 border border-desert/40">
@@ -416,7 +415,7 @@ export default async function ScholarshipDetailPage({
 
       {/* Ad Unit */}
       <div className="mt-8 flex justify-center">
-        <AdUnit adSlot={AD_SLOTS.horizontal} adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '728px' }} />
+        <BannerAd />
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { Tag } from '@/components/Tag'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { BreadcrumbSchema } from '@/components/StructuredData'
@@ -114,7 +114,7 @@ export default async function TribeDetailPage({
 
       {/* Ad Unit */}
       <div className="mb-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {/* Tribe Header */}
@@ -197,7 +197,7 @@ export default async function TribeDetailPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {tribe.programs.length === 0 && (

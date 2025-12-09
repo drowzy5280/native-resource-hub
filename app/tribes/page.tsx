@@ -1,6 +1,6 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TribeCard } from '@/components/TribeCard'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import { getCachedTribes } from '@/lib/cache'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
@@ -70,7 +70,7 @@ export default async function TribesPage() {
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -89,7 +89,7 @@ export default async function TribesPage() {
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {tribes.length === 0 && (

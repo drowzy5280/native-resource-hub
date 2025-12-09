@@ -1,7 +1,7 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { ScholarshipCard } from '@/components/ScholarshipCard'
 import { Pagination } from '@/components/Pagination'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import { ScholarshipFilterBar } from '@/components/ScholarshipFilterBar'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
@@ -220,7 +220,7 @@ export default async function ScholarshipsPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {filteredUpcoming.length > 0 && (
@@ -271,7 +271,7 @@ export default async function ScholarshipsPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {totalCount === 0 && (

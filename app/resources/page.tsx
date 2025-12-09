@@ -2,7 +2,7 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { ResourceCard } from '@/components/ResourceCard'
 import { AdvancedFilterBar } from '@/components/AdvancedFilterBar'
 import { Pagination } from '@/components/Pagination'
-import { AdUnit } from '@/components/GoogleAdsense'
+import { BannerAd } from '@/components/GoogleAdsense'
 import { prisma } from '@/lib/prisma'
 import type { Prisma, ResourceType } from '@prisma/client'
 import { Metadata } from 'next'
@@ -177,7 +177,7 @@ export default async function ResourcesPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -206,7 +206,7 @@ export default async function ResourcesPage({
 
       {/* Ad Unit */}
       <div className="my-8 flex justify-center">
-        <AdUnit adSlot="9740169936" adFormat="horizontal" style={{ minHeight: '100px', width: '100%', maxWidth: '970px' }} />
+        <BannerAd />
       </div>
 
       {/* Pagination */}

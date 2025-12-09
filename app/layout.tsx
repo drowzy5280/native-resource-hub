@@ -16,6 +16,10 @@ import { RecentlyViewedProvider } from '@/components/RecentlyViewedContext'
 import { BottomNav } from '@/components/BottomNav'
 import { OfflineIndicator } from '@/components/OfflineIndicator'
 import { AccessibilityControls } from '@/components/AccessibilityControls'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { KeyboardShortcuts } from '@/components/KeyboardShortcuts'
+import { AnchorAd } from '@/components/GoogleAdsense'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
@@ -163,13 +167,14 @@ export default function RootLayout({
         <ServiceWorkerRegister />
         <OfflineIndicator />
         <AccessibilityControls />
-        <RecentlyViewedProvider>
+        <ThemeProvider>
+          <RecentlyViewedProvider>
           <ComparisonProvider>
             <ToastProvider>
               <GoogleAdsense publisherId={process.env.NEXT_PUBLIC_ADSENSE_ID || ''} />
 
           {/* Header */}
-        <nav className="bg-white/98 backdrop-blur-sm border-b border-desert/40 sticky top-0 z-50 shadow-soft">
+        <nav className="bg-white/98 dark:bg-gray-900/98 backdrop-blur-sm border-b border-desert/40 dark:border-gray-700 sticky top-0 z-50 shadow-soft">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-20 items-center">
               {/* Logo */}
@@ -179,7 +184,7 @@ export default function RootLayout({
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-text">
+                <span className="text-lg sm:text-xl md:text-2xl font-heading font-bold text-text dark:text-white">
                   <span className="hidden sm:inline">Tribal Resource Hub</span>
                   <span className="sm:hidden">Tribal Hub</span>
                 </span>
@@ -190,29 +195,32 @@ export default function RootLayout({
                 <div className="hidden md:flex items-center space-x-1">
                   <Link
                     href="/resources"
-                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30 dark:text-gray-300 dark:hover:text-gold dark:hover:bg-white/10"
                   >
                     Resources
                   </Link>
                   <Link
                     href="/nonprofits"
-                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30 dark:text-gray-300 dark:hover:text-gold dark:hover:bg-white/10"
                   >
                     Nonprofits
                   </Link>
                   <Link
                     href="/tribes"
-                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30 dark:text-gray-300 dark:hover:text-gold dark:hover:bg-white/10"
                   >
                     Tribes
                   </Link>
                   <Link
                     href="/scholarships"
-                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30"
+                    className="px-4 py-2 text-text-secondary hover:text-pine transition-colors font-medium rounded-earth hover:bg-desert/30 dark:text-gray-300 dark:hover:text-gold dark:hover:bg-white/10"
                   >
                     Scholarships
                   </Link>
                 </div>
+
+                {/* Theme Toggle */}
+                <ThemeToggle />
 
                 {/* Mobile Navigation */}
                 <MobileNav />
@@ -291,9 +299,12 @@ export default function RootLayout({
                 <Analytics />
                 <ComparisonBar />
                 <BottomNav />
+                <KeyboardShortcuts />
+                <AnchorAd position="bottom" />
               </ToastProvider>
             </ComparisonProvider>
           </RecentlyViewedProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
