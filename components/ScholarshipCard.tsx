@@ -186,7 +186,7 @@ export function ScholarshipCard({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-gold hover:bg-gold-dark border border-gold rounded-earth transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 text-sm font-semibold text-stone-dark bg-gold hover:bg-gold-dark border border-gold rounded-earth transition-all flex items-center justify-center gap-2"
               aria-label={`Apply now for ${name} (opens in new tab)`}
             >
               Apply Now

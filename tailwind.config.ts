@@ -39,11 +39,11 @@ const config: Config = {
           DEFAULT: '#FFFDF9', // Very light warm white
           dark: '#F9F5F0',
         },
-        // Additional colors for better contrast
+        // Additional colors for better contrast (WCAG AA compliant)
         text: {
-          DEFAULT: '#3D3933', // Dark warm brown for main text
-          secondary: '#5A5550', // Medium warm gray for secondary text
-          muted: '#8A837C', // Light warm gray for muted text
+          DEFAULT: '#2D2926', // Darker warm brown for main text (improved)
+          secondary: '#4A4540', // Darker medium warm gray (improved)
+          muted: '#6B6560', // Darker muted text for better contrast (was #8A837C)
         },
         // Status colors (earth-tone palette)
         status: {

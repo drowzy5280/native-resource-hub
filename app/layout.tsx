@@ -20,6 +20,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { KeyboardShortcuts } from '@/components/KeyboardShortcuts'
 import { AnchorAd } from '@/components/GoogleAdsense'
+import { SwipeableContainer } from '@/components/SwipeableContainer'
 
 const workSans = Work_Sans({
   subsets: ['latin'],
