@@ -57,7 +57,11 @@
       "Bash(xargs ls:*)",
       "Bash(if [ -f \"C:\\Users\\Lamar\\Projects\\native-resource-hub\\components\\DeadlineTimeline.tsx\" ])",
       "Bash(then echo \"exists\")",
-      "Bash(else echo \"not found\")"
+      "Bash(else echo \"not found\")",
+      "Bash(taskkill:*)",
+      "Bash(claude update:*)",
+      "Bash(wc:*)",
+      "Bash($env:DATABASE_URL=\"postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres\")"
     ],
     "deny": [],
     "ask": []

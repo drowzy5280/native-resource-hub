@@ -48,11 +48,11 @@ export function MobileNav() {
       {/* Mobile Menu */}
       <nav
         id="mobile-menu"
-        className={`fixed top-0 right-0 h-full w-72 bg-cream border-l border-desert/30 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+        className={`fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-cream via-desert-light to-desert border-l border-desert-dark/30 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex flex-col p-6">
+        <div className="flex flex-col p-6 bg-cream/80 backdrop-blur-sm h-full">
           <button
             onClick={closeMenu}
             className="self-end p-2 rounded-earth text-stone hover:bg-desert/30 mb-8 min-w-[44px] min-h-[44px] flex items-center justify-center"
