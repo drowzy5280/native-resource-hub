@@ -48,14 +48,14 @@ export function MobileNav() {
       {/* Mobile Menu */}
       <nav
         id="mobile-menu"
-        className={`fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-cream via-desert-light to-desert border-l border-desert-dark/30 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+        className={`fixed top-0 right-0 h-full w-72 bg-white border-l border-desert/40 shadow-xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex flex-col p-6 bg-cream/80 backdrop-blur-sm h-full">
+        <div className="flex flex-col p-6 h-full">
           <button
             onClick={closeMenu}
-            className="self-end p-2 rounded-earth text-stone hover:bg-desert/30 mb-8 min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="self-end p-2 rounded-earth text-stone hover:bg-desert/40 mb-8 min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Close menu"
           >
             <svg
@@ -75,28 +75,28 @@ export function MobileNav() {
             <Link
               href="/resources"
               onClick={closeMenu}
-              className="text-lg text-text hover:text-pine transition-colors font-medium py-3 px-4 rounded-earth hover:bg-desert/30 min-h-[44px] flex items-center"
+              className="text-lg text-stone hover:text-pine transition-colors font-semibold py-3 px-4 rounded-earth hover:bg-desert/40 min-h-[44px] flex items-center"
             >
               Resources
             </Link>
             <Link
               href="/nonprofits"
               onClick={closeMenu}
-              className="text-lg text-text hover:text-pine transition-colors font-medium py-3 px-4 rounded-earth hover:bg-desert/30 min-h-[44px] flex items-center"
+              className="text-lg text-stone hover:text-pine transition-colors font-semibold py-3 px-4 rounded-earth hover:bg-desert/40 min-h-[44px] flex items-center"
             >
               Nonprofits
             </Link>
             <Link
               href="/tribes"
               onClick={closeMenu}
-              className="text-lg text-text hover:text-pine transition-colors font-medium py-3 px-4 rounded-earth hover:bg-desert/30 min-h-[44px] flex items-center"
+              className="text-lg text-stone hover:text-pine transition-colors font-semibold py-3 px-4 rounded-earth hover:bg-desert/40 min-h-[44px] flex items-center"
             >
               Tribes
             </Link>
             <Link
               href="/scholarships"
               onClick={closeMenu}
-              className="text-lg text-text hover:text-pine transition-colors font-medium py-3 px-4 rounded-earth hover:bg-desert/30 min-h-[44px] flex items-center"
+              className="text-lg text-stone hover:text-pine transition-colors font-semibold py-3 px-4 rounded-earth hover:bg-desert/40 min-h-[44px] flex items-center"
             >
               Scholarships
             </Link>
