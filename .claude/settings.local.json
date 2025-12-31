@@ -68,7 +68,9 @@
       "Bash(cmd /c \"set DATABASE_URL=postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres && npx tsx scripts/seed-blog-posts.ts\")",
       "Bash(export DATABASE_URL:*)",
       "Bash(timeout 300 npm run build:*)",
-      "Bash(powershell -Command \"$env:DATABASE_URL=''postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres''; npx tsx scripts/seed-blog-posts.ts\")"
+      "Bash(powershell -Command \"$env:DATABASE_URL=''postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres''; npx tsx scripts/seed-blog-posts.ts\")",
+      "Bash(cmd /c \"set DATABASE_URL=postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres && npx tsx scripts/verify-all-links.ts\")",
+      "Bash(DATABASE_URL=\"postgresql://postgres.rhuglnbrleazadxitrwz:Chhetry5280!@aws-0-us-west-2.pooler.supabase.com:5432/postgres\" npx tsx:*)"
     ],
     "deny": [],
     "ask": []
