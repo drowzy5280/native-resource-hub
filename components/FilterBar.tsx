@@ -117,7 +117,7 @@ export function FilterBar({
           <div className="flex-1">
             <label
               htmlFor="type-filter"
-              className="block text-sm font-medium text-text mb-2"
+              className="block text-sm font-semibold text-text mb-2"
             >
               Resource Type
             </label>
@@ -128,7 +128,7 @@ export function FilterBar({
                 setSelectedType(e.target.value)
                 handleFilterChange('type', e.target.value)
               }}
-              className="w-full px-4 py-2 border border-desert rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
+              className="w-full px-4 py-2 border border-stone/40 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine bg-white text-text font-medium"
               aria-label="Filter by resource type"
             >
               <option value="">All Types</option>
@@ -145,7 +145,7 @@ export function FilterBar({
           <div className="flex-1">
             <label
               htmlFor="state-filter"
-              className="block text-sm font-medium text-text mb-2"
+              className="block text-sm font-semibold text-text mb-2"
             >
               State
             </label>
@@ -155,7 +155,7 @@ export function FilterBar({
               placeholder="e.g., AZ, CA, NM"
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
-              className="w-full px-4 py-2 border border-desert rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
+              className="w-full px-4 py-2 border border-stone/40 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine bg-white text-text font-medium placeholder:text-stone-light"
               aria-label="Filter by state"
             />
           </div>
@@ -163,22 +163,22 @@ export function FilterBar({
 
         {showTagsFilter && availableTags.length > 0 && (
           <div className="flex-1 relative">
-            <label className="block text-sm font-medium text-text mb-2">
+            <label className="block text-sm font-semibold text-text mb-2">
               Categories {selectedTags.length > 0 && `(${selectedTags.length})`}
             </label>
             <button
               type="button"
               onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-              className="w-full px-4 py-2 border border-desert rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal text-left flex items-center justify-between bg-white"
+              className="w-full px-4 py-2 border border-stone/40 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine text-left flex items-center justify-between bg-white"
               aria-label="Filter by categories"
             >
-              <span className="text-text/70">
+              <span className={selectedTags.length === 0 ? 'text-stone-light' : 'text-text font-medium'}>
                 {selectedTags.length === 0
                   ? 'Select categories...'
                   : selectedTags.join(', ')}
               </span>
               <svg
-                className={`w-5 h-5 text-text/50 transition-transform ${
+                className={`w-5 h-5 text-text-secondary transition-transform ${
                   showTagsDropdown ? 'rotate-180' : ''
                 }`}
                 fill="none"
@@ -190,20 +190,20 @@ export function FilterBar({
             </button>
 
             {showTagsDropdown && (
-              <div className="absolute z-10 mt-1 w-full bg-white border border-desert rounded-earth shadow-lg max-h-64 overflow-y-auto">
+              <div className="absolute z-10 mt-1 w-full bg-white border border-stone/40 rounded-earth shadow-lg max-h-64 overflow-y-auto">
                 <div className="p-2 space-y-1">
                   {availableTags.map((tag) => (
                     <label
                       key={tag}
-                      className="flex items-center px-3 py-2 hover:bg-earth-cream rounded cursor-pointer"
+                      className="flex items-center px-3 py-2 hover:bg-desert/30 rounded cursor-pointer"
                     >
                       <input
                         type="checkbox"
                         checked={selectedTags.includes(tag)}
                         onChange={() => handleTagToggle(tag)}
-                        className="mr-3 h-4 w-4 text-earth-teal border-desert rounded focus:ring-earth-teal"
+                        className="mr-3 h-4 w-4 text-pine border-stone/40 rounded focus:ring-pine/30"
                       />
-                      <span className="text-text">{tag}</span>
+                      <span className="text-text font-medium">{tag}</span>
                     </label>
                   ))}
                 </div>
@@ -216,7 +216,7 @@ export function FilterBar({
           <div className="flex-1">
             <label
               htmlFor="sort-filter"
-              className="block text-sm font-medium text-text mb-2"
+              className="block text-sm font-semibold text-text mb-2"
             >
               Sort By
             </label>
@@ -227,7 +227,7 @@ export function FilterBar({
                 setSelectedSort(e.target.value)
                 handleFilterChange('sort', e.target.value)
               }}
-              className="w-full px-4 py-2 border border-desert rounded-earth focus:outline-none focus:ring-2 focus:ring-earth-teal"
+              className="w-full px-4 py-2 border border-stone/40 rounded-earth focus:outline-none focus:ring-2 focus:ring-pine/30 focus:border-pine bg-white text-text font-medium"
               aria-label="Sort results"
             >
               {sortOptions.map((option) => (

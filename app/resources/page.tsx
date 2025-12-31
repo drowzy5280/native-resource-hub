@@ -148,7 +148,7 @@ export default async function ResourcesPage({
       {/* SEO Info Section */}
       {currentPage === 1 && (
         <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
-          <p className="text-gray-800 leading-relaxed">
+          <p className="text-text leading-relaxed">
             Browse verified resources for Native American, Alaska Native, and Indigenous communities across all 50 states.
             Our comprehensive database includes <strong>federal programs</strong> (Indian Health Service, Bureau of Indian Affairs, HUD Native American programs),
             <strong> state assistance</strong> programs, <strong>tribal services</strong>, and <strong>emergency support</strong>.

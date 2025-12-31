@@ -34,7 +34,9 @@ export default async function AdminLayout({
     { href: '/admin', label: 'Dashboard', icon: 'home' },
     { href: '/admin/resources', label: 'Resources', icon: 'resources' },
     { href: '/admin/scholarships', label: 'Scholarships', icon: 'scholarships' },
+    { href: '/admin/grants', label: 'Grants', icon: 'grants' },
     { href: '/admin/tribes', label: 'Tribes', icon: 'tribes' },
+    { href: '/admin/broken-links', label: 'Broken Links', icon: 'alert' },
     { href: '/admin/import-export', label: 'Import/Export', icon: 'upload' },
   ]
 

@@ -3,11 +3,22 @@ import { prisma } from '@/lib/prisma'
 import { TribeSchema } from '@/lib/validators'
 import { requireAdmin } from '@/lib/auth'
 import { requireCSRFToken } from '@/lib/csrf'
+import { adminRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 import { ZodError } from 'zod'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await adminRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
     // Verify CSRF token
     const csrfCheck = requireCSRFToken(request)

@@ -136,6 +136,7 @@ model Scholarship {
   @@index([deadline, deletedAt])
   @@index([lastVerified])
   @@index([featured])
+  @@index([featured, deadline])
   @@index([minGPA])
   @@index([amountMin, amountMax])
 }
@@ -363,4 +364,53 @@ enum ReportStatus {
   reviewed
   resolved
   dismissed
+}
+
+model Grant {
+  id                    String         @id @default(uuid())
+  name                  String
+  description           String
+  url                   String?        @unique
+  fundingAgency         String?        // e.g., "Bureau of Indian Affairs", "HUD", "USDA"
+  grantType             GrantType      @default(federal)
+  amount                String?        // e.g., "$50,000 - $500,000"
+  amountMin             Int?
+  amountMax             Int?
+  deadline              DateTime?
+  eligibility           String[]
+  tags                  String[]
+  eligibleApplicants    String[]       @default([]) // e.g., ["Tribes", "Tribal Organizations", "Native Nonprofits"]
+  applicationProcess    String?
+  requiredDocuments     String[]       @default([])
+  contactEmail          String?
+  contactPhone          String?
+  cfda                  String?        // Catalog of Federal Domestic Assistance number
+  opportunityNumber     String?        // Grants.gov opportunity number
+  matchingRequired      Boolean?       @default(false)
+  matchingPercentage    Float?         // e.g., 25 for 25% match required
+  renewalEligibility    Boolean?       @default(false)
+  recipientsPerYear     Int?
+  featured              Boolean        @default(false)
+  source                String?
+  lastVerified          DateTime?
+  verifiedBy            String?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  deletedAt             DateTime?
+
+  @@index([grantType])
+  @@index([deadline])
+  @@index([fundingAgency])
+  @@index([deletedAt])
+  @@index([featured])
+  @@index([createdAt])
+  @@index([amountMin, amountMax])
+}
+
+enum GrantType {
+  federal
+  state
+  tribal
+  foundation
+  corporate
 }

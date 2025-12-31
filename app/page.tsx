@@ -128,10 +128,10 @@ export default async function Home() {
         {/* About Section - SEO Rich Content */}
         <section className="mb-16">
           <div className="bg-gradient-to-br from-desert/10 via-cream to-gold/5 rounded-earth-lg p-8 md:p-12 border border-desert/20">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-text mb-6 text-center">
               Your Guide to Native American Resources & Benefits
             </h2>
-            <div className="max-w-4xl mx-auto space-y-6 text-gray-800 leading-relaxed">
+            <div className="max-w-4xl mx-auto space-y-6 text-text-secondary leading-relaxed">
               <p className="text-lg md:text-xl text-center mb-8">
                 Whether you're seeking educational opportunities, healthcare services, housing assistance, or cultural preservation programs,
                 the Tribal Resource Hub connects you to verified resources across federal, state, and tribal organizations.
@@ -166,7 +166,7 @@ export default async function Home() {
                 </div>
 
                 <div className="bg-white/70 rounded-earth p-6 border border-desert/20">
-                  <h3 className="text-xl font-heading font-semibold text-gray-900 mb-3">🤝 Nonprofit Organizations</h3>
+                  <h3 className="text-xl font-heading font-semibold text-text mb-3">🤝 Nonprofit Organizations</h3>
                   <p className="text-base">
                     Connect with 65+ nonprofit organizations dedicated to serving Native American communities.
                     From legal advocacy groups like NARF to educational organizations like AISES,
@@ -199,10 +199,10 @@ export default async function Home() {
               </div>
 
               <div className="text-center mt-8 p-6 bg-gold/10 rounded-earth border border-gold/30">
-                <p className="text-lg font-medium text-gray-900 mb-4">
+                <p className="text-lg font-medium text-text mb-4">
                   <strong>175+ Resources</strong> | <strong>65+ Nonprofits</strong> | <strong>Multiple Scholarships</strong> | <strong>All 50 States</strong>
                 </p>
-                <p className="text-base text-gray-700">
+                <p className="text-base text-text-secondary">
                   From emergency assistance and healthcare to education and cultural preservation,
                   the Tribal Resource Hub is your starting point for accessing the benefits and support available to Native American and Indigenous communities.
                 </p>
@@ -244,7 +244,7 @@ export default async function Home() {
                   <div className={`flex justify-center mb-2 sm:mb-3 ${category.color}`}>
                     <IconComponent className="w-10 h-10 sm:w-12 sm:h-12 group-hover:scale-110 transition-transform" />
                   </div>
-                  <div className="font-medium text-sm sm:text-base text-gray-900">{category.name}</div>
+                  <div className="font-medium text-sm sm:text-base text-text">{category.name}</div>
                 </div>
               </Link>
             )
@@ -264,7 +264,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-pine mb-3">
               {resourceCounts.total}
             </div>
-            <div className="text-gray-700 font-medium">Resources Available</div>
+            <div className="text-text-secondary font-medium">Resources Available</div>
           </div>
           <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
@@ -276,7 +276,7 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-clay mb-3">
               {scholarshipCounts.total}
             </div>
-            <div className="text-gray-700 font-medium">Scholarships</div>
+            <div className="text-text-secondary font-medium">Scholarships</div>
           </div>
           <div className="bg-white rounded-earth-lg p-8 text-center card-shadow border border-desert/30 relative overflow-hidden group">
             {/* Decorative corner accent */}
@@ -288,17 +288,17 @@ export default async function Home() {
             <div className="text-5xl font-heading font-bold text-gold-dark mb-3">
               {tribeCount}
             </div>
-            <div className="text-gray-700 font-medium">Tribes Listed</div>
+            <div className="text-text-secondary font-medium">Tribes Listed</div>
           </div>
         </div>
 
         {/* Quick State Filters */}
         <section className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-heading font-bold text-gray-900 mb-3">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold text-text mb-3">
               Find Resources by State
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-text-secondary max-w-2xl mx-auto">
               Quick access to resources in states with large Indigenous communities
             </p>
           </div>
@@ -318,10 +318,10 @@ export default async function Home() {
                 href={`/resources?state=${item.state}`}
                 className={`group ${item.color} border-2 rounded-earth-lg p-5 sm:p-6 text-center hover:shadow-soft transition-all min-h-[80px] flex flex-col items-center justify-center`}
               >
-                <div className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 mb-1 sm:mb-2">
+                <div className="text-2xl sm:text-3xl font-heading font-bold text-text mb-1 sm:mb-2">
                   {item.state}
                 </div>
-                <div className="text-sm text-gray-700 font-medium">{item.name}</div>
+                <div className="text-sm text-text-secondary font-medium">{item.name}</div>
               </Link>
             ))}
           </div>
@@ -349,10 +349,10 @@ export default async function Home() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl md:text-3xl font-heading font-bold text-gray-900">
+                  <h2 className="text-2xl md:text-3xl font-heading font-bold text-text">
                     ⏰ Closing Soon!
                   </h2>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-text-secondary mt-1">
                     Apply now - these scholarships close within the next 30 days
                   </p>
                 </div>
@@ -380,7 +380,7 @@ export default async function Home() {
                       className="group bg-white rounded-earth-lg p-5 border-2 border-desert/20 hover:border-clay/40 hover:shadow-soft transition-all"
                     >
                       <div className="flex items-start justify-between gap-2 mb-3">
-                        <h3 className="font-heading font-bold text-gray-900 group-hover:text-clay transition-colors line-clamp-2 flex-1">
+                        <h3 className="font-heading font-bold text-text group-hover:text-clay transition-colors line-clamp-2 flex-1">
                           {scholarship.name}
                         </h3>
                         {daysUntilDeadline !== null && (
@@ -388,14 +388,14 @@ export default async function Home() {
                             daysUntilDeadline <= 7
                               ? 'bg-clay text-white'
                               : daysUntilDeadline <= 14
-                              ? 'bg-gold text-gray-900'
+                              ? 'bg-gold text-stone-dark'
                               : 'bg-pine/20 text-pine-dark'
                           }`}>
                             {daysUntilDeadline}d
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                      <p className="text-sm text-text-secondary line-clamp-2 mb-3">
                         {scholarship.description}
                       </p>
                       <div className="flex items-center justify-between text-sm">
@@ -403,7 +403,7 @@ export default async function Home() {
                           {scholarship.amount}
                         </span>
                         {scholarship.deadline && (
-                          <span className="text-gray-500">
+                          <span className="text-text-muted">
                             {new Date(scholarship.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           </span>
                         )}

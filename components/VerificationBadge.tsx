@@ -7,7 +7,7 @@ interface VerificationBadgeProps {
 export function VerificationBadge({ lastVerified, verifiedBy, compact = false }: VerificationBadgeProps) {
   if (!lastVerified) {
     return (
-      <div className={`inline-flex items-center gap-1.5 ${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>
+      <div className={`inline-flex items-center gap-1.5 ${compact ? 'text-xs' : 'text-sm'} text-text-muted`}>
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>

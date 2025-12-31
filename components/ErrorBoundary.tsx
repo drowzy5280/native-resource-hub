@@ -36,16 +36,21 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="bg-red-50 border border-red-200 rounded-earth-lg p-6 my-4">
-          <h3 className="text-lg font-semibold text-red-800 mb-2">
+        <div
+          className="bg-clay/10 border border-clay/30 rounded-earth-lg p-6 my-4"
+          role="alert"
+          aria-live="assertive"
+        >
+          <h3 className="text-lg font-semibold text-clay-dark mb-2">
             Something went wrong
           </h3>
-          <p className="text-red-600 mb-4">
+          <p className="text-clay mb-4">
             {this.state.error?.message || 'An unexpected error occurred'}
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="px-4 py-2 bg-red-600 text-white rounded-earth hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-clay text-white rounded-earth hover:bg-clay-dark transition-colors focus:outline-none focus:ring-2 focus:ring-clay/50"
+            aria-label="Dismiss error and try again"
           >
             Try again
           </button>
@@ -59,13 +64,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
 export function ErrorMessage({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
-    <div className="bg-red-50 border border-red-200 rounded-earth-lg p-6 my-4" role="alert">
-      <h3 className="text-lg font-semibold text-red-800 mb-2">Error</h3>
-      <p className="text-red-600 mb-4">{message}</p>
+    <div
+      className="bg-clay/10 border border-clay/30 rounded-earth-lg p-6 my-4"
+      role="alert"
+      aria-live="polite"
+    >
+      <h3 className="text-lg font-semibold text-clay-dark mb-2">Error</h3>
+      <p className="text-clay mb-4">{message}</p>
       {onRetry && (
         <button
           onClick={onRetry}
-          className="px-4 py-2 bg-red-600 text-white rounded-earth hover:bg-red-700 transition-colors"
+          className="px-4 py-2 bg-clay text-white rounded-earth hover:bg-clay-dark transition-colors focus:outline-none focus:ring-2 focus:ring-clay/50"
+          aria-label="Retry the failed operation"
         >
           Try Again
         </button>

@@ -1,5 +1,5 @@
 // Service Worker for Tribal Resource Hub PWA
-const VERSION = '2.0.0'
+const VERSION = '2.0.1'
 const CACHE_NAME = `tribal-resource-hub-static-v${VERSION}`
 const RUNTIME_CACHE = `tribal-resource-hub-runtime-v${VERSION}`
 const IMAGE_CACHE = `tribal-resource-hub-images-v${VERSION}`
@@ -63,7 +63,7 @@ async function trimCache(cacheName, maxItems) {
 }
 
 // Helper: Check if cache entry is expired
-async function isCacheExpired(response) {
+function isCacheExpired(response) {
   if (!response) return true
   const cachedDate = response.headers.get('sw-cache-date')
   if (!cachedDate) return false

@@ -105,10 +105,107 @@ export async function GET(request: NextRequest) {
 
       console.log(`Found ${brokenTribeLinks.length} broken tribe links`)
 
+      // 4. Check scholarship URLs
+      const scholarshipsWithUrls = await prisma.scholarship.findMany({
+        where: {
+          url: { not: null },
+          deletedAt: null,
+        },
+        select: {
+          id: true,
+          url: true,
+          name: true,
+        },
+      })
+
+      const scholarshipUrls = scholarshipsWithUrls
+        .map((s) => s.url)
+        .filter((url): url is string => url !== null)
+
+      console.log(`Checking ${scholarshipUrls.length} scholarship links...`)
+      const scholarshipResults = await checkLinks(scholarshipUrls)
+      const brokenScholarshipLinks = scholarshipResults.filter((r) => !r.isValid)
+
+      console.log(`Found ${brokenScholarshipLinks.length} broken scholarship links`)
+
+      // Create changelog entries for broken scholarship links
+      for (const broken of brokenScholarshipLinks) {
+        const scholarship = scholarshipsWithUrls.find((s) => s.url === broken.url)
+        if (scholarship) {
+          await prisma.changeLog.create({
+            data: {
+              source: scholarship.name,
+              type: 'broken_link',
+              originalValue: broken.url,
+              updatedValue: null,
+              aiConfidence: 1.0,
+              approved: false,
+            },
+          })
+        }
+      }
+
+      // 5. Check grant URLs
+      const grantsWithUrls = await prisma.grant.findMany({
+        where: {
+          url: { not: null },
+          deletedAt: null,
+        },
+        select: {
+          id: true,
+          url: true,
+          name: true,
+        },
+      })
+
+      const grantUrls = grantsWithUrls
+        .map((g) => g.url)
+        .filter((url): url is string => url !== null)
+
+      console.log(`Checking ${grantUrls.length} grant links...`)
+      const grantResults = await checkLinks(grantUrls)
+      const brokenGrantLinks = grantResults.filter((r) => !r.isValid)
+
+      console.log(`Found ${brokenGrantLinks.length} broken grant links`)
+
+      // Create changelog entries for broken grant links
+      for (const broken of brokenGrantLinks) {
+        const grant = grantsWithUrls.find((g) => g.url === broken.url)
+        if (grant) {
+          await prisma.changeLog.create({
+            data: {
+              source: grant.name,
+              type: 'broken_link',
+              originalValue: broken.url,
+              updatedValue: null,
+              aiConfidence: 1.0,
+              approved: false,
+            },
+          })
+        }
+      }
+
+      // 6. Check grant deadlines
+      const grants = await prisma.grant.findMany({
+        where: {
+          deadline: { not: null },
+          deletedAt: null,
+        },
+      })
+
+      const expiredGrants = grants.filter(
+        (g) => g.deadline && g.deadline < today
+      )
+
+      console.log(`Found ${expiredGrants.length} expired grants`)
+
       results.weekly = {
         brokenResourceLinks: brokenLinks.length,
         expiredScholarships: expiredScholarships.length,
         brokenTribeLinks: brokenTribeLinks.length,
+        brokenScholarshipLinks: brokenScholarshipLinks.length,
+        brokenGrantLinks: brokenGrantLinks.length,
+        expiredGrants: expiredGrants.length,
       }
     }
 
@@ -153,6 +250,21 @@ export async function GET(request: NextRequest) {
 
       console.log(`Soft deleted ${expiredScholarships.count} old expired scholarships`)
 
+      // 2b. Soft delete expired grants (past deadline by 1+ year)
+      const expiredGrantsCleanup = await prisma.grant.updateMany({
+        where: {
+          deadline: {
+            lt: oneYearAgo,
+          },
+          deletedAt: null,
+        },
+        data: {
+          deletedAt: new Date(),
+        },
+      })
+
+      console.log(`Soft deleted ${expiredGrantsCleanup.count} old expired grants`)
+
       // 3. Clean up old changelog entries (older than 6 months and approved)
       const sixMonthsAgo = new Date()
       sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
@@ -169,9 +281,10 @@ export async function GET(request: NextRequest) {
       console.log(`Deleted ${deletedLogs.count} old changelog entries`)
 
       // 4. Database stats - parallelized for better performance
-      const [totalResources, totalScholarships, totalTribes, totalChangeLogs] = await Promise.all([
+      const [totalResources, totalScholarships, totalGrants, totalTribes, totalChangeLogs] = await Promise.all([
         prisma.resource.count({ where: { deletedAt: null } }),
         prisma.scholarship.count({ where: { deletedAt: null } }),
+        prisma.grant.count({ where: { deletedAt: null } }),
         prisma.tribe.count(),
         prisma.changeLog.count(),
       ])
@@ -179,6 +292,7 @@ export async function GET(request: NextRequest) {
       const stats = {
         totalResources,
         totalScholarships,
+        totalGrants,
         totalTribes,
         totalChangeLogs,
       }
@@ -186,6 +300,7 @@ export async function GET(request: NextRequest) {
       results.monthly = {
         removedResources: deletedResources.count,
         removedScholarships: expiredScholarships.count,
+        removedGrants: expiredGrantsCleanup.count,
         cleanedLogs: deletedLogs.count,
         stats,
       }
@@ -205,15 +320,17 @@ export async function GET(request: NextRequest) {
     }
 
     // Basic health check and stats - parallelized for better performance
-    const [activeResources, activeScholarships, pendingChangelogs] = await Promise.all([
+    const [activeResources, activeScholarships, activeGrants, pendingChangelogs] = await Promise.all([
       prisma.resource.count({ where: { deletedAt: null } }),
       prisma.scholarship.count({ where: { deletedAt: null } }),
+      prisma.grant.count({ where: { deletedAt: null } }),
       prisma.changeLog.count({ where: { approved: false } }),
     ])
 
     const dailyStats = {
       activeResources,
       activeScholarships,
+      activeGrants,
       pendingChangelogs,
     }
 

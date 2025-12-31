@@ -190,6 +190,27 @@ export const getCachedTribeById = unstable_cache(
   }
 )
 
+// Cache program counts per tribe for 1 hour (used on tribes list page)
+// Returns a plain object for serialization compatibility
+export const getCachedTribeProgramCounts = unstable_cache(
+  async (): Promise<Record<string, number>> => {
+    const programCounts = await prisma.resource.groupBy({
+      by: ['tribeId'],
+      where: { deletedAt: null, tribeId: { not: null } },
+      _count: { id: true },
+    })
+    // Return plain object instead of Map for cache serialization
+    return Object.fromEntries(
+      programCounts.map((pc) => [pc.tribeId as string, pc._count.id])
+    )
+  },
+  ['tribe-program-counts'],
+  {
+    revalidate: 3600, // 1 hour
+    tags: ['tribes', 'resources', 'counts'],
+  }
+)
+
 // Cache featured nonprofits for homepage (10 minutes)
 export const getCachedFeaturedNonprofits = unstable_cache(
   async (limit: number = 6) => {

@@ -100,6 +100,13 @@ export function MobileNav() {
             >
               Scholarships
             </Link>
+            <Link
+              href="/grants"
+              onClick={closeMenu}
+              className="text-lg text-stone hover:text-pine transition-colors font-semibold py-3 px-4 rounded-earth hover:bg-desert/40 min-h-[44px] flex items-center"
+            >
+              Grants
+            </Link>
           </div>
         </div>
       </nav>

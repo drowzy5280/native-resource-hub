@@ -73,7 +73,7 @@ export default function StoriesPage() {
 
       {/* SEO Content */}
       <div className="bg-desert/10 rounded-earth-lg p-6 mb-12 border border-desert/20">
-        <p className="text-gray-800 leading-relaxed">
+        <p className="text-text leading-relaxed">
           These are real stories (names changed for privacy) from Native Americans who have successfully
           navigated tribal benefits, scholarships, and support programs. Their experiences show that with
           the right information and persistence, accessing these resources is possible. Whether you're

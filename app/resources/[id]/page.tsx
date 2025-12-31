@@ -10,6 +10,7 @@ import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { VerificationBadge } from '@/components/VerificationBadge'
 import { ReportOutdatedButton } from '@/components/ReportOutdatedButton'
+import { BrokenLinkWarning } from '@/components/BrokenLinkWarning'
 
 // Cache the resource query to avoid duplicate database calls
 // React's cache() dedupes requests within the same render
@@ -370,14 +371,20 @@ export default async function ResourceDetailPage({
         {/* Links */}
         <div className="mb-8">
           {resource.url && (
-            <a
-              href={resource.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-pine text-white rounded-earth font-medium hover:bg-pine-dark transition-colors shadow-soft"
-            >
-              Visit Official Website ↗
-            </a>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-3 bg-pine text-white rounded-earth font-medium hover:bg-pine-dark transition-colors shadow-soft"
+              >
+                Visit Official Website ↗
+              </a>
+              <BrokenLinkWarning
+                url={resource.url}
+                lastVerified={resource.lastVerified}
+              />
+            </div>
           )}
         </div>
 

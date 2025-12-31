@@ -23,13 +23,19 @@ export function GoogleAdsense({ publisherId }: GoogleAdsenseProps) {
 }
 
 // Ad slot configuration for different placements
+// Each slot ID should be unique - create these in your AdSense dashboard
+// Go to: AdSense > Ads > By ad unit > Display ads > Create new ad unit
 export const AD_SLOTS = {
-  // Create separate ad units in your AdSense dashboard for better tracking
-  horizontal: '9740169936',
-  sidebar: '9740169936',
-  inArticle: '9740169936',
-  anchor: '9740169936',
-  multiplex: '9740169936',
+  // Main horizontal banner ads (top of page, between sections)
+  horizontal: '1234567890',
+  // Sidebar ads for desktop view
+  sidebar: '2345678901',
+  // In-article ads that appear within content
+  inArticle: '3456789012',
+  // Mobile anchor/sticky ads
+  anchor: '4567890123',
+  // Multiplex/related content ads
+  multiplex: '5678901234',
 } as const
 
 type AdSlotType = keyof typeof AD_SLOTS

@@ -61,7 +61,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       {currentPage > 1 ? (
         <Link
           href={createPageUrl(currentPage - 1)}
-          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors flex items-center justify-center gap-1"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-stone/40 bg-white text-text font-medium hover:bg-desert/30 hover:border-stone/60 transition-colors flex items-center justify-center gap-1"
           aria-label="Go to previous page"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -72,7 +72,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       ) : (
         <button
           disabled
-          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed flex items-center justify-center gap-1"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert bg-desert/20 text-stone-light cursor-not-allowed flex items-center justify-center gap-1"
           aria-label="No previous page"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -88,7 +88,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
           if (page < 0) {
             // Render ellipsis
             return (
-              <span key={`ellipsis-${index}`} className="min-w-[44px] min-h-[44px] px-2 sm:px-4 py-2 flex items-center justify-center" aria-hidden="true">
+              <span key={`ellipsis-${index}`} className="min-w-[44px] min-h-[44px] px-2 sm:px-4 py-2 flex items-center justify-center text-text-secondary font-medium" aria-hidden="true">
                 ...
               </span>
             )
@@ -101,11 +101,11 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
               key={page}
               href={createPageUrl(page)}
               className={`
-                min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border transition-colors flex items-center justify-center
+                min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border transition-colors flex items-center justify-center font-medium
                 ${
                   isActive
-                    ? 'bg-text text-earth-cream border-text'
-                    : 'border-desert hover:bg-earth-sand/10'
+                    ? 'bg-pine text-white border-pine'
+                    : 'bg-white text-text border-stone/40 hover:bg-desert/30 hover:border-stone/60'
                 }
               `}
               aria-label={`Page ${page}`}
@@ -121,7 +121,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       {currentPage < totalPages ? (
         <Link
           href={createPageUrl(currentPage + 1)}
-          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert hover:bg-earth-sand/10 transition-colors flex items-center justify-center gap-1"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-stone/40 bg-white text-text font-medium hover:bg-desert/30 hover:border-stone/60 transition-colors flex items-center justify-center gap-1"
           aria-label="Go to next page"
         >
           <span className="hidden sm:inline">Next</span>
@@ -132,7 +132,7 @@ export function Pagination({ currentPage, totalPages, baseUrl = '' }: Pagination
       ) : (
         <button
           disabled
-          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert/30 text-text/30 cursor-not-allowed flex items-center justify-center gap-1"
+          className="min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 rounded-earth border border-desert bg-desert/20 text-stone-light cursor-not-allowed flex items-center justify-center gap-1"
           aria-label="No next page"
         >
           <span className="hidden sm:inline">Next</span>

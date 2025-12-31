@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { SectionHeader } from '@/components/SectionHeader'
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import { NewsletterForm } from '@/components/NewsletterForm'
 
 export const metadata: Metadata = {
   title: 'News & Updates | Tribal Resource Hub',
@@ -61,7 +62,7 @@ export default async function BlogPage() {
 
       {/* SEO Content */}
       <div className="bg-desert/10 rounded-earth-lg p-6 mb-12 border border-desert/20">
-        <p className="text-gray-800 leading-relaxed">
+        <p className="text-text leading-relaxed">
           Stay up-to-date with the latest news about Native American resources, federal policy changes,
           new scholarship opportunities, and program expansions. We track important deadlines, announce
           new benefits, and share success stories from the community. Subscribe to our updates to never
@@ -189,16 +190,7 @@ export default async function BlogPage() {
             Stay informed about opportunities that matter to you and your community.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-earth border-2 border-desert/60 focus:border-pine focus:outline-none focus:ring-2 focus:ring-pine/20"
-            />
-            <button className="px-6 py-3 bg-pine text-white rounded-earth font-semibold hover:bg-pine-dark transition-colors shadow-soft">
-              Subscribe
-            </button>
-          </div>
+          <NewsletterForm />
 
           <p className="text-xs text-text-muted mt-4">
             We respect your privacy. Unsubscribe anytime.

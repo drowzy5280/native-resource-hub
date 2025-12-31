@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface EmptyStateProps {
   icon?: string
@@ -11,6 +14,12 @@ interface EmptyStateProps {
     label: string
     href: string
   }
+  /** Show a "Clear Filters" button when filters are active */
+  showClearFilters?: boolean
+  /** Callback when clear filters is clicked (alternative to URL-based clearing) */
+  onClearFilters?: () => void
+  /** Custom clear filters URL path */
+  clearFiltersHref?: string
 }
 
 export function EmptyState({
@@ -21,25 +30,69 @@ export function EmptyState({
   actionHref,
   suggestions = [],
   secondaryAction,
+  showClearFilters,
+  onClearFilters,
+  clearFiltersHref,
 }: EmptyStateProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Check if there are any filter params (excluding pagination)
+  const hasFilters = Array.from(searchParams?.keys() || []).some(
+    (key) => !['page', 'limit'].includes(key)
+  )
+
+  const handleClearFilters = () => {
+    if (onClearFilters) {
+      onClearFilters()
+    } else if (clearFiltersHref) {
+      router.push(clearFiltersHref)
+    } else {
+      // Default: go to the same path without query params
+      router.push(window.location.pathname)
+    }
+  }
+
+  const shouldShowClearFilters = showClearFilters !== false && hasFilters
+
   return (
-    <div className="text-center py-12 px-4">
-      <div className="text-6xl mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold text-text mb-2">{title}</h3>
+    <div
+      className="text-center py-12 px-4"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="text-6xl mb-4" aria-hidden="true">{icon}</div>
+      <h3 className="text-xl font-heading font-semibold text-text mb-2">{title}</h3>
       <p className="text-text-muted mb-6 max-w-md mx-auto">{description}</p>
+
+      {/* Clear Filters Button - prominent when filters are active */}
+      {shouldShowClearFilters && (
+        <div className="mb-6">
+          <button
+            onClick={handleClearFilters}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-clay/10 text-clay-dark border-2 border-clay/30 rounded-earth-lg font-medium hover:bg-clay/20 hover:border-clay/50 transition-colors focus:outline-none focus:ring-2 focus:ring-clay focus:ring-offset-2"
+            aria-label="Clear all active filters"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Clear All Filters
+          </button>
+        </div>
+      )}
 
       {suggestions.length > 0 && (
         <div className="bg-desert/10 rounded-earth-lg p-6 mb-6 max-w-lg mx-auto text-left">
           <h4 className="font-semibold text-text mb-3 flex items-center gap-2">
-            <svg className="w-5 h-5 text-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Try these suggestions:
           </h4>
-          <ul className="space-y-2 text-text-secondary text-sm">
+          <ul className="space-y-2 text-text-secondary text-sm" role="list">
             {suggestions.map((suggestion, index) => (
               <li key={index} className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-pine flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-pine flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
                 <span>{suggestion}</span>
@@ -53,15 +106,18 @@ export function EmptyState({
         {actionLabel && actionHref && (
           <Link
             href={actionHref}
-            className="inline-block px-6 py-3 bg-clay text-white rounded-earth-lg hover:bg-clay-dark transition-colors shadow-soft hover:shadow-soft-lg"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-clay text-white rounded-earth-lg hover:bg-clay-dark transition-colors shadow-soft hover:shadow-soft-lg focus:outline-none focus:ring-2 focus:ring-clay focus:ring-offset-2 min-h-[44px]"
           >
             {actionLabel}
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
           </Link>
         )}
         {secondaryAction && (
           <Link
             href={secondaryAction.href}
-            className="inline-block px-6 py-3 bg-white text-clay border-2 border-clay rounded-earth-lg hover:bg-clay/5 transition-colors"
+            className="inline-block px-6 py-3 bg-white text-clay border-2 border-clay rounded-earth-lg hover:bg-clay/5 transition-colors focus:outline-none focus:ring-2 focus:ring-clay focus:ring-offset-2 min-h-[44px]"
           >
             {secondaryAction.label}
           </Link>

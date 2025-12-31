@@ -38,7 +38,7 @@ export function SaveButton({ id, type, title, variant = 'button' }: SaveButtonPr
         className={`p-2 rounded-full transition-all ${
           isSaved
             ? 'text-red-500 hover:text-red-600 bg-red-50'
-            : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+            : 'text-text-muted hover:text-red-500 hover:bg-red-50'
         }`}
         aria-label={isSaved ? 'Remove from saved' : 'Save for later'}
         title={isSaved ? 'Remove from saved' : 'Save for later'}

@@ -1,13 +1,10 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TribeCard } from '@/components/TribeCard'
 import { BannerAd } from '@/components/GoogleAdsense'
-import { getCachedTribes } from '@/lib/cache'
-import { prisma } from '@/lib/prisma'
+import { getCachedTribes, getCachedTribeProgramCounts } from '@/lib/cache'
 import { Metadata } from 'next'
 
-// Force dynamic rendering to avoid build-time database connections
-export const dynamic = 'force-dynamic'
-// Revalidate this page every hour (3600 seconds)
+// Enable ISR - revalidate this page every hour (3600 seconds)
 export const revalidate = 3600
 
 export const metadata: Metadata = {
@@ -41,24 +38,15 @@ export const metadata: Metadata = {
 }
 
 export default async function TribesPage() {
-  // Get tribes from cache (revalidates every hour)
-  const tribesData = await getCachedTribes()
-
-  // Get all program counts in a single query to avoid connection pool exhaustion
-  const programCounts = await prisma.resource.groupBy({
-    by: ['tribeId'],
-    where: { deletedAt: null, tribeId: { not: null } },
-    _count: { id: true },
-  })
-
-  // Map counts to tribes
-  const countMap = new Map(
-    programCounts.map((pc) => [pc.tribeId, pc._count.id])
-  )
+  // Get tribes and program counts from cache (revalidates every hour)
+  const [tribesData, countRecord] = await Promise.all([
+    getCachedTribes(),
+    getCachedTribeProgramCounts(),
+  ])
 
   const tribes = tribesData.map((tribe) => ({
     ...tribe,
-    _count: { programs: countMap.get(tribe.id) || 0 },
+    _count: { programs: countRecord[tribe.id] || 0 },
   }))
 
   return (

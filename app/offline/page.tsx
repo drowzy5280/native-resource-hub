@@ -31,11 +31,11 @@ export default function OfflinePage() {
           </div>
         </div>
 
-        <h1 className="text-4xl font-heading font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-heading font-bold text-text mb-4">
           You're Offline
         </h1>
 
-        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+        <p className="text-lg text-text-secondary mb-8 leading-relaxed">
           It looks like you've lost your internet connection. Don't worry, you can still
           browse resources you've viewed before.
         </p>
@@ -57,10 +57,10 @@ export default function OfflinePage() {
         </div>
 
         <div className="mt-12 p-6 bg-desert/20 rounded-earth border border-desert/30">
-          <h2 className="font-heading font-semibold text-gray-900 mb-2">
+          <h2 className="font-heading font-semibold text-text mb-2">
             Tip for Rural Areas
           </h2>
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-text-secondary">
             This app works offline! Pages you visit are saved automatically so you can
             access them without internet. Perfect for areas with limited connectivity.
           </p>

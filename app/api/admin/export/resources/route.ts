@@ -2,8 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stringify } from 'csv-stringify/sync'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/auth'
+import { adminRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 
 export async function GET(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await adminRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
     // Require admin authentication
     await requireAdmin(request)
@@ -31,12 +42,13 @@ export async function GET(request: NextRequest) {
       columns: ['type', 'title', 'description', 'url', 'eligibility', 'tags', 'state', 'tribeId', 'source'],
     })
 
-    return new NextResponse(csv, {
-      headers: {
-        'Content-Type': 'text/csv',
-        'Content-Disposition': `attachment; filename="resources-export-${new Date().toISOString().split('T')[0]}.csv"`,
-      },
+    const headers = new Headers({
+      'Content-Type': 'text/csv',
+      'Content-Disposition': `attachment; filename="resources-export-${new Date().toISOString().split('T')[0]}.csv"`,
     })
+    addRateLimitHeaders(headers, rateLimitResult)
+
+    return new NextResponse(csv, { headers })
   } catch (error: any) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

@@ -66,7 +66,7 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-heading font-bold text-gray-900 mb-8">
+      <h1 className="text-3xl font-heading font-bold text-text mb-8">
         Analytics Dashboard
       </h1>
 
@@ -80,11 +80,11 @@ export default function AnalyticsDashboard() {
               </svg>
             </div>
             <div>
-              <p className="text-3xl font-bold text-gray-900">{analytics.totals.resources}</p>
-              <p className="text-gray-600 text-sm">Total Resources</p>
+              <p className="text-3xl font-bold text-text">{analytics.totals.resources}</p>
+              <p className="text-text-secondary text-sm">Total Resources</p>
             </div>
           </div>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-text-muted">
             <span className="text-pine font-medium">+{analytics.recent.resourcesLast30Days}</span> in last 30 days
           </div>
         </div>
@@ -97,11 +97,11 @@ export default function AnalyticsDashboard() {
               </svg>
             </div>
             <div>
-              <p className="text-3xl font-bold text-gray-900">{analytics.totals.scholarships}</p>
-              <p className="text-gray-600 text-sm">Total Scholarships</p>
+              <p className="text-3xl font-bold text-text">{analytics.totals.scholarships}</p>
+              <p className="text-text-secondary text-sm">Total Scholarships</p>
             </div>
           </div>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-text-muted">
             <span className="text-gold-dark font-medium">{analytics.scholarships.closingSoon}</span> closing soon
           </div>
         </div>
@@ -114,8 +114,8 @@ export default function AnalyticsDashboard() {
               </svg>
             </div>
             <div>
-              <p className="text-3xl font-bold text-gray-900">{analytics.totals.tribes}</p>
-              <p className="text-gray-600 text-sm">Total Tribes</p>
+              <p className="text-3xl font-bold text-text">{analytics.totals.tribes}</p>
+              <p className="text-text-secondary text-sm">Total Tribes</p>
             </div>
           </div>
         </div>
@@ -124,27 +124,27 @@ export default function AnalyticsDashboard() {
       {/* Resources by Type */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <div className="bg-white rounded-earth-lg p-6 border border-desert/20 shadow-soft">
-          <h2 className="text-xl font-heading font-bold text-gray-900 mb-4">
+          <h2 className="text-xl font-heading font-bold text-text mb-4">
             Resources by Type
           </h2>
           <div className="space-y-3">
             {analytics.resourcesByType.map((item) => (
               <div key={item.type} className="flex items-center justify-between">
-                <span className="text-gray-700 capitalize">{item.type}</span>
-                <span className="text-gray-900 font-semibold">{item.count}</span>
+                <span className="text-text-secondary capitalize">{item.type}</span>
+                <span className="text-text font-semibold">{item.count}</span>
               </div>
             ))}
           </div>
         </div>
 
         <div className="bg-white rounded-earth-lg p-6 border border-desert/20 shadow-soft">
-          <h2 className="text-xl font-heading font-bold text-gray-900 mb-4">
+          <h2 className="text-xl font-heading font-bold text-text mb-4">
             Top States (by Resources)
           </h2>
           <div className="space-y-3">
             {analytics.resourcesByState.map((item) => (
               <div key={item.state} className="flex items-center justify-between">
-                <span className="text-gray-700">{item.state}</span>
+                <span className="text-text-secondary">{item.state}</span>
                 <div className="flex items-center gap-3">
                   <div className="w-32 bg-desert/20 rounded-full h-2">
                     <div
@@ -154,7 +154,7 @@ export default function AnalyticsDashboard() {
                       }}
                     />
                   </div>
-                  <span className="text-gray-900 font-semibold w-12 text-right">{item.count}</span>
+                  <span className="text-text font-semibold w-12 text-right">{item.count}</span>
                 </div>
               </div>
             ))}
@@ -164,46 +164,46 @@ export default function AnalyticsDashboard() {
 
       {/* Verification Status */}
       <div className="bg-white rounded-earth-lg p-6 border border-desert/20 shadow-soft mb-8">
-        <h2 className="text-xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-xl font-heading font-bold text-text mb-4">
           Verification Status
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <p className="text-4xl font-bold text-pine">{analytics.verification.verified}</p>
-            <p className="text-gray-600 mt-1">Verified</p>
+            <p className="text-text-secondary mt-1">Verified</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-clay">{analytics.verification.unverified}</p>
-            <p className="text-gray-600 mt-1">Unverified</p>
+            <p className="text-text-secondary mt-1">Unverified</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-gray-900">
+            <p className="text-4xl font-bold text-text">
               {Math.round((analytics.verification.verified / analytics.verification.total) * 100)}%
             </p>
-            <p className="text-gray-600 mt-1">Verification Rate</p>
+            <p className="text-text-secondary mt-1">Verification Rate</p>
           </div>
         </div>
       </div>
 
       {/* Scholarship Deadlines */}
       <div className="bg-white rounded-earth-lg p-6 border border-desert/20 shadow-soft">
-        <h2 className="text-xl font-heading font-bold text-gray-900 mb-4">
+        <h2 className="text-xl font-heading font-bold text-text mb-4">
           Scholarship Status
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <p className="text-4xl font-bold text-gold-dark">{analytics.scholarships.upcoming}</p>
-            <p className="text-gray-600 mt-1">Upcoming Deadlines</p>
+            <p className="text-text-secondary mt-1">Upcoming Deadlines</p>
           </div>
           <div className="text-center">
             <p className="text-4xl font-bold text-clay">{analytics.scholarships.closingSoon}</p>
-            <p className="text-gray-600 mt-1">Closing in 30 Days</p>
+            <p className="text-text-secondary mt-1">Closing in 30 Days</p>
           </div>
           <div className="text-center">
-            <p className="text-4xl font-bold text-gray-400">
+            <p className="text-4xl font-bold text-text-muted">
               {analytics.scholarships.total - analytics.scholarships.upcoming}
             </p>
-            <p className="text-gray-600 mt-1">Past Deadlines</p>
+            <p className="text-text-secondary mt-1">Past Deadlines</p>
           </div>
         </div>
       </div>

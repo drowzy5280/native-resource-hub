@@ -7,6 +7,7 @@ import { formatDeadline, formatDate } from '@/lib/formatting'
 import { Metadata } from 'next'
 import { ScholarshipSchema, BreadcrumbSchema } from '@/components/StructuredData'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { BrokenLinkWarning } from '@/components/BrokenLinkWarning'
 
 // Cache the scholarship query to avoid duplicate database calls
 const getScholarship = cache(async (id: string) => {
@@ -395,14 +396,20 @@ export default async function ScholarshipDetailPage({
         {/* Apply Button */}
         {scholarship.url && (
           <div className="mb-8">
-            <a
-              href={scholarship.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-gold text-white rounded-earth-lg font-semibold text-lg hover:bg-gold-dark transition-colors shadow-soft"
-            >
-              Apply Now ↗
-            </a>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href={scholarship.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-8 py-4 bg-gold text-white rounded-earth-lg font-semibold text-lg hover:bg-gold-dark transition-colors shadow-soft"
+              >
+                Apply Now ↗
+              </a>
+              <BrokenLinkWarning
+                url={scholarship.url}
+                lastVerified={scholarship.lastVerified}
+              />
+            </div>
           </div>
         )}
 

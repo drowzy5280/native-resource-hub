@@ -2,9 +2,27 @@ import { NextRequest, NextResponse } from 'next/server'
 import { parse } from 'csv-parse/sync'
 import { prisma } from '@/lib/prisma'
 import { requireAdmin } from '@/lib/auth'
+import { requireCSRFToken } from '@/lib/csrf'
+import { adminRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await adminRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
+    // Verify CSRF token
+    const csrfCheck = requireCSRFToken(request)
+    if (!csrfCheck.valid) {
+      return NextResponse.json({ error: csrfCheck.error }, { status: 403 })
+    }
+
     // Require admin authentication
     await requireAdmin(request)
 

@@ -257,7 +257,7 @@ export function AdvancedFilterBar({
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-desert/60 rounded-earth focus:border-pine focus:outline-none focus:ring-2 focus:ring-pine/20 transition-all"
+                className="w-full px-4 py-2 border-2 border-stone/40 rounded-earth focus:border-pine focus:outline-none focus:ring-2 focus:ring-pine/30 bg-white text-text font-medium transition-all"
               >
                 <option value="">Default</option>
                 {sortOptions.map((option) => (

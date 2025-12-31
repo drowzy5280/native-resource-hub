@@ -64,7 +64,7 @@ export default function GuidesPage() {
 
       {/* SEO Content */}
       <div className="bg-desert/10 rounded-earth-lg p-6 mb-12 border border-desert/20">
-        <p className="text-gray-800 leading-relaxed">
+        <p className="text-text leading-relaxed">
           Our comprehensive guides help you navigate the complex world of Native American benefits and resources.
           Whether you're applying for tribal benefits for the first time, documenting your enrollment, understanding
           eligibility requirements, or exploring state-specific programs, these step-by-step guides provide clear,

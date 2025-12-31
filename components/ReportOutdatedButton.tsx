@@ -53,7 +53,7 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
           compact
             ? 'text-xs px-3 py-1.5'
             : 'text-sm px-4 py-2'
-        } text-gray-600 hover:text-clay border border-gray-300 hover:border-clay rounded-earth transition-colors`}
+        } text-text-secondary hover:text-clay border border-desert hover:border-clay rounded-earth transition-colors`}
       >
         <svg className={`${compact ? 'w-3 h-3' : 'w-4 h-4'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
@@ -66,10 +66,10 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-earth-lg p-6 max-w-md w-full">
-        <h3 className="text-xl font-heading font-bold text-gray-900 mb-4">
+        <h3 className="text-xl font-heading font-bold text-text mb-4">
           Report Outdated Information
         </h3>
-        <p className="text-gray-600 mb-4 text-sm">
+        <p className="text-text-secondary mb-4 text-sm">
           Help us keep this resource up to date. What's wrong with this information?
         </p>
 
@@ -78,7 +78,7 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="e.g., Link is broken, phone number is disconnected, program no longer available..."
-            className="w-full px-4 py-3 border border-gray-300 rounded-earth focus:outline-none focus:ring-2 focus:ring-clay min-h-[100px] text-sm"
+            className="w-full px-4 py-3 border border-desert rounded-earth focus:outline-none focus:ring-2 focus:ring-clay min-h-[100px] text-sm"
             required
           />
 
@@ -89,7 +89,7 @@ export function ReportOutdatedButton({ resourceId, resourceTitle, compact = fals
                 setIsOpen(false)
                 setReason('')
               }}
-              className="flex-1 px-4 py-2 text-gray-700 border border-gray-300 rounded-earth hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2 text-text-secondary border border-desert rounded-earth hover:bg-desert/30 transition-colors"
               disabled={isSubmitting}
             >
               Cancel

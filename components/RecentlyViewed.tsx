@@ -65,7 +65,7 @@ export function RecentlyViewed({ type, limit = 5, title }: RecentlyViewedProps) 
         <svg className="w-5 h-5 text-clay" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <h3 className="text-lg font-heading font-semibold text-gray-900">
+        <h3 className="text-lg font-heading font-semibold text-text">
           {title || defaultTitle}
         </h3>
       </div>
@@ -82,10 +82,10 @@ export function RecentlyViewed({ type, limit = 5, title }: RecentlyViewedProps) 
                 {getTypeIcon(item.type)}
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-gray-900 group-hover:text-clay transition-colors line-clamp-1 mb-1">
+                <h4 className="font-medium text-text group-hover:text-clay transition-colors line-clamp-1 mb-1">
                   {item.name}
                 </h4>
-                <p className="text-sm text-gray-600 line-clamp-2">
+                <p className="text-sm text-text-secondary line-clamp-2">
                   {item.description}
                 </p>
                 {item.metadata && (
@@ -103,7 +103,7 @@ export function RecentlyViewed({ type, limit = 5, title }: RecentlyViewedProps) 
                   </div>
                 )}
               </div>
-              <svg className="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-text-muted group-hover:text-gold transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>

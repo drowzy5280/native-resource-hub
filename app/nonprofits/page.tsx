@@ -144,7 +144,7 @@ export default async function NonprofitsPage({
       {/* SEO Info Section */}
       {currentPage === 1 && (
         <div className="bg-desert/10 rounded-earth-lg p-6 mb-8 border border-desert/20">
-          <p className="text-gray-800 leading-relaxed">
+          <p className="text-text leading-relaxed">
             Connect with <strong>65+ nonprofit organizations</strong> dedicated to serving Native American, Alaska Native, and First Nations communities.
             Our directory includes <strong>national advocacy groups</strong> (National Congress of American Indians, Native American Rights Fund),
             <strong>legal services</strong> organizations, <strong>educational nonprofits</strong> (American Indian Science and Engineering Society,

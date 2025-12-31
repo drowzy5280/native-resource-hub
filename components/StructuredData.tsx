@@ -155,3 +155,175 @@ export function ScholarshipSchema({
     />
   )
 }
+
+export function FAQPageSchema({
+  faqs,
+}: {
+  faqs: Array<{ question: string; answer: string }>
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function HowToSchema({
+  name,
+  description,
+  steps,
+  totalTime,
+}: {
+  name: string
+  description: string
+  steps: Array<{ name: string; text: string; url?: string }>
+  totalTime?: string // ISO 8601 duration, e.g., "PT30M" for 30 minutes
+}) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    ...(totalTime && { totalTime }),
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      ...(step.url && { url: `${baseUrl}${step.url}` }),
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function LocalBusinessSchema() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${baseUrl}/#organization`,
+    name: 'Tribal Resource Hub',
+    url: baseUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/icon-512.png`,
+      width: 512,
+      height: 512,
+    },
+    description: 'A community-driven hub connecting Indigenous families, youth, and elders to trusted resources, programs, and support.',
+    foundingDate: '2024',
+    email: 'support@tribalresourcehub.com',
+    sameAs: [],
+    knowsAbout: [
+      'Native American Resources',
+      'Indigenous Benefits',
+      'Tribal Scholarships',
+      'Federal Indian Programs',
+      'Bureau of Indian Affairs',
+      'Indian Health Service',
+    ],
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function CollectionPageSchema({
+  name,
+  description,
+  url,
+  itemCount,
+}: {
+  name: string
+  description: string
+  url: string
+  itemCount: number
+}) {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://native-resource-hub.vercel.app'
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: `${baseUrl}${url}`,
+    numberOfItems: itemCount,
+    provider: {
+      '@type': 'Organization',
+      name: 'Tribal Resource Hub',
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function GrantSchema({
+  name,
+  description,
+  amount,
+  deadline,
+  url,
+  fundingAgency,
+}: {
+  name: string
+  description: string
+  amount?: string | null
+  deadline?: Date | null
+  url: string
+  fundingAgency?: string | null
+}) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'MonetaryGrant',
+    name,
+    description,
+    ...(amount && { amount: { '@type': 'MonetaryAmount', value: amount, currency: 'USD' } }),
+    ...(deadline && { applicationDeadline: deadline.toISOString() }),
+    url,
+    ...(fundingAgency && {
+      funder: {
+        '@type': 'Organization',
+        name: fundingAgency,
+      },
+    }),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}

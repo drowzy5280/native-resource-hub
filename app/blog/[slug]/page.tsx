@@ -1,8 +1,10 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ReactMarkdown from 'react-markdown'
+import rehypeSanitize from 'rehype-sanitize'
 
 type Props = {
   params: { slug: string }
@@ -112,18 +114,21 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Featured Image */}
         {post.imageUrl && (
-          <div className="mb-12 rounded-earth-lg overflow-hidden">
-            <img
+          <div className="mb-12 rounded-earth-lg overflow-hidden relative aspect-video">
+            <Image
               src={post.imageUrl}
               alt={post.title}
-              className="w-full h-auto"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
+              className="object-cover"
+              priority
             />
           </div>
         )}
 
-        {/* Content */}
+        {/* Content - sanitized for XSS protection */}
         <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:text-text prose-p:text-text-secondary prose-a:text-pine prose-a:no-underline hover:prose-a:underline prose-strong:text-text prose-li:text-text-secondary">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
+          <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{post.content}</ReactMarkdown>
         </div>
 
         {/* Tags */}
@@ -146,37 +151,29 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Share */}
         <div className="mt-8 pt-8 border-t border-desert/40">
           <h3 className="text-sm font-semibold text-text mb-4">Share this article:</h3>
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')
-                }
-              }}
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://tribalresourcehub.com/blog/${post.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 bg-pine/10 text-pine rounded-earth hover:bg-pine/20 transition-colors font-medium"
             >
               Share on Facebook
-            </button>
-            <button
-              onClick={() => {
-                if (typeof window !== 'undefined') {
-                  window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')
-                }
-              }}
+            </a>
+            <a
+              href={`https://twitter.com/intent/tweet?url=https://tribalresourcehub.com/blog/${post.slug}&text=${encodeURIComponent(post.title)}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 bg-clay/10 text-clay rounded-earth hover:bg-clay/20 transition-colors font-medium"
             >
               Share on Twitter
-            </button>
-            <button
-              onClick={() => {
-                if (typeof navigator !== 'undefined') {
-                  navigator.clipboard.writeText(window.location.href)
-                }
-              }}
+            </a>
+            <a
+              href={`mailto:?subject=${encodeURIComponent(post.title)}&body=Check out this article: https://tribalresourcehub.com/blog/${post.slug}`}
               className="px-4 py-2 bg-gold/10 text-gold-dark rounded-earth hover:bg-gold/20 transition-colors font-medium"
             >
-              Copy Link
-            </button>
+              Share via Email
+            </a>
           </div>
         </div>
       </article>

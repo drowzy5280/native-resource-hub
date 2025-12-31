@@ -62,8 +62,8 @@ const freshnessConfig: Record<FreshnessLevel, {
   unknown: {
     label: 'Unverified',
     description: 'Verification status unknown',
-    color: 'text-gray-500 dark:text-gray-400',
-    bgColor: 'bg-gray-100 dark:bg-gray-800',
+    color: 'text-text-muted dark:text-stone-light',
+    bgColor: 'bg-stone/10 dark:bg-stone/20',
     icon: '?',
   },
 }
@@ -120,7 +120,7 @@ export function FreshnessBadge({ lastVerified, updatedAt, className = '' }: Fres
 
   if (!date) {
     return (
-      <div className={`flex items-center gap-2 text-sm text-text-muted dark:text-gray-500 ${className}`}>
+      <div className={`flex items-center gap-2 text-sm text-text-muted dark:text-stone-light ${className}`}>
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -147,7 +147,7 @@ export function FreshnessBadge({ lastVerified, updatedAt, className = '' }: Fres
         )}
         <span>{config.label}</span>
       </span>
-      <span className="text-sm text-text-muted dark:text-gray-500">
+      <span className="text-sm text-text-muted dark:text-stone-light">
         {verifiedDate ? 'Verified' : 'Updated'} {timeAgo}
       </span>
     </div>

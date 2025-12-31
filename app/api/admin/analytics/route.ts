@@ -1,10 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { requireAdmin } from '@/lib/auth'
+import { adminRateLimiter, addRateLimitHeaders } from '@/lib/rateLimit'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
+  // Rate limiting
+  const rateLimitResult = await adminRateLimiter.check(request)
+  if (!rateLimitResult.success) {
+    const headers = addRateLimitHeaders(new Headers(), rateLimitResult)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers }
+    )
+  }
+
   try {
+    // Require admin authentication
+    await requireAdmin(request)
+
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
@@ -117,11 +132,17 @@ export async function GET(request: NextRequest) {
       },
     }
 
-    return NextResponse.json(analytics)
+    return NextResponse.json({ success: true, data: analytics })
   } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    if (error instanceof Error && error.message.includes('Forbidden')) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+    }
     console.error('Error fetching analytics:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch analytics' },
+      { success: false, error: 'Failed to fetch analytics' },
       { status: 500 }
     )
   }
