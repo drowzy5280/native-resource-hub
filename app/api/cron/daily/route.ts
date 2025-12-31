@@ -49,7 +49,22 @@ export async function GET(request: NextRequest) {
 
       // Log broken links
       const brokenLinks = linkResults.filter((r) => !r.isValid)
-      console.log(`Found ${brokenLinks.length} broken resource links`)
+      const validLinks = linkResults.filter((r) => r.isValid)
+      console.log(`Found ${brokenLinks.length} broken and ${validLinks.length} valid resource links`)
+
+      // Update lastVerified for ALL checked resources (valid and broken)
+      for (const result of linkResults) {
+        const resource = resources.find((r) => r.url === result.url)
+        if (resource) {
+          await prisma.resource.update({
+            where: { id: resource.id },
+            data: {
+              lastVerified: now,
+              verifiedBy: result.isValid ? 'auto-check' : 'auto-check-broken',
+            },
+          })
+        }
+      }
 
       // Create changelog entries for broken links
       for (const broken of brokenLinks) {
@@ -125,8 +140,23 @@ export async function GET(request: NextRequest) {
       console.log(`Checking ${scholarshipUrls.length} scholarship links...`)
       const scholarshipResults = await checkLinks(scholarshipUrls)
       const brokenScholarshipLinks = scholarshipResults.filter((r) => !r.isValid)
+      const validScholarshipLinks = scholarshipResults.filter((r) => r.isValid)
 
-      console.log(`Found ${brokenScholarshipLinks.length} broken scholarship links`)
+      console.log(`Found ${brokenScholarshipLinks.length} broken and ${validScholarshipLinks.length} valid scholarship links`)
+
+      // Update lastVerified for ALL checked scholarships
+      for (const result of scholarshipResults) {
+        const scholarship = scholarshipsWithUrls.find((s) => s.url === result.url)
+        if (scholarship) {
+          await prisma.scholarship.update({
+            where: { id: scholarship.id },
+            data: {
+              lastVerified: now,
+              verifiedBy: result.isValid ? 'auto-check' : 'auto-check-broken',
+            },
+          })
+        }
+      }
 
       // Create changelog entries for broken scholarship links
       for (const broken of brokenScholarshipLinks) {
@@ -165,8 +195,23 @@ export async function GET(request: NextRequest) {
       console.log(`Checking ${grantUrls.length} grant links...`)
       const grantResults = await checkLinks(grantUrls)
       const brokenGrantLinks = grantResults.filter((r) => !r.isValid)
+      const validGrantLinks = grantResults.filter((r) => r.isValid)
 
-      console.log(`Found ${brokenGrantLinks.length} broken grant links`)
+      console.log(`Found ${brokenGrantLinks.length} broken and ${validGrantLinks.length} valid grant links`)
+
+      // Update lastVerified for ALL checked grants
+      for (const result of grantResults) {
+        const grant = grantsWithUrls.find((g) => g.url === result.url)
+        if (grant) {
+          await prisma.grant.update({
+            where: { id: grant.id },
+            data: {
+              lastVerified: now,
+              verifiedBy: result.isValid ? 'auto-check' : 'auto-check-broken',
+            },
+          })
+        }
+      }
 
       // Create changelog entries for broken grant links
       for (const broken of brokenGrantLinks) {
