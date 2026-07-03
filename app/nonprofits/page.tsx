@@ -52,17 +52,7 @@ export default async function NonprofitsPage({
 
   const where: Prisma.ResourceWhereInput = {
     deletedAt: null,
-    // Filter to only show nonprofits - organizations with advocacy, legal, or nonprofit-related tags
-    OR: [
-      { tags: { hasSome: ['advocacy', 'legal', 'nonprofit'] } },
-      { tags: { has: 'advocacy' } },
-      { tags: { has: 'legal' } },
-      { tags: { has: 'government services' } },
-      { tags: { has: 'tribal affairs' } },
-      { tags: { has: 'cultural preservation' } },
-      { tags: { has: 'community services' } },
-      { tags: { has: 'social services' } },
-    ],
+    isNonprofit: true,
   }
 
   if (searchParams.tags) {
