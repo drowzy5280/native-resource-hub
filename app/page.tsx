@@ -488,6 +488,7 @@ export default async function Home() {
         <BannerAd className="mb-16" />
 
         {/* Upcoming Scholarships */}
+        {upcomingScholarships.length > 0 && (
         <section className="mb-16">
         <SectionHeader
           title="Scholarships Closing Soon"
@@ -510,6 +511,7 @@ export default async function Home() {
           ))}
         </div>
         </section>
+        )}
 
         {/* Ad Unit */}
         <BannerAd className="mb-16" />
