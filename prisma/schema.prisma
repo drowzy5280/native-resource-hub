@@ -127,6 +127,7 @@ model Scholarship {
   requiredDocuments     String[]                 @default([])
   videoUrl              String?
   featured              Boolean                  @default(false)
+  isNonprofit           Boolean                  @default(false) // True for verified 501(c)(3) nonprofits, not gov't agencies
   amountMin             Int?                     // For range filtering
   amountMax             Int?
 
