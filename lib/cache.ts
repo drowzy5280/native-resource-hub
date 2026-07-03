@@ -217,15 +217,7 @@ export const getCachedFeaturedNonprofits = unstable_cache(
     return prisma.resource.findMany({
       where: {
         deletedAt: null,
-        OR: [
-          { tags: { has: 'advocacy' } },
-          { tags: { has: 'legal' } },
-          { tags: { has: 'government services' } },
-          { tags: { has: 'tribal affairs' } },
-          { tags: { has: 'cultural preservation' } },
-          { tags: { has: 'community services' } },
-          { tags: { has: 'social services' } },
-        ],
+        isNonprofit: true,
       },
       orderBy: { createdAt: 'desc' },
       take: limit,
